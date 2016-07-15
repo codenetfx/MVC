@@ -1,0 +1,152 @@
+﻿.notifications {
+    margin-top:25px;
+    padding:0;
+}
+
+    .notifications > .container {
+        width: 100%;
+    }
+
+        .notifications > .container > .item {
+            border-top: 1px solid #cccccc;
+            padding-top: 13px;
+            padding-bottom: 13px;
+        }
+
+
+.notifications .pager{
+    margin:0;
+    padding:0;
+	display: inline-block;
+}
+
+.notifications .pager:after{
+	content: " "; 
+     display: block; 
+     height: 0; 
+     clear: both; 
+     visibility: hidden;
+}
+
+.notifications > .container > .item > div {
+}
+
+.notifications .result-actions,
+.n-body,
+.status-text,
+.date {
+    display: inline-block;
+    margin-left: 5px;
+    position: relative;
+    top: -5px;
+    vertical-align: top;
+}
+
+.status-text {
+    font-weight: bold;
+    width: 17%;
+}
+
+.date {
+    width: 10%;
+    color: #777777;
+}
+
+.notifications > .container > .item > .status-icon-wrapper {
+    display: inline-block;
+    padding-top: 7px;
+    padding-left: 7px;
+    height: 20px;
+    width: 10%;
+}
+
+.n-body {
+    display: inline-block;
+    width: 51%;
+    color: #777777;
+    font-weight: bold;
+    
+}
+
+.notifications .result-actions {
+    width:9%;
+    top: -1px;
+}
+
+.notifications .result-actions input.item-selector {
+    top: 1px;
+    position: relative; 
+    margin: 0 4px 0 10px;  
+}
+
+.status-icon-wrapper{
+    padding-left:10px;
+}
+
+.status-icon {
+    display: inline-block;
+    height: 11px;
+    width: 11px;  
+    background-repeat: no-repeat;
+   
+}
+
+.status-icon.OrderLineOnHold,
+.status-icon.OrderOnHold,
+.status-icon.TaskReminder,
+.yellow-icon {
+   background-image: url(images/notification-Sprite.png);
+    background-position: -25px -5px;
+}
+
+.status-icon.OrderLineCanceled,
+.status-icon.OrderCanceled,
+.status-icon.TaskDueDate,
+.red-icon {
+    background-image: url(images/notification-Sprite.png);
+    background-position: -5px -5px;
+}
+
+
+.green-icon {
+     background-image: url(images/notification-Sprite.png);
+    background-position: -65px -5px;
+}
+
+
+.status-icon.TaskComment,
+.gray-icon{
+      background-image: url(images/notification-Sprite.png);
+    background-position: -45px -5px;
+}
+
+.notification-taxonomy{
+    visibility:visible;
+}
+
+.OrderLineCanceled,
+.OrderCanceled,
+.TaskDueDate,
+.critical {
+    background-color: #FFD6D6;
+}
+
+
+.OrderLineOnHold,
+.OrderOnHold,
+.TaskReminder
+.warning {
+    background-color: #FFFBD6;
+}
+
+
+  
+        
+ 	
+		
+		
+	
+
+
+
+	

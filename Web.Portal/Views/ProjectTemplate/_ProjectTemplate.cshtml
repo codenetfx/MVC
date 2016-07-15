@@ -1,0 +1,77 @@
+﻿@using UL.Aria.Web.Common.Models.Project
+@model UL.Aria.Web.Common.Models.Project.ProjectTemplateCreate
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">@ViewBag.ModalTitle</h3>
+    </div>
+    
+    <div class="modal-body">
+        <fieldset class="file-pane">
+            <div class="form-horizontal control-group">
+                @Html.LabelFor(model => model.Name, new { @class = "strong" })
+                <div class="controls">
+                    @Html.EditorFor(model => model.Name)
+                    @Html.ValidationMessageFor(x => x.Name)
+                </div>
+            </div>
+
+            <div class="form-horizontal control-group">
+                @Html.LabelFor(model => model.Description, new { @class = "strong" })
+                <div class="controls">
+                    @Html.TextAreaFor(model => model.Description, new { rows = "5", @class = "task-comment-box" })
+                    @Html.ValidationMessageFor(x => x.Description)
+                </div>
+            </div>
+
+	        <div class="form-horizontal control-group">
+		        <div class="left-col" style="width: 60%!important">
+			        @Html.LabelFor(model => model.BusinessUnits, new { @class = "strong" })
+			        <div class="controls chkBusinessUnit">
+				        @Html.CheckboxListFor(m => m.BusinessUnits, Model.BusinessUnits)
+				        @Html.ValidationMessageFor(x => x.BusinessUnits)
+			        </div>
+		        </div>
+				<div class="right-col" style="width: 35%!important">
+					@Html.LabelFor(x => x.AutoCompleteProject)
+					<div class="controls">
+						<label>@Html.CheckBoxFor(m => m.AutoCompleteProject, Model.AutoCompleteProject) <strong>Auto Complete Project</strong></label>
+					</div>
+				</div>
+	        </div>
+            <div class="control-group">
+                @Html.LabelFor(model => model.Tasks, new { @class = "strong" })
+                <div class="controls">    
+                    <div class="projectTemplate" style="overflow-y: auto; overflow-x:hidden;  max-height: 250px; ">
+                        <table class=" table table-condensed template-tasks" >
+                            <thead>
+                                <tr>
+                                    <th style="width: 70px;">Task Id</th>
+                                    <th style="width: 70px;">Business Unit</th>
+                                    <th style="width: 190px;">Task Name</th>
+	                                <th style="width: 110px;">Short Description</th>
+									<th style="width: 60px;">Restrict Task Assignment to PH</th>
+                                    <th style="width: 60px;">Parent Id</th>
+	                                <th style="width: 60px;">Predessor Task</th>
+									@*<th style="width: 60px;">Trigger Fulfillment Complete Message</th>*@
+                                    <th style="width: 60px;"></th>
+                                </tr>
+                            </thead>
+                            @Html.ProjectTemplateTaskHtmlString(x => x.Tasks, Model.Tasks, Model.TaskTypes, Model.BusinessUnits)
+                        </table>
+                       
+                    </div>
+                    <button class="btn pull-left addTask">Add Another Task</button>
+
+                </div>
+            </div>
+            @Html.ValidationSummary()
+        </fieldset>
+    </div>
+    <div class="modal-footer browse-pane">
+        <input type="submit" id="btnSaveDraft" class="btn btn-primary" value="@Model.SaveDraft" name="saveDraft">
+        <input type="submit" id="btnPublish" class="btn btn-primary" value="@Model.Publish" name="saveDraft" />
+        <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    </div>
+
+

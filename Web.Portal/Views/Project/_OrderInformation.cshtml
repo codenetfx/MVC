@@ -1,0 +1,35 @@
+﻿@using UL.Aria.Web.Common.Models.Shared
+@model UL.Aria.Web.Common.Models.Shared.ProjectCreate
+
+
+
+<div class="form-horizontal control-group project-edit-orderinfo">
+    <div class="left-col">
+        @Html.LabelFor(model => model.QuoteNo, new { @class = "strong" })
+        <div class="controls">
+            @Html.EditorFor(model => model.QuoteNo)
+        </div>
+    </div>
+    <div class="right-col">
+        @Html.LabelFor(model => model.Price, new { @class = "strong" })
+        <div class="controls">
+            @Html.EditorFor(model => model.Price)
+        </div>
+    </div>
+</div>
+
+<div class="form-horizontal control-group project-edit-orderinfo">
+    <div class="left-col">
+
+    </div>
+    <div class="left-col">
+        @Html.LabelFor(model => model.Expedited, new { @class = "strong" })
+        <div class="controls">
+            @Html.RadioButtonFor(x => x.Expedited, true) Yes
+            @Html.RadioButtonFor(x => x.Expedited, false) No
+        </div>
+    </div>
+    <div class="right-col">
+
+    </div>
+</div>

@@ -1,0 +1,116 @@
+﻿@using UL.Aria.Web.Common.Models.Project
+@using UL.Enterprise.Foundation
+@model UL.Aria.Web.Common.Models.Project.AssignTaskGroup
+
+@{
+    var success = ((bool?)ViewBag.Success).GetValueOrDefault(false);
+    var id = "form_" + Guid.NewGuid().ToString();
+}
+
+@using (Html.BeginForm("AssignTaskGroup", "Task", FormMethod.Post, new Dictionary<string, object>() { { "id", id }, { "class", "project-edit-form" } }))
+{
+    if (success)
+    {
+        <script type="text/javascript">
+            var modal = $('#@id').closest(".modal").modal("hide");
+            UL.Refresh();
+        </script>
+    }
+    else
+    {
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Assign Tasks</h3>
+        </div>
+
+        <div class="modal-body">
+            <div>
+                <div class="form-horizontal control-group">
+                    @Html.LabelFor(m => m.TaskOwnerAssigned, new { @class = "strong" })
+                    <div class="controls">
+                        @Html.RadioButtonFor(m => m.TaskOwnerAssigned, EnumTaskOwner.AssignToMe, new { @checked = true }) <strong>@EnumTaskOwner.AssignToMe.GetDisplayName()</strong>
+                    </div>
+                    @*<div class="controls">
+                            @Html.RadioButtonFor(m => m.TaskOwnerAssigned, EnumTaskOwner.AssignToGroup) <strong>@EnumTaskOwner.AssignToGroup.GetDisplayName()</strong>
+                        </div>*@
+                    <div class="controls">
+                        <div class="left-col">
+                            @Html.RadioButtonFor(m => m.TaskOwnerAssigned, EnumTaskOwner.AssignToHandler) <strong>@EnumTaskOwner.AssignToHandler.GetDisplayName()</strong>
+                        </div>
+	                    <div class="left-col" style="margin-left: 15px;">
+		                    
+							@Html.AutoCompleteFor(m => m.TaskOwner, Url.PageSearchULUsers(), Model.TaskOwnerAssigned != EnumTaskOwner.AssignToHandler, minSearchTermLength: 2)
+		                    @Html.ValidationMessageFor(model => model.TaskOwner)
+	                    </div>
+                    </div>
+                </div>
+                @Html.ValidationSummary()
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button data-toggle="modal" data-target="#AssignModal" class="btn pull-right btn-primary">Assign Tasks</button>
+            <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        </div>
+    }
+
+    <div id="AssignModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        @*<div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 id="DeleteConfirmModalLabel">Assign Tasks</h3>
+            </div>*@
+        <div class="modal-body">
+            <p>Are you sure you want to assign multiple tasks at once?</p>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" id="btnAssignTask" class="btn pull-right btn-primary" value="Assign Tasks">Assign Tasks</button>
+            <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+
+
+    //hook ajax form submissions
+    $("#@id").ajaxForm({
+        target: $("#@id").parent(),
+        beforeSubmit: $.proxy(UL.ValidateModal, $("#@id")),
+        success: function (result) {
+            $(this).closest(".modal").html(result);
+        },
+        cache: false
+    });
+
+    $('#btnAssignTask').click(function() {
+        $('#btnAssignTask').closest(".modal").modal("hide");
+        $("#@id").submit();
+    });
+
+    $(document).ready(function () {
+        $('#@id').closest(".modal").modal({ backdrop: 'static', keyboard: false });
+    });
+
+
+    $('input:radio[name=TaskOwnerAssigned]').change(function () {
+        if ($(this).val() == "AssignToHandler") {
+            $('input[name =TaskOwner]').prop('disabled', false);
+        } else {
+            $('input[name =TaskOwner]').val('');
+            $('input[name =TaskOwner]').prop('disabled', true);
+        }
+    });
+
+    $("button#task-modal").click(function () {
+        $('#TaskOwner').detach();
+    });
+
+    $("#TaskOwner").blur(function () {
+        var taskOwnerText = $("#TaskOwner").val();
+        taskOwnerText = taskOwnerText.replace(/^\s+|\s+$/gm, '');
+        $("#TaskOwner").val(taskOwnerText);
+    });
+
+
+    UL.BootstrapControls($(".modal-body"));
+
+</script>

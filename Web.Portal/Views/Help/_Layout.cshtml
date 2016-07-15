@@ -1,0 +1,28 @@
+﻿@model UL.Aria.Web.Common.Models.Help.HelpSection
+@{
+	Layout = "~/Views/Shared/_LayoutSection.cshtml";
+	ViewBag.SectionTitle = "Help";
+	ViewBag.MenuClass = "flat-menu";
+	int MaxAboutMeCharacters = 225;
+}
+
+@section controls {
+	<div class="help-thumb pull-left">
+		<img src="@Url.HelpImage()" />
+	</div>
+	
+	@Helpers.TruncatedText(Model.HelpText, MaxAboutMeCharacters)
+	@{ Html.RenderPartial("_PageActions", Model.PageLinks); }
+	@RenderSection("controls", false)
+}
+
+@section aside {
+	@{ Html.RenderPartial("_PageActionsRight", Model.PageActions); }
+	@RenderSection("aside", false)
+}
+
+@RenderBody()
+
+@section scripts {
+	@RenderSection("scripts", false)
+}

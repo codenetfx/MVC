@@ -1,0 +1,95 @@
+﻿@using UL.Aria.Web.Common.Models.Project
+@model UL.Aria.Web.Common.Models.Shared.ProjectCreate
+@{
+	var formId = "searchForm_" + Guid.NewGuid().ToString("N");
+	var holeId = "results_" + Guid.NewGuid().ToString("N");
+	var orderNumberLocked = Model.OrderIsLocked;
+	var enabledMode = new { placeholder = "Order number..." };
+	var disabledMode = new { disabled = "disabled" };
+}
+
+<div class="form-horizontal control-group" id="@formId">
+	<div class="row-container" style="min-height: 55px;">
+		<div class="left-col">
+			<div class="customer-field">
+				<label class="strong pull-left">Order No.</label>
+				<i class="star-icon-white pull-right"></i>
+			</div>
+
+			@if (orderNumberLocked)
+			{
+				<div class="controls customer-input">
+					@Html.TextBoxFor(m => m.OrderNumber, disabledMode)
+					@Html.HiddenFor(m => m.Id)
+				</div>
+			}
+			else
+			{
+				<div class="input-append controls customer-input searchBox">
+					@Html.TextBoxFor(m => m.OrderNumber, enabledMode)
+					@Html.HiddenFor(m => m.Id)
+					<input type="submit" value="Search" class="btn" id="searchOrderLines" />
+				</div>
+			}
+		</div>
+		<div class="right-col">
+			<div class="customer-field">
+				@Html.LabelFor(model => model.QuoteNo, new { @class = "strong pull-left" })
+				<i class="star-icon-white pull-right"></i>
+			</div>
+			<div class="controls customer-input">
+				@Html.TextBoxFor(x => x.QuoteNo, (orderNumberLocked) ? new { disabled = "disabled" } : null)
+				@if (orderNumberLocked)
+				{
+					@Html.HiddenFor(x => x.QuoteNo);
+				}
+			</div>
+
+
+		</div>
+	</div>
+
+
+	<div class="row-container">
+		<div class="left-col">
+			<div>
+				@Html.LabelFor(model => model.TotalOrderPrice, new { @class = "strong pull-left" })
+			</div>
+			<div class="controls">
+				@Html.TextBoxFor(model => model.TotalOrderPriceFormatted, new { disabled = "disabled" })
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$("#@formId input[type=submit]").on("click", function(event) {
+		var url = @Html.Raw(Json.Encode(Url.PageProjectEditLines(Model.Id)));
+
+		$.ajax(url, {
+			data: $("#@formId INPUT").serialize(),
+			type: "POST",
+			success: function(response) {
+				$("#@holeId").html(response);
+			}
+		});
+
+		return false;
+	});
+	$("#@formId :input").placeholder();
+</script>
+
+
+
+<div class="form-horizontal control-group">
+	<div class="body-space"></div>
+	<div class="UlField">
+		<label>Order Lines</label>
+	</div>
+	<div id="@holeId">
+		@{ Html.RenderPartial("_ServiceLinesSearchResults"); }
+	</div>
+	<div>
+		Selected order line items are included in this project. To remove, deselect any order line.
+		Removing an order line will post it back in the Requests list unless as order has been completed or cancelled.
+	</div>
+</div>

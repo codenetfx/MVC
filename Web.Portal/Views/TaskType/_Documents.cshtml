@@ -1,0 +1,30 @@
+﻿@using UL.Aria.Web.Common.Models.TaskType
+@model TaskTypeInfo
+
+<div class="form-horizontal control-group tasktype-document-templates">
+    <div class="control-group">
+        <div class="controls">
+            @Html.Label("Add Document Template")
+            @Html.DropDownList("documentTemplateDropdownList", Model.DocumentTemplates, "Select Document Template")
+            <button type="button" id="addDocumentTemplate">Add</button>
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="controls">
+            @Html.Label("Current Templates")
+            <div id="myTeam" class="selected-document-templates">
+                <table class="table table-condensed document-templates documentTemp-table-width">
+                    <thead>
+                    <tr>
+                        <th class="document-templates-name">Document Template</th>
+                        <th class="document-templates-remove">Remove</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @Html.DocumentTemplatesHtmlString(x => x.DocumentTemplates, Model.DocumentTemplates)
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

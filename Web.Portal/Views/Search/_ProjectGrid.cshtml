@@ -1,0 +1,127 @@
+﻿@using UL.Aria.Service.Contracts.Dto
+@using UL.Aria.Web.Common.Models.Search
+@using UL.Aria.Web.Common.Models.Shared
+@model ISearchResultSet<ProjectSearchResult>
+@functions{
+    string GetProjectStatusColorCode(ProjectStatus status)
+    {
+        switch (status)
+        {
+            case ProjectStatus.Completed:
+                return "green";
+
+            case ProjectStatus.OnHold:
+                return "yellow";
+            default:
+                return string.Empty;
+        }
+    }
+
+    string GetEcdBackColorCode(ProjectSearchResult result)
+    {
+        if (result.HasEendDateCritical)
+            return "red-back";
+        return string.Empty;
+    }
+
+    string GetEcdTextColorCode(ProjectSearchResult result)
+    {
+        if (result.HasEendDateCritical)
+            return "red-text";
+        return string.Empty;
+    }
+
+}
+<div style="width:733px; height:600px; overflow:scroll;">
+    <div style="width:911px">
+        <div class="table-col-group-header" style="width:585px; margin:0;  display:inline-block;">Order Details</div>
+        <div class="table-col-group-header" style="width:317px;  display:inline-block; margin:0; border:1px solid lightgray; background-color: lightgray">Task Counts</div>
+    </div>
+    <table class="table with-gliphs" cellpadding="0" cellspacing="0" border="0">
+        <thead>
+            <tr>
+                @Helpers.SortTableColumnHeader("Order Number", AssetFieldNames.AriaOrderNumber, Model.SearchCriteria, 50)
+                @Helpers.SortTableColumnHeader("Company Name", AssetFieldNames.AriaCompanyName, Model.SearchCriteria, 60)
+                @Helpers.SortTableColumnHeader("Date Booked", AssetFieldNames.AriaDateBooked, Model.SearchCriteria)
+                @Helpers.SortTableColumnHeader("Order Status", AssetFieldNames.AriaProjectStatus, Model.SearchCriteria)
+                @Helpers.SortTableColumnHeader("Project Name", AssetFieldNames.AriaProjectName, Model.SearchCriteria)
+                @Helpers.SortTableColumnHeader("Order Lines", AssetFieldNames.AriaProjectServiceLineCount, Model.SearchCriteria, 40)
+                @Helpers.SortTableColumnHeader("Project Status", AssetFieldNames.AriaProjectProjectStatusLabel, Model.SearchCriteria)
+                @Helpers.SortTableColumnHeader("ECD", AssetFieldNames.AriaProjectEndDate, Model.SearchCriteria)
+                @Helpers.SortTableColumnHeader("Total Tasks", AssetFieldNames.AriaProjectEndDate, Model.SearchCriteria)
+                @Helpers.SortTableColumnHeader("Assigned Tasks", AssetFieldNames.AriaProjectEndDate, Model.SearchCriteria)
+                @Helpers.SortTableColumnHeader("Past Due Tasks", AssetFieldNames.AriaProjectEndDate, Model.SearchCriteria)
+                @Helpers.SortTableColumnHeader("Completed Tasks", AssetFieldNames.AriaProjectEndDate, Model.SearchCriteria)
+                <th style="vertical-align:top;">Actions</th>
+            </tr>
+        </thead>
+
+        @foreach (var item in Model.Results)
+        {
+
+            <tr>
+                <td><div><a href="@Url.OrderDetails(item.OrderId)"><span>@Html.DisplayFor(m => item.OrderNumber)</span></a></div></td>
+                <td><div><span class="ellipsis-ctrl" data-ellipsis-width="60" data-ellipsis-height="40" title="@item.CompanyName">@Html.DisplayFor(m => item.CompanyName)</span></div></td>
+
+                <td>
+                    <div>
+                        @if (item.DateBooked > DateTime.MinValue)
+                        {
+                            <span style="white-space:nowrap;">@item.DateBooked.ToString("yyyy-MM-dd")</span>
+                        }
+                        else
+                        {
+                            <span>&nbsp;</span>
+                        }
+                    </div>
+                </td>
+                <td><div><span>@Html.DisplayFor(m => item.OrderStatus)</span></div></td>
+                <td><div><a href="@Url.PageProjectDetails(item.ProjectId)"><span class="ellipsis-ctrl" data-ellipsis-width="60" data-ellipsis-height="40" title="@item.ProjectName">@Html.DisplayFor(m => item.ProjectName)</span></a></div></td>
+                <td><div><span>@Html.DisplayFor(m => item.ServiceLineItemCount)</span></div></td>
+                <td class="status-cell">
+                    <div>
+                        <div>
+                            <div class="status-marker @GetProjectStatusColorCode(item.ProjectStatus)">&nbsp;</div>
+                            <div class="status-marker-value ">
+                                <span>@Html.DisplayFor(m => item.ProjectStatus)</span>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td class="status-cell">
+                    <div>
+                        <div>
+                            <div class="status-marker @GetEcdBackColorCode(item)">&nbsp;</div>
+                            <div class="status-marker-value ">
+                                @if (item.EndDate > DateTime.MinValue)
+                                {
+                                    <span style="white-space:nowrap;" class="@GetEcdTextColorCode(item)">@item.EndDate.ToString("yyyy-MM-dd")</span>
+                                }
+                                else
+                                {
+                                    <span>&nbsp;</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>25</td>
+                <td>10</td>
+                <td>20</td>
+                <td>5</td>
+                <td style="text-align:center; vertical-align:middle; padding-right:20px;">
+                    <div class="result-actions" style="text-align:left;">
+                        <div class="dropdown pull-right">
+                            <a title="Open Menu" class="dropdown-toggle caret" data-toggle="dropdown" href="#"><i></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="@Url.PageProjectOverview(item.ProjectId)">Project Overview</a></li>
+                                <li><a href="@Url.PageProjectTasks(item.ProjectId)">Project Tasks</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </td>
+
+            </tr>
+        }
+    </table>
+</div>

@@ -1,0 +1,75 @@
+﻿@using UL.Aria.Web.Common.Mvc
+@model UL.Aria.Web.Common.Models.Product.ProductUpload
+@{
+    var fileId = "f" + Model.UploadId;
+    var id = Model.Id;
+    Layout = null;
+}
+
+<form method="POST" action="@Url.PageCreateProductFamily()/" enctype="multipart/form-data" id="@id">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Upload Product Family</h3>
+    </div>
+    <div class="modal-body">
+        <fieldset class="upload-pane form-horizontal">
+
+            <div class="control-group">
+                @Html.LabelFor(model => model.File)
+               
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.File, new { type = "file", id = fileId })
+                    @Html.ValidationMessageFor(model => model.File)
+                </div>
+            </div>
+
+        </fieldset>
+
+        <fieldset class="progress-pane" style="display: none;">
+            <strong>Progress:</strong>
+            <div class="progress progress-striped">
+                <div class="bar" style="width: 0;"></div>
+            </div>
+            <div class="status-message"></div>
+            @Html.HiddenFor(m => m.UploadId)
+        </fieldset>
+
+        @if (Model.EnableLogging)
+        {
+            <fieldset class="uploadDebugLog">
+                <strong onclick=" $('#messages').html(''); " title="Clear Log">Log:</strong>
+                <div class="console" id="messages">
+                </div>
+            </fieldset>
+        }
+    </div>
+    <div class="modal-footer upload-footer">
+        <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <input type="submit" class="btn btn-primary" value="Upload" />
+    </div>
+    <div class="modal-footer progress-footer" style="display: none;">
+        <button class="btn btn-warning" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    </div>
+    <div class="modal-footer error-footer" style="display: none;">
+        <button class="btn btn-info" data-dismiss="modal" aria-hidden="true">Dismiss</button>
+    </div>
+</form>
+
+<script type="text/javascript">
+    $("#@fileId").fancyUpload({
+        dropHole: ".file-drag"
+    });
+    
+    $('button[data-dismiss="modal"]').on("click", function () {
+        setTimeout(UL.Refresh, 500);
+    });
+
+
+    $("#@id").ajaxForm({
+                target: $("#@id").parent(),
+        success: function (result) {
+            $(this).closest(".modal").html(result);
+        },
+        cache: false
+    });
+</script>

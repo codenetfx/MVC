@@ -1,0 +1,125 @@
+﻿.paging .summary {
+	float: left;
+}
+
+ul.pages {
+  float: right;
+  display: inline-block;
+  *display: inline;
+  margin-bottom: 0;
+  margin-left: 0;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+  *zoom: 1;
+  -webkit-box-shadow: none;
+     -moz-box-shadow: none;
+          box-shadow: none;
+}
+
+button.last {
+    width: auto;
+}
+ul.pages > li {
+  display: inline;
+}
+
+ul.pages > li.last {
+    width: auto;
+}
+
+ul.pages > li > button {
+  float: left;
+  padding: 0 5px;
+  font-size: 12px;
+  line-height: 14px;
+  text-decoration: none;
+  color:#666;
+  background-color: #ffffff;
+  border: none;
+  border-left: 1px solid #999;
+}
+
+ul.pages > li.ellipsis > button {
+  padding: 0;
+}
+
+ul.pages > li > button.first,
+ul.pages > li > button.previous,
+ul.pages > li > button.next,
+ul.pages > li > button.last {
+  text-indent: -9999px;
+  width: 15px;
+  line-height: 15px;
+  background: url(img/icons/icons.png) no-repeat;
+  border-left: none;
+  padding: 0;
+}
+
+ul.pages > li.arrows + li > button, ul.pages > li.ellipsis > button, ul.pages > li.ellipsis + li > button {
+  border-left: none;
+}
+
+ul.pages > li > button.first {
+    background-position: -75px 0;
+}
+
+ul.pages > li > button.last {
+    background-position: -120px 0;
+}
+
+ul.pages > li > button.previous {
+    background-position: -90px 0;
+    margin-left:5px;
+}
+
+ul.pages > li > button.next {
+    background-position: -105px 0;
+    margin-right:5px;
+}
+
+ul.pages > li > button.first:hover {
+    background-position: -75px -15px;
+}
+
+ul.pages > li > button.last:hover {
+    background-position: -120px -15px;
+}
+
+ul.pages > li > button.previous:hover {
+    background-position: -90px -15px;
+}
+
+ul.pages > li > button.next:hover {
+    background-position: -105px -15px;
+}
+
+ul.pages > li > button:hover,
+ul.pages > li > button:focus,
+ul.pages > .selected > button{
+  background-color: #fff;
+}
+
+ul.pages > .selected > button{
+    color: #b10820;
+    cursor: default;
+}
+
+ul.pages > li:first-child > button {
+  border-left: none;
+  -webkit-border-bottom-left-radius: 3px;
+          border-bottom-left-radius: 3px;
+  -webkit-border-top-left-radius: 3px;
+          border-top-left-radius: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  -moz-border-radius-topleft: 3px;
+}
+
+ul.pages > li:last-child > button {
+  -webkit-border-top-right-radius: 3px;
+          border-top-right-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+          border-bottom-right-radius: 3px;
+  -moz-border-radius-topright: 3px;
+  -moz-border-radius-bottomright: 3px;
+}

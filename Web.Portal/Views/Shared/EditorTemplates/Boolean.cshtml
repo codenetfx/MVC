@@ -1,0 +1,9 @@
+﻿@model bool
+@{
+	var text = ViewData.ModelMetadata.DisplayName;
+}
+
+<label class="checkbox">
+	@Html.CheckBoxFor(m => m, new { @class = "checkbox" })
+	@text
+</label>

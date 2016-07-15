@@ -1,0 +1,49 @@
+﻿@using UL.Aria.Web.Common.Models.Shared
+@using UL.Aria.Web.Common.Mvc
+@model UL.Aria.Web.Common.Models.Project.IProjectSection
+@{
+    Layout = "~/Views/Shared/_LayoutSection.cshtml";
+    ViewBag.Breadcrumbs = Model.Breadcrumbs;
+}
+
+@section styles {
+    @RenderSection("styles", required: false)	
+}
+
+
+@section controls {
+    @{
+	    Html.RenderPartial("Detail/_ProjectSummaryHeader");
+	    
+		Html.RenderPartial("_PageActions", Model.PageLinks);
+	}
+    @RenderSection("controls", required: false)
+
+	<div id="dapModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h3 id="dapModalModalLabel">Information</h3>
+		</div>
+		<div class="modal-body" id="dap_modal_body">
+			<p>Employee Id doesn't exist on your profile or project handler's profile. Please contact administrator.</p>
+		</div>
+		<div class="modal-footer">
+			<button class="btn pull-right" data-dismiss="modal">Close</button>
+		</div>
+	</div>
+
+}
+
+@section aside {
+    @Html.ValidationSummary()
+    @{ Html.RenderPartial("_PageActionsRight", Model.PageActions); }
+    @RenderSection("aside", required: false)
+}
+
+@RenderBody()
+
+@section scripts {
+
+    @RenderSection("scripts", required: false)
+}
+

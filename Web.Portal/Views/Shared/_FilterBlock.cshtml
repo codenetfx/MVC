@@ -1,0 +1,219 @@
+﻿@using UL.Aria.Web.Common.Models.Profile
+@using UL.Aria.Web.Common.Models.Search
+@using UL.Aria.Web.Common.Models.Shared
+@using UL.Aria.Web.Common.Models.Project;
+@using UL.Enterprise.Foundation;
+@model UL.Aria.Web.Common.Models.Search.ISearchResultSet<dynamic>
+@{
+    string pageUrl = "/" + Request.Url.GetComponents(UriComponents.Path, UriFormat.SafeUnescaped);
+    bool isADefaultActive = false;
+    string currentView = HttpContext.Current.Request.QueryString["viewType"];
+    if (string.IsNullOrWhiteSpace(currentView))
+    {
+        currentView = ProjectViewType.Default.ToString();
+    }
+
+    
+}
+@if (!Model.ShouldShowFilters)
+{
+    return;
+}
+
+<div class="your-filters filter-manager" style="display:none;" data-menu-selector="#main_menu" data-url="@Url.PageForwardSearch()">
+    <h5>Your Filters</h5>
+
+    @if (Model.AvailableDefaults.Any())
+    {
+        <div id="activeDefaults" class="your-defaults">
+            <span style="padding-left: 5px;">Current Default</span>
+            <select id="currentDefaults" class="current-defaults" role="menu"  onchange=" showDefault(this); ">
+                @foreach (SearchFavorite favorite in Model.AvailableDefaults)
+                {
+                    string selected = "";
+                    if (Model.SearchCriteria.ToQueryString() == favorite.Criteria.ToQueryString())
+                    {
+                        selected = "selected";
+                        isADefaultActive = true;
+                    }
+                    <option id="@string.Format("fav{0}", favorite.Id)" @selected data-query="@string.Format("{0}?{1}", pageUrl, favorite.Criteria.ToQueryString() + "&viewType=" + currentView)">
+                        @favorite.Title
+                    </option>
+                }
+                @if (!isADefaultActive)
+                {
+                    <option selected id="chooseADefault"></option>
+                }
+            </select>
+            @{
+                bool showNewDefault = (null == Model.ActiveDefault || Model.SearchCriteria.ToQueryString() != Model.ActiveDefault.Criteria.ToQueryString());
+                if (showNewDefault)
+                {
+                    <ul id="setNew" class="your-defaults-list page-actions">
+                        <li>
+                            <a class="nav-button-narrow nav-button" id="setNewDefault" href="#setNewDefault" onclick=" setNewDefault(); ">Set New Default</a>
+                        </li>
+                    </ul>
+                }
+            }
+        </div>
+    }
+    else
+    {
+        if (Model.SearchCriteria.Filters.Any() || !String.IsNullOrEmpty(Model.SearchCriteria.Query))
+        {
+            <ul id="setNew" class="your-defaults-list  page-actions">
+                <li>
+                    <a class="nav-button nav-button-wide" id="setNewDefault" href="#setNewDefault" onclick=" setNewDefault(); ">Set as Default View</a>
+                </li>
+            </ul>
+        }
+        else
+        {
+            {
+                <ul id="setNew" class="your-defaults-list  disabled page-actions">
+                    <li>
+                        <a class="nav-button nav-button-wide disabled" id="setNewDefault">Set as Default View</a>
+                    </li>
+                </ul>
+            }
+        }
+    }
+
+    <div id="saveNewDefault">
+
+        <div class="your-defaults">
+            @{
+                Html.RenderPartial("_AddDefault", new SearchFavorite { Criteria = Model.SearchCriteria, PageUrl = pageUrl });
+            }
+        </div>
+    </div>
+
+
+    <table class="pull-left filter-block">
+        <tbody>
+            @{
+                IList<TaxonomyMenuItem> items = Model.AppliedFilters;
+                int itemCount = items.Count;
+                string anyChild = "any-child";
+                string firstChild = "first-child";
+                string onlyChild = "only-child";
+                string lastChild = "last-child";
+                bool isKeywordPresent = !string.IsNullOrEmpty(Model.SearchCriteria.Query);
+                var showNoItemMessage = !(Model.SearchCriteria.Filters.Any() || !String.IsNullOrEmpty(Model.SearchCriteria.Query));
+            }
+            @for (int i = 0; i < itemCount; ++i)
+            {
+                TaxonomyMenuItem item = items[i];
+                string style = anyChild;
+
+                if (i == 0)
+                {
+                    style = itemCount == 1 ? onlyChild : firstChild;
+                }
+                else if (i == itemCount - 1 && !isKeywordPresent)
+                {
+                    style = lastChild;
+                }
+                {
+
+
+                }
+
+                <tr>
+                    <td class="@style @(item.Key + "_td")">
+
+                        @if (item.Children.Count > 1)
+                        {
+                            <div style="width: 100%; position: relative;">
+                                <div class="multi-filter">
+                                    <h3>@SearchCriteria.FormatRefinerDisplayName(item.Key)</h3>
+                                <div>
+                                    <ul>
+                                        @for (int j = 0; j < item.Children.Count; j++)
+                                        {
+                                            <li>
+                                                <a id="@string.Format("f{0}", item.Key)" href="#@string.Format("f{0}", item.Key)" class="filter-remove-btn text" data-refiner-category="@SearchCriteria.FormatRefinerDisplayName(item.Key)" data-key="@item.Key" data-refinement-value="@((item.Children[j] as TaxonomyMenuItem).RefinementValue)" data-text="@item.Children[j].Text">@item.Children[j].Text</a>
+                                                <a id="@string.Format("fi{0}", item.Key)" class="filter-remove-btn icon-rem pull-right" href="#@string.Format("fi{0}", item.Key)" data-key="@item.Key" data-refiner-category="@SearchCriteria.FormatRefinerDisplayName(item.Key)" data-refinement-value="@((item.Children[j] as TaxonomyMenuItem).RefinementValue)" data-text="@item.Children[j].Text"></a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            </div>
+                        }
+                        else
+                        {  <div class="single-filter">
+                               <a id="@string.Format("f{0}", item.Key)" href="#@string.Format("f{0}", item.Key)" class="filter-remove-btn text" data-key="@item.Key" data-refiner-category="@SearchCriteria.FormatRefinerDisplayName(item.Key)" data-refinement-value="@((item.Children.First() as TaxonomyMenuItem).RefinementValue)" data-text="@item.Children.First().Text">@SearchCriteria.FormatRefinerDisplayName(item.Key): @item.Children.First().Text</a>
+                               <a id="@string.Format("fi{0}", item.Key)" class="filter-remove-btn icon-rem pull-right" href="#@string.Format("fi{0}", item.Key)" data-key="@item.Key" data-refiner-category="@SearchCriteria.FormatRefinerDisplayName(item.Key)" data-refinement-value="@((item.Children.First() as TaxonomyMenuItem).RefinementValue)" data-text="@item.Children.First().Text"></a>
+                        </div>
+                        }
+
+                    </td>
+
+
+
+                </tr>
+
+            }
+            @if (isKeywordPresent)
+            {
+                string style = itemCount > 0 ? lastChild : onlyChild;
+                <tr>
+                    <td class="@style single-filter Query_td">
+                        <a id="queryBlock" class="filter-remove-btn" href="#queryBlock" data-key="Query" data-refiner-category="Keyword" data-text="@Model.SearchCriteria.Query" data-refinement-value="@Model.SearchCriteria.Query">Keyword: @Model.SearchCriteria.Query</a>
+                        <a class="filter-remove-btn icon-rem pull-right" data-key="Query" data-refiner-category="Keyword" data-text="@Model.SearchCriteria.Query" data-refinement-value="@Model.SearchCriteria.Query" href="#queryBlockIcon"></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+   
+
+    <div class="clear-both" style="padding-top: 10px; height: 40px; background-color: #cccccc;">
+        <ul class="page-actions apply-filter">
+            <li>
+                <a class="apply-filters-btn nav-button nav-button-wide">Apply</a>
+            </li>
+        </ul>
+    </div>
+    
+    
+    @if (showNoItemMessage)
+    {
+        <div class="empty empty-message" style="">Enter a keyword or select a filter below to refine your search.</div>
+    }
+    else
+    {
+        <div class="empty empty-message" style="display:none">Enter a keyword or select a filter below to refine your search.</div>
+    }
+
+</div>
+<br style="clear:both;" />
+<script>
+    function showDefault(element) {
+        var selected = $('option:selected', element).data("query");
+        if (selected.length > 0)
+            window.location = selected;
+    }
+
+    function setNewDefault() {
+        $('#saveNewDefault').show();
+        $('#activeDefaults').hide();
+        $('#setNew').hide();
+        var selected = $('#currentDefaults :selected');
+        var newDefault = $(".new-default #Title");
+        newDefault.val(selected.text().trim());
+    }
+
+    //$(document).ready(function (){
+    //    $('#setNew').hide();
+    //});
+
+
+
+
+
+
+</script>

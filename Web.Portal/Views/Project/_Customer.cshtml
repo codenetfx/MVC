@@ -1,0 +1,187 @@
+﻿@using System.Drawing.Drawing2D
+@using UL.Aria.Web.Common.Models.Shared
+@model UL.Aria.Web.Common.Models.Shared.ProjectCreate
+@{
+    object displayMode = null;
+	object displayModeTextArea = null;
+    if (Model.IsFromOrder)
+    {
+        displayMode = new { disabled = "disabled" };
+		displayModeTextArea = new { disabled = "disabled", @rows = 4, @class = "multilinetextarea" };
+    }
+
+    ViewBag.customerFieldGroupClass = "project-edit-customer";
+    ViewBag.FieldGroupSelector = "." + ViewBag.customerFieldGroupClass;
+
+    ViewBag.AccountNumber = Model.IncomingOrderCustomerExternalId;
+                        
+}
+<div class="@ViewBag.customerFieldGroupClass">
+    <div class="form-horizontal control-group">
+        <div>
+            @Html.LabelFor(model => model.ShipToContact.Address, new { @class = "ul-field" })
+            <div class="controls">
+                @if (displayModeTextArea != null)
+                {
+                    <div class="controls">
+                        @Html.TextAreaFor(model => model.ShipToContact.Address, @displayModeTextArea)
+                    </div>
+                }
+                else
+                {
+                    <div class="controls">
+                        @Html.EditorFor(model => model.ShipToContact.Address)
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="form-horizontal control-group">
+        <div class="left-col">
+            @Html.LabelFor(model => model.ShipToContact.City, new { @class = "ul-field" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.ShipToContact.City, @displayMode)
+            </div>
+        </div>
+        <div class="right-col">
+            @Html.LabelFor(model => model.ShipToContact.State, new { @class = "ul-field" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.ShipToContact.State, @displayMode)
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="form-horizontal control-group">
+        <div class="left-col">
+            @Html.LabelFor(model => model.ShipToContact.Province, new { @class = "ul-field" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.ShipToContact.Province, @displayMode)
+            </div>
+
+
+        </div>
+        <div class="right-col">
+            @Html.LabelFor(model => model.ShipToContact.PostalCode, new { @class = "ul-field" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.ShipToContact.PostalCode, @displayMode)
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="form-horizontal control-group">
+        <div class="left-col">
+            @Html.LabelFor(model => model.ShipToContact.Country, new { @class = "ul-field" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.ShipToContact.Country, @displayMode)
+            </div>
+
+        </div>
+        <div class="right-col">
+            @Html.LabelFor(model => model.ShipToContact.FullName, new { @class = "ul-field" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.ShipToContact.FullName, @displayMode)
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="form-horizontal control-group">
+        <div class="left-col">
+            @Html.LabelFor(model => model.ShipToContact.Title, new { @class = "ul-field" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.ShipToContact.Title, @displayMode)
+            </div>
+
+        </div>
+        <div class="right-col">
+
+            @Html.LabelFor(model => model.ShipToContact.Email, new { @class = "ul-field" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.ShipToContact.Email, @displayMode)
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="form-horizontal control-group">
+        <div class="left-col">
+            @Html.LabelFor(model => model.ShipToContact.Phone, new { @class = "ul-field" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.ShipToContact.Phone, @displayMode)
+            </div>
+
+        </div>
+        <div class="right-col">
+            @Html.LabelFor(model => model.ShipToContact.PartySiteNumber, "Customer Party Site Number", new { @class = "ul-field" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.ShipToContact.PartySiteNumber, @displayMode)
+            </div>
+        </div>
+    </div>
+
+    <div class="form-horizontal control-group">
+
+        <div class="left-col">
+            @Html.LabelFor(model => model.IncomingOrderCustomerExternalId, new { @class = "ul-field " })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.IncomingOrderCustomerExternalId, new { @classs= "oracle-Id",  disabled = "disabled" })
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+@{
+
+    ViewBag.CompanyLookupId = Model.CompanyId;
+    ViewBag.OracleId = Model.IncomingOrderCustomerExternalId;
+
+    Html.RenderPartial("_contactSync", Model);
+}
+
+
+
+        @Html.HiddenFor(model => model.ShipToContact.IsFromOrder)
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                if ($('#IsFromOrder').val() == 'True') {
+                    $('#Address').attr('disabled', 'disabled');
+                }
+            });
+          
+        $(document).ready(function () {
+            $('.synchronizeContacts').click(function () {
+                if ($(this).data('modalTitle')) {
+                    $('#synchronizeContactsConfirmModalLabel').html($(this).data('modalTitle'));
+                }
+                $('#utility_submit-body').html("<p>" + $(this).data('itemName') + "</p>");
+                $('button#btnSynchronizeContacts').data($(this).data());
+            });
+
+            $('button#btnSynchronizeContacts').click(function (event) {
+                var $modal = $(this).closest(".modal").modal("loading");
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).data('itemHref'),
+                    success: function (result) {
+                        $modal.modal("removeLoading");
+                        $('#synchronizeContactsConfirmModal').html(result);
+                    },
+                    cache: false
+                });
+
+                return false;
+            });
+        });
+            
+        </script>

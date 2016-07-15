@@ -1,0 +1,90 @@
+﻿@model UL.Aria.Web.Common.Models.Project.ProjectDetail
+
+@{
+    Layout = "_DetailsLayout.cshtml";
+}
+
+
+<fieldset>
+    <legend>Project Details</legend>
+    <div class="div-product-attribute">
+        <div class="display-label-row">
+            @Html.DisplayNameFor(model => model.OrderNumber)
+        </div>
+        <div class="display-field-row">
+            @Html.DisplayFor(model => model.OrderNumber)
+        </div>
+    </div>
+    
+    <div class="div-product-attribute">
+        <div class="display-label-row">
+            @Html.DisplayNameFor(model => model.ProjectStatus)
+        </div>
+        <div class="display-field-row">
+            @Html.DisplayFor(model => model.ProjectStatus)
+        </div>
+    </div>
+    
+    
+    <div class="div-product-attribute">
+        <div class="display-label-row">
+            @Html.DisplayNameFor(model => model.ProjectHandlerName)
+        </div>
+        <div class="display-field-row">
+            @Html.DisplayFor(model => model.ProjectHandlerName)
+        </div>
+    </div>
+
+    <div class="div-product-attribute">
+        <div class="display-label-row">
+            @Html.DisplayNameFor(model => model.ProjectHandler)
+        </div>
+        <div class="display-field-row">
+            @Html.DisplayFor(model => model.ProjectHandler)
+        </div>
+    </div>
+
+
+    <div class="div-product-attribute">
+        <div class="display-label-row">
+            @Html.DisplayNameFor(model => model.StatusNotes)
+        </div>
+        <div class="display-field-row">
+            @Html.DisplayFor(model => model.StatusNotes)
+        </div>
+    </div>
+</fieldset>
+
+
+<fieldset>
+    <legend>@Html.DisplayNameFor(model => model.ServiceLineItems)</legend>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th class="nowrap">Line Number</th>
+                <th class="primary-col">Fulfillment Method</th>
+                <th class="nowrap">Promise Date</th>
+            </tr>
+        </thead>
+        @if (Model.ServiceLineItems.Any())
+        {
+            foreach (var line in Model.ServiceLineItems)
+            {
+                <tr>
+                    <td>@line.Name</td>
+                    <td>@line.LineNumber</td>
+                    <td>@line.FulfillmentMethodCode</td>
+                    <td>@line.PromiseDate.ToShortDateString()</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4">No service lines</td>
+            </tr>
+        }
+    </table>
+</fieldset>

@@ -1,0 +1,95 @@
+﻿@using UL.Aria.Web.Common.Mvc
+@model UL.Aria.Web.Common.Models.Product.IProductSection
+@{
+    Layout = "~/Views/Shared/_LayoutSection.cshtml";
+}
+
+
+@section controls {
+    <div style="clear: both;">
+        <div style="padding: 0px; margin: 0px 0px 10px 0px; display: inline-block; float: left; font-weight: bold; vertical-align: top;">
+            @Model.Name
+        </div>
+        <div class="result-actions">
+            <div class="dropdown pull-right">
+                <a title="Open Menu" class="dropdown-toggle caret" data-toggle="dropdown" href="#"><i></i></a>
+                <ul class="dropdown-menu" role="menu">
+                    @foreach (var item in Model.PageActions)
+                    {
+						@Helpers.ActionLink(item)
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="div-product-image">
+        <img src="@Url.ProductImage(Model.Id)" alt="@Model.Name" />
+        <div class="div-product-status">Product Status: @Model.Status </div>
+    </div>
+
+    @{ Html.RenderPartial("_PageActions", Model.PageLinks); }
+
+    @RenderSection("controls", required: false)
+}
+
+@section aside {
+    @{ Html.RenderPartial("_PageActionsRight", Model.PageActions); }
+
+    @RenderSection("aside", required: false)
+
+    @{
+		Html.RenderPartial("_Faq");
+		Html.RenderPartial("_Contact");
+    }
+}
+
+
+@RenderBody()
+
+
+<!-- Modal Submit Dialog-->
+<div id="SubmitConfirmModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 id="SubmitConfirmModalLabel">Submit Product</h3>
+    </div>
+    <div class="modal-body" id="utility_submit-body">
+    </div>
+    <div class="modal-footer submit-footer">
+        <button class="btn pull-left" data-dismiss="modal">Cancel</button>
+        <button id="btnSubmitproduct" class="btn btn-primary">Submit</button>
+    </div>
+</div>
+
+
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.submitProduct').click(function () {
+                if ($(this).data('modalTitle')) {
+                    $('#SubmitConfirmModalLabel').html($(this).data('modalTitle'));
+                }
+                $('#utility_submit-body').html("<p>" + $(this).data('itemName') + "</p>");
+                $('button#btnSubmitproduct').data($(this).data());
+            });
+
+            $('button#btnSubmitproduct').click(function (event) {
+	            var $modal = $(this).closest(".modal").modal("loading");
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).data('itemHref'),
+                    success: function (result) {
+                    	$modal.modal("removeLoading");
+                    	$('#SubmitConfirmModal').html(result);
+                    },
+                    cache: false
+                });
+
+                return false;
+            });
+        });
+    </script>
+    @RenderSection("scripts", required: false)
+}

@@ -1,0 +1,85 @@
+﻿@using System.Security.AccessControl
+@using System.Text
+@using UL.Aria.Service.Contracts.Dto
+@using UL.Aria.Web.Common.Models.Project
+@using UL.Aria.Web.Common.Models.Search;
+@using UL.Aria.Web.Common.Models.Shared
+@using UL.Aria.Web.Common.Models.Project
+@using UL.Enterprise.Foundation
+@model ISearchResultSet<TaskSearchResult>
+@{
+    var showHierarchy = Model.SearchCriteria.SortClassName(AssetFieldNames.AriaTaskNumber) != null;
+    var projectStatus = ((ViewBag.ProjectStatus == ProjectStatus.Completed || ViewBag.ProjectStatus == ProjectStatus.Canceled));
+    var first = Model.Results.FirstOrDefault();
+    var projectId = (first != null) ? first.ProjectId.ToString("N") : null;
+    var gridLoadUrl = string.Format("/project/{0}/Task/AllProjectTasks", projectId);
+    var currentUser = (first != null) ? first.CurrentUser : null;
+}
+
+
+<div class="grid-parent" style="width: 98%; height: 1000px; display: inline-block;">
+    <button class="grid-btn grid-edit-all btn btn-primary" data-grid-selector="#EditableTaskGrid" type="button">Edit All</button>  
+    <button class="grid-btn grid-save-all btn btn-primary" data-grid-selector="#EditableTaskGrid" type="button">Save All</button>
+    <button class="grid-btn grid-cancel-all btn" data-grid-selector="#EditableTaskGrid" type="button">Cancel All</button>
+
+    @Html.JQGridFor(new UL.Aria.Web.Common.Mvc.JqGrid.JgGridDefaultBuilder<UL.Aria.Web.Common.Models.Project.TaskTreeGridFacade>(),
+        "EditableTaskGrid", gridLoadUrl,
+        height: "100%",
+        width: "500",
+        autoWidth: true,
+        isTreeGrid: true,
+        snapToParent: ".grid-parent",
+        editAllButton: ".grid-edit-all",
+        cancelAllButton: ".grid-cancel-all",
+        saveAllButton: ".grid-save-all",
+        useManagedDataLoad: true,
+        saveUrl: "/Task/SaveBulk",
+        deleteUrl: "/Task/DeleteBulk",
+        isEditable: true,
+        includeValidationSummary: true
+        )
+
+</div>
+<div class="assign-modal modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-current-user=@currentUser>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Assign Tasks</h3>
+    </div>
+
+    <div class="modal-body">
+        <div>
+            <div class="form-horizontal control-group">
+
+                <label class="strong">Assignee</label>
+                <div class="controls">
+                    @Html.RadioButton("TaskOwnerAssigned", EnumTaskOwner.AssignToMe, new { @checked = true, id = "radio1" }) <label for="radio1" style="display:inline-block; margin-left:5px; color:black;"><strong>@EnumTaskOwner.AssignToMe.GetDisplayName()</strong></label>
+                </div>
+                <div class="controls">
+                    <div class="left-col">
+
+                        @Html.RadioButton("TaskOwnerAssigned", EnumTaskOwner.AssignToHandler, new { id = "radio2" })<label for="radio2" style="display:inline-block; margin-left:5px; color:black;"><strong>@EnumTaskOwner.AssignToHandler.GetDisplayName()</strong></label>
+
+                    </div>
+                    <div class="left-col" style="margin-left: 15px;">
+                        @Html.AutoComplete("TaskOwner", string.Empty, Url.PageSearchULUsers(), true, minSearchTermLength: 2)
+                    </div>
+                </div>
+            </div>
+            @Html.ValidationSummary()
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button data-toggle="modal" data-target="#AssignModal" class="continue-button btn pull-right btn-primary">Assign Tasks</button>
+        <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    </div>
+</div>
+<div class="assign-warning modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-body">
+        <p>Are you sure you want to assign multiple tasks at once?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" id="btnAssignTask" class="continue-btn btn pull-right btn-primary" value="Assign Tasks">Assign Tasks</button>
+        <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    </div>
+</div>

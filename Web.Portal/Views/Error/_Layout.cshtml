@@ -1,0 +1,28 @@
+﻿@using UL.Aria.Web.Common.Models.Shared
+@model ErrorModel
+@{
+    Layout = "~/Views/Shared/_LayoutSectionTwoColumn.cshtml";
+    ViewBag.PageLinks = Model.PageLinks;
+}
+
+@section styles {
+    @RenderSection("styles", required: false)
+}
+
+@section controls {
+    @{Html.RenderPartial("_ProfileSummary");}
+    <br class="clearfix clear-both" />
+    @RenderSection("filters", false)
+    @Html.AccordionMenu("main_menu", ViewBag.PageLinks as List<TaxonomyMenuItem>)
+    @{Html.RenderPartial("_UlApps", ViewBag.UlApps as IEnumerable<MenuItem>);}
+    @RenderSection("controls", false)
+}
+
+<div class="error-page">
+    @RenderBody()
+</div>
+
+
+@section scripts {
+    @RenderSection("scripts", required: false)
+}

@@ -1,0 +1,19 @@
+﻿@model UL.Aria.Web.Common.Models.Project.TaskDetail
+<div>
+    <div class="control-group">
+        @Html.Label("Send Task Completion Notifications")
+        <div class="controls">
+            <div class="task-notifications">
+                <table class="table table-condensed ">
+                    <tbody>
+                        @Html.TaskNotificationHtmlString(x => x.Notifications, Model.Notifications)
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-horizontal control-group">
+        <button class="notification-add" type="button">Add Another Email</button>
+    </div>
+</div>

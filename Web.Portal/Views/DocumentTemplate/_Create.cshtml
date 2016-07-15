@@ -1,0 +1,25 @@
+﻿@model UL.Aria.Web.Common.Models.DocumentTemplate.DocumentTemplate
+@{
+	var success = ((bool?)ViewBag.Success).GetValueOrDefault(false);
+	var id = "form_" + Guid.NewGuid().ToString();
+	ViewBag.ModalTitle = "Create Document Template";
+	var fileId = "f" + Model.UploadId;
+}
+
+<div class="ul-dialog">
+	<div id="editDocumentTemplateDialog" data-form-id="@id" data-mode="create" data-validation-url="@Url.PageValidateDocumentTemplateDocumentTemplate()">
+
+		@using (Html.BeginForm("Create", "DocumentTemplate", FormMethod.Post, new { id = id, @class = "task-edit-form", enctype = "multipart/form-data" }))
+		{
+			<div>
+				@{Html.RenderPartial("_DocumentTemplate", Model);}
+			</div>
+		}
+	</div>
+
+</div>
+
+<script type="text/javascript">
+    UL.BootstrapControls($(".ul-dialog"));
+</script>
+

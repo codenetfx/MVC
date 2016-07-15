@@ -1,0 +1,81 @@
+﻿@using UL.Aria.Web.Common.Models.Shared
+@model UL.Aria.Web.Common.Models.Shared.ProjectCreate
+
+@{
+    object displayMode;
+
+    if (Model.IsFromOrder)
+    {
+        displayMode = new { disabled = "disabled" };
+    }
+    else
+    {
+        displayMode = new { enabled = "enabled" };
+    }
+
+
+}
+
+<div class="form-horizontal control-group project-edit-miscellaneous">
+    <div>
+        @Html.LabelFor(model => model.CustomerProjectName, new { @class = "strong" })
+        <div class="controls">
+            @Html.TextBoxFor(model => model.CustomerProjectName, @displayMode)
+        </div>
+    </div>
+</div>
+
+
+<div class="form-horizontal control-group project-edit-miscellaneous">
+    @Html.LabelFor(model => model.AdditionalCriteria, new { @class = "strong" })
+    <div class="controls">
+        @Html.EditorFor(model => model.AdditionalCriteria)
+    </div>
+</div>
+
+<div class="form-horizontal control-group project-edit-miscellaneous">
+    <div class="left-col">
+        @Html.LabelFor(model => model.IndustryCode, new { @class = "strong" })
+        <div class="controls">
+            @Html.TextBoxFor(model => model.IndustryCode, @displayMode)
+        </div>
+    </div>
+    <div class="right-col">
+        @Html.LabelFor(model => model.ServiceCode, new { @class = "strong" })
+        <div class="controls">
+            @Html.TextBoxFor(model => model.ServiceCode, @displayMode)
+        </div>
+    </div>
+</div>
+
+<div class="form-horizontal control-group project-edit-miscellaneous">
+    <div class="left-col">
+        @Html.LabelFor(model => model.IndustryCategory, new { @class = "strong" })
+        <div class="controls">
+            @Html.TextBoxFor(model => model.IndustryCategory)
+        </div>
+    </div>
+    <div class="right-col">
+        @Html.LabelFor(model => model.IndustrySubCategory, new { @class = "strong" })
+        <div class="controls">
+            @Html.TextBoxFor(model => model.IndustrySubCategory)
+        </div>
+    </div>
+</div>
+
+<div class="form-horizontal control-group project-edit-miscellaneous">
+    <div class="left-col">
+        @Html.LabelFor(model => model.ProductGroup, new { @class = "strong" })
+        <div class="controls">
+            @Html.TextBoxFor(model => model.ProductGroup)
+        </div>
+    </div>
+    <div class="right-col">
+        @Html.LabelFor(model => model.Location, new { @class = "strong" })
+        <div class="controls">
+            @Html.TextBoxFor(model => model.Location, @displayMode)
+        </div>
+    </div>
+</div>
+
+

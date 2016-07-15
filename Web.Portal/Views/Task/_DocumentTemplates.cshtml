@@ -1,0 +1,32 @@
+﻿@using UL.Aria.Web.Common.Models.Project
+@model TaskInfo
+<div class="display-row" style="margin-bottom: 20px;">
+    <div class="div-task-attribute">
+        <div class="display-label-row three-column">
+            Document Templates
+        </div>
+        <div class="display-field-row">
+            @if (Model != null)
+            {
+                <div class="comments">
+					<dl>
+						@foreach (var document in Model.TaskType.DocumentTemplates)
+						{
+							<dd style="padding-bottom: 3px;">
+								@*<a href="@Url.PageDownloadDocumentTemplate(document.Id.GetValueOrDefault())" style="color:black; font-weight:bold;"> @document.Name </a>*@
+								<a href="@Url.PageCreateTaskDocument(document.Id.Value, Model.ContainerId, Model.Task.TaskId.Value)" data-t data-toggle="modal" class="createDocument" id="createDocument" data-target="#" >@Html.DisplayFor(x=>document.Name)</a>
+							</dd>
+						}
+					</dl>
+
+                </div>
+            }
+            else
+            {
+                new MvcHtmlString("&nbsp");
+            }
+        </div>
+    </div>
+
+   
+</div>

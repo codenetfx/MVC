@@ -1,0 +1,42 @@
+﻿@using UL.Aria.Web.Common.Mvc
+@model UL.Aria.Web.Common.Models.Container.ContainerSearchResultSet
+
+@{
+	Layout = "~/Views/Company/_Layout.cshtml";
+	int rowIndex = 0;
+}
+
+@{ Html.RenderPartial("_SearchForm", Model.SearchCriteria); }
+
+<fieldset class="search-body">
+	@if (Model.Results.Any())
+	{
+		<table>
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Type</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in Model.Results)
+				{
+					<tr class="@Html.TableRowClass(rowIndex++)">
+						<td class="primary-col">
+							<a href="@Url.PageAssetDetails(item.EntityType, item.AssetId)">@item.Name</a>
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.EntityType)
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	}
+	else
+	{
+		Html.RenderPartial("_SearchNotFound", Model.SearchCriteria);
+	}
+</fieldset>
+
+@{ Html.RenderPartial("_SearchFormFooter", Model.SearchCriteria); }

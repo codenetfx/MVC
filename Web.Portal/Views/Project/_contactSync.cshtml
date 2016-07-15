@@ -1,0 +1,9 @@
+﻿@model UL.Aria.Web.Common.Models.Shared.ProjectCreate
+    @if (!String.IsNullOrWhiteSpace(Model.OrderNumber))
+    {
+        Html.RenderPartial("_orderCustomerSync", Model);
+    }
+    else
+    {
+        Html.RenderPartial("_customerLookup", Model);
+    }

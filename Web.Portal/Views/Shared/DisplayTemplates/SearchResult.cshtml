@@ -1,0 +1,51 @@
+﻿@model UL.Aria.Web.Common.Models.Search.SearchResult
+
+<div class="search-result product-result clearfix">
+
+	<div class="result-detail">
+		<div class="result-item-header">
+			<div class="display-status">
+				@Model.EntityType
+			</div>
+		</div>
+
+		<div class="display-label">
+			@Html.DisplayNameFor(model => model.Name)
+		</div>
+		<div class="display-field">
+			@Html.DisplayFor(model => model.Name)
+		</div>
+
+		<div class="display-label">
+			@Html.DisplayNameFor(model => model.Title)
+		</div>
+		<div class="display-field">
+			@Html.DisplayFor(model => model.Title)
+		</div>
+
+		<div class="display-label">
+			@Html.DisplayNameFor(model => model.LastModifiedBy)
+		</div>
+		<div class="display-field">
+			@Html.DisplayFor(model => model.LastModifiedBy)
+		</div>
+
+		<div class="display-label">
+			@Html.DisplayNameFor(model => model.ChangeDate)
+		</div>
+		<div class="display-field">
+			@Html.DisplayFor(model => model.ChangeDate)
+		</div>
+
+		<div class="display-label">
+			@Html.DisplayNameFor(model => model.Metadata)
+		</div>
+		<div class="display-field">
+			@foreach (var meta in Model.Metadata)
+   {
+				@Html.DisplayFor(model => meta)
+	   <br />
+   }
+		</div>
+	</div>
+</div>

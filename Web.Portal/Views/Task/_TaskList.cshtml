@@ -1,0 +1,124 @@
+﻿@using System.Text
+@using UL.Aria.Service.Contracts.Dto
+@using UL.Aria.Web.Common
+@using UL.Aria.Web.Common.Models.Project
+@using UL.Aria.Web.Common.Models.Search;
+@using UL.Aria.Web.Common.Models.Shared
+@model ISearchResultSet<TaskSearchResult>
+@{
+	var showHierarchy = Model.SearchCriteria.SortClassName(AssetFieldNames.AriaTaskNumber) != null;
+	var projectStatus = ((ViewBag.ProjectStatus == ProjectStatus.Completed || ViewBag.ProjectStatus == ProjectStatus.Canceled));
+
+}
+
+@helper BuildSubTasks(IEnumerable<TaskSearchResult> taskSearchResults, int level, string parentClass, bool showHierarchy, bool projectStatus)
+{
+	foreach (var item in taskSearchResults)
+	{
+		var cssClass = new StringBuilder();
+		var thisClass = string.Format("row{0}", item.TaskNumber);
+		if (parentClass != null)
+		{
+			cssClass.Append(parentClass);
+			cssClass.Append("-child ");
+		}
+		cssClass.Append(thisClass);
+
+		var hasChildrenToShow = showHierarchy && item.SubTasks.Any();
+		//8px TD padding + 14px icon space (per level)
+		var indent = 8 + level * 17;
+
+		<tr class="@cssClass" data-child-selector=".@(thisClass)-child">
+			<td>
+				@{
+		Html.RenderPartial("_CommentsIcon", item);
+		Html.RenderPartial("_DocumentsIcon", item);
+				}
+			</td>
+			<td>@item.TaskNumber</td>
+			<td style="padding-left: @(indent)px;">
+				@if (hasChildrenToShow)
+				{
+					<i class="icon-minus parent-button"></i>
+				}
+				<span class="task-name">@item.Name </span>
+				@if (item.ShouldTriggerBilling)
+				{
+					<span class="billing-trigger-label">(@ConstantKeys.BillingTriggerTask)</span>
+				}
+			</td>
+			<td>@Html.DisplayFor(m => item.Description)</td>
+			<td class="@item.TaskStatusCssClass">@Html.DisplayFor(m => item.Status)</td>
+			<td class="@item.TaskProgressCssClass">@Html.DisplayFor(m => item.Progress)</td>
+			<td>@Html.DisplayFor(m => item.StartDate)</td>
+			<td>@Html.DisplayFor(m => item.ReminderDate)</td>
+			<td>@Html.DisplayFor(m => item.DueDate)</td>
+			<td>@Html.DisplayFor(m => item.ActualDuration)</td>
+			<td>@Html.DisplayFor(m => item.TaskOwner)</td>
+			<td>
+				<div class="result-actions">
+					@if (!projectStatus && !(item.Status == TaskStatusEnum.Completed || item.Status == TaskStatusEnum.Canceled))
+					{
+						<input type="checkbox" name="taskCheckbox" class="pull-right" style="margin: 2px 0 0 10px;" value="@item.Id" data-can-delete="@item.IsDeletable" data-should-trigger-billing="@item.ShouldTriggerBilling" data-billing-trigger-task-count="@item.ProjectTaskShouldTriggerBillingCount" data-item-name="@item.Name" data-group-name="@ViewBag.GroupName" onclick="return UL.Result_OnChange(this);" @(item.IsSelected ? "checked='checked'" : null) />
+					}
+					<div class="dropdown" style="width: 20px;">
+						<a title="Open Menu" class="dropdown-toggle caret" data-toggle="dropdown" href="#"><i></i></a>
+						<ul class="dropdown-menu pull-right" style="right: -5px; left:  auto;" role="menu">
+							<li><a href="@Url.PageViewTask(item.Id, item.ContainerId)" id="view_@item.Id.ToString("N")">View Task</a></li>
+							@if (item.CanEditTask)
+							{
+								<li><a href="@Url.PageEditTask(item.Id, item.ContainerId)" data-toggle="modal" id="edit_@item.Id.ToString("N")">Edit Task</a></li>
+								<li><a href="@Url.PageEditTask(item.Id, item.ContainerId)&tab=modal-task-documents" data-toggle="modal">Add Documents</a></li>
+								if (item.IsDeletable)
+								{
+									<li>
+										@if (item.ShouldTriggerBilling)
+										{
+											<a href="#" data-toggle="modal" data-target="#DeleteModal" data-modal-title="Delete Fulfillment Complete Trigger Task" data-item-name="@item.DeleteMessage" data-item-href="@Url.PageDeleteTask(item.Id, item.ContainerId)">Delete Task</a>
+										}
+										else
+										{
+											<a href="#" data-toggle="modal" data-target="#DeleteModal" data-modal-title="Delete Task" data-item-name="@item.DeleteMessage" data-item-href="@Url.PageDeleteTask(item.Id, item.ContainerId)">Delete Task</a>
+										}
+									</li>
+
+								}
+							}
+
+							@if (item.CanReActivateTask)
+							{
+								<li><a href="@Url.PageEditTask(item.Id, item.ContainerId, true)" data-toggle="modal" id="reactivate_@item.Id.ToString("N")">Reactivate Task</a></li>
+							}
+						</ul>
+					</div>
+				</div>
+			</td>
+		</tr>
+		if (showHierarchy && item.SubTasks.Any())
+		{
+			@BuildSubTasks(item.SubTasks, level + 1, cssClass.ToString(), showHierarchy, projectStatus)
+		}
+	}
+}
+
+<table class="table">
+	<thead>
+		<tr>
+			<th class="nowrap"></th>
+			<th class="nowrap">@Helpers.SortColumnHeader("ID", AssetFieldNames.AriaTaskNumber, Model.SearchCriteria)</th>
+			<th class="nowrap">@Helpers.SortColumnHeader("Task", AssetFieldNames.AriaTaskTitle, Model.SearchCriteria)</th>
+			<th class="nowrap">@Helpers.SortColumnHeader("Short Description", AssetFieldNames.AriaTaskDescription, Model.SearchCriteria)</th>
+			<th class="nowrap">@Helpers.SortColumnHeader("Task Status", AssetFieldNames.AriaTaskPhase, Model.SearchCriteria)</th>
+			<th class="nowrap">@Helpers.SortColumnHeader("Progress", AssetFieldNames.AriaTaskProgress, Model.SearchCriteria)</th>
+			<th class="nowrap">@Helpers.SortColumnHeader("Start Date", AssetFieldNames.AriaTaskStartDate, Model.SearchCriteria)</th>
+			<th class="nowrap">@Helpers.SortColumnHeader("Reminder Date", AssetFieldNames.AriaTaskReminderDate, Model.SearchCriteria)</th>
+			<th class="nowrap">@Helpers.SortColumnHeader("Due Date", AssetFieldNames.AriaTaskDueDate, Model.SearchCriteria)</th>
+			<th class="nowrap">@Helpers.SortColumnHeader("Duration", AssetFieldNames.AriaTaskDuration, Model.SearchCriteria)</th>
+			<th class="nowrap">@Helpers.SortColumnHeader("Assignee", AssetFieldNames.AriaTaskOwner, Model.SearchCriteria)</th>
+			<th class="nowrap">Action</th>
+		</tr>
+	</thead>
+	<tbody>
+		@BuildSubTasks(Model.Results, 0, null, showHierarchy, projectStatus)
+	</tbody>
+</table>

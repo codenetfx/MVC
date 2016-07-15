@@ -1,0 +1,105 @@
+﻿@using UL.Aria.Web.Common.Models.Project
+@model TaskDetail
+@{
+	var id = "id-" + Guid.NewGuid().ToString();
+}
+<div class="ul-dialog">
+    <div id="editTask" class="edit-task-dialog" data-form-id="@id" data-mode="edit" data-project-handler="@Model.ProjectHandler" data-current-user="@Model.CurrentUser" data-task-behavior-url="@Url.Action("GetTaskTypeBehaviors","Task")">
+        @using (Html.BeginForm("Create", "Task", FormMethod.Post, new Dictionary<string, object>() { { "id", id }, { "class", "task-create-form" } }))
+        {
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">Add a Task</h3>
+            </div>
+
+            if (Model.Success)
+            {
+                <div class="modal-success-create">
+                    <div class="modal-body">
+                        <i class="ul-icon-success"></i><span>Task has been successfully created.</span>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-info" data-dismiss="modal" aria-hidden="true" onclick=" UL.Refresh(); ">Dismiss</button>
+                    </div>
+                </div>
+            }
+            else if (!Model.Success && !string.IsNullOrEmpty(Model.ErrorMessage))
+            {
+                <div class="modal-body">
+                    <i class="ul-icon-failure"></i><span>@Model.ErrorMessage</span>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-info" data-dismiss="modal" aria-hidden="true">Dismiss</button>
+                </div>
+            }
+            else
+            {
+                <div class="modal-body">
+                    @Helpers.ModalSubmitFix()
+                    @Html.Partial("_Task", Model)
+
+                    @Html.ValidationSummary()
+                </div>
+
+                <div class="modal-footer">
+                    @*Put the submit button first so ENTER will submit rather than cancel*@
+                    <input type="submit" id="btnCreateTask" class="btn pull-right btn-primary task-submit" value="Create Task" />
+                    <button class="btn pull-left" id="task-modal" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                </div>
+            }
+        }
+
+
+    </div>
+</div>
+
+
+		<script type="text/javascript">
+			
+			$('input:radio[name=TaskOwnerAssigned]').change(function () {
+				if ($(this).val() == "AssignToHandler") {
+					$('input[name =TaskOwner]').prop('disabled', false);
+				} else {
+					$('input[name =TaskOwner]').val('');
+					$('input[name =TaskOwner]').prop('disabled', true);
+				}
+			});
+
+			$('select[name=RelationshipId]').change(function () {
+				if ($(this).val() == "No Relationship") {
+					$('input[name =RelatedTaskNumber]').val('');
+					$('input[name =RelatedTaskNumber]').prop('disabled', true);
+
+				} else {
+					$('input[name =RelatedTaskNumber]').prop('disabled', false);
+				}
+			});
+
+
+			$("button#task-modal").click(function () {
+				$('#TaskOwner').detach();
+			});
+
+			$("#TaskOwner").blur(function () {
+				var taskOwnerText = $("#TaskOwner").val();
+				taskOwnerText = taskOwnerText.replace(/^\s+|\s+$/gm, '');
+				$("#TaskOwner").val(taskOwnerText);
+			});
+
+			//idle session manager hook
+			$(".task-create-form").sessionManager({
+				idleWarningTimeout: UlAriaWebPortalConfig.IdleWarningTimeoutMinutes * 60000, //60,000 == 1 minute
+				serverCallInterval: UlAriaWebPortalConfig.ServerCallIntervalMinutes * 60000, //60,000 == 1 minute
+			});
+
+
+			$(document).ready(function () {
+				var successmsg = $('.modal-success-create');
+				if (successmsg.length > 0) {
+					var modal = $('#@id').closest(".modal").modal("hide");
+					//UL.Refresh();
+					window.location.reload();
+				}
+			});
+			UL.BootstrapControls($(".ul-dialog"));
+		</script>

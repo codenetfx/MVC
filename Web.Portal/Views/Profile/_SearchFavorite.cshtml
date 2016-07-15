@@ -1,0 +1,84 @@
+﻿@using UL.Aria.Web.Common.Models.Profile
+@model SearchFavorite
+
+<div>
+    @Html.HiddenFor(m => m.Criteria.Query)
+    @Html.HiddenFor(x => x.PageUrl)
+
+    <div class="form-horizontal control-group">
+        @Html.LabelFor(x => x.Title)
+        <div class="controls">
+            @Html.TextBoxFor(x => x.Title, new { maxlength = 50 })
+            @Html.ValidationMessageFor(x => x.Title)
+        </div>
+    </div>
+    <div class="form-horizontal control-group">
+        <div class="left-col">
+            @Html.LabelFor(x => x.ActiveDefault)
+            <div class="controls">
+                @Html.CheckBoxFor(x => x.ActiveDefault)
+            </div>
+        </div>
+        <div class="right-col">
+            @Html.LabelFor(x => x.AvailableDefault)
+            <div class="controls">
+                @Html.CheckBoxFor(x => x.AvailableDefault)
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-horizontal control-group">
+        @Html.LabelFor(x => x.Filters)
+        <div class="controls">
+            @foreach (var item in Model.Filters)
+            {
+                <span><b>@item.Key:</b> @item.Value </span>
+            }
+        </div>
+    </div>
+
+
+    @{ var index = 0;}
+
+
+    @Html.HiddenFor(x => x.Criteria.SortField)
+    @Html.HiddenFor(x => x.Criteria.SortOrder)
+
+    @Html.HiddenFor(x => x.Criteria.EntityType)
+
+    @if (Model.Criteria.Sorts != null)
+    {
+        <div>
+            @foreach (var sort in Model.Criteria.Sorts)
+            {
+                <div>
+                    <input type="hidden" name="Criteria.Sorts[@index].FieldName" value="@sort.FieldName"/>
+                    <input type="hidden" name="Criteria.Sorts[@index].DisplayName" value="@sort.DisplayName"/>
+                    <input type="hidden" name="Criteria.Sorts[@index].Order" value="@sort.Order"/>
+                </div>
+
+                index = index + 1;
+            }
+        </div>
+    }
+
+    @foreach (var refine in Model.Criteria.Refiners)
+    {
+        <div>
+            @Html.Hidden("Criteria.Refiners", refine)
+        </div>
+    }
+
+
+    @foreach (var refiner in Model.Criteria.Filters)
+    {
+        foreach (var filter in refiner.Value)
+        {
+        <input type="hidden" name="Criteria.Filters.@refiner.Key" value="@filter"/>
+        }
+    }
+
+
+
+
+</div>

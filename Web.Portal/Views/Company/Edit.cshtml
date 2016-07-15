@@ -1,0 +1,47 @@
+﻿@using UL.Aria.Web.Common.Mvc
+@model UL.Aria.Web.Common.Models.Shared.CompanyInfo
+
+@{
+    Layout = "~/Views/Company/_Layout.cshtml";
+}
+
+@section aside {
+}
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <fieldset class="profile-form">
+        <legend>Edit Company</legend>
+
+        <div class="control-group">
+            @Html.LabelFor(m => m.ExternalId)
+            <div class="controls">
+                @Html.TextBoxFor(model => model.ExternalId, new { @readonly="readonly" })
+                @Html.ValidationMessageFor(model => model.ExternalId)
+            </div>
+        </div>
+
+        <div class="control-group display-group">
+            @Html.LabelFor(m => m.Name)
+            <div class="controls">
+                @Html.EditorFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
+
+        @Html.HiddenFor(m => m.CompanyId)
+
+        <p class="control-buttons">
+            <input type="button" value="Cancel" class="btn" data-redirect="@Url.PageCompanyDetails(Model.CompanyId)" />
+            <input type="submit" value="Update" class="btn btn-primary pull-right" />
+        </p>
+    </fieldset>
+}
+
+
+@section scripts {  
+    <script type="text/javascript">
+        $(document).ready(UL.hookCancelButtons);
+    </script>
+}

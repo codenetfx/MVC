@@ -1,0 +1,57 @@
+﻿@using UL.Aria.Web.Common.Models.Project
+@using UL.Aria.Web.Common.Models.Shared
+@using UL.Aria.Web.Common.Mvc
+@model UL.Aria.Web.Common.Models.Search.TaskSearchResult
+
+@{
+	var projectStatus = ((Model.ProjectStatus == ProjectStatus.Completed) || ((Model.ProjectStatus == ProjectStatus.Canceled)));
+    var isProjectHandlerCurrentUser = string.Equals(Model.ProjectHandler, ViewBag.CurrentLoginId, StringComparison.OrdinalIgnoreCase);
+}
+<div class="search-result task-result clearfix">
+	<div class="result-icon">
+		<a href="@Url.PageTaskDetails(Model.ProjectId, Model.Id)">
+			<img src="@Url.TransparentImage()" alt="@Model.Name" />
+		</a>
+	</div>
+	<div class="result-actions">
+		<input type="checkbox" class="pull-right" style="margin: 2px 0 0 10px;" value="@Model.Id" data-group-name="@Model.EntityType.ToString()" onclick="return UL.Result_OnChange(this);" @(Model.IsSelected ? "checked='checked'" : null) />
+		<div class="dropdown pull-right">
+			<a title="Open Menu" class="dropdown-toggle caret" data-toggle="dropdown" href="#"><i></i></a>
+			<ul class="dropdown-menu" role="menu">
+				<li>
+					<a href="@Url.PageViewTask(Model.Id, Model.ContainerId)">View</a>
+				</li>
+
+				@if (!projectStatus && (Model.Status != TaskStatusEnum.Completed && Model.Status != TaskStatusEnum.Canceled))
+				{
+					<li>
+						<a href="@Url.PageEditTask(Model.Id)" data-toggle="modal">Edit</a>
+					</li>
+
+                    if (isProjectHandlerCurrentUser)
+					{
+						<li>
+							<a href="#" data-toggle="modal" data-target="#DeleteModal" data-modal-title="Delete Task" data-item-name="@Model.DeleteMessage" data-item-href="@Url.PageDeleteTask(Model.Id, Model.ContainerId)">Delete</a>
+						</li>
+					}
+					<li>
+						<a href="@Url.PageEditTask(Model.Id, Model.ContainerId)&tab=modal-task-documents" data-toggle="modal">Add Documents</a>
+					</li>
+				}
+			</ul>
+		</div>
+	</div>
+	<div class="result-detail">
+		<div class="result-item-header">
+			<div class="display-status">
+				@Html.DisplayFor(m => m.Status)
+			</div>
+		</div>
+		<div class="result-item-title">
+		    <a href="@Url.PageViewTask(Model.Id, Model.ContainerId)">@Html.DisplayFor(model => model.Name)</a>
+		</div>
+		<div class="display-label">@Html.DisplayNameFor(model => model.Progress)</div>
+		<div class="display-field">@Html.DisplayFor(model => model.Progress)</div>
+	</div>
+</div>
+

@@ -1,0 +1,232 @@
+﻿@model UL.Aria.Web.Common.Models.Shared.DocumentUpload
+@{
+    string fileId = "f" + Model.UploadId;
+    string fileQueueId = "q" + Model.UploadId;
+    bool canAccessPermissions = Model.Permissions != null;
+    var disabled = new Dictionary<string, object> { { "disabled", "disabled" } };
+    IHtmlString itemTemplate = null;
+    bool AllowMultipleFiles = !Model.ReUpload;
+    object fileInputObjectHtmlAttrObj = null;
+    if(Model.ReUpload)
+    {
+        itemTemplate =  Html.Raw(Json.Encode(ReuploadItemTemplate(canAccessPermissions).ToHtmlString()));
+        fileInputObjectHtmlAttrObj = new { type = "file", id = fileId, @class = "file" };
+    }
+    else{
+        itemTemplate = Html.Raw(Json.Encode(NewItemTemplate(canAccessPermissions).ToHtmlString()));
+        fileInputObjectHtmlAttrObj = new { type = "file", id = fileId, multiple = "multiple", @class = "file" };
+    }
+    
+    
+    
+}
+
+    <form method="POST" action="@Url.Content("~/upload/")" enctype="multipart/form-data">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Upload Documents</h3>
+        </div>
+        <div class="modal-body">
+            <fieldset class="file-pane form-horizontal">
+                <div class="control-group">
+                    @Html.LabelFor(model => model.File)
+                    @*<div id="filedrag" class="file-drag" style="float: right; width: 170px;">or drop files here</div>*@
+                    <div class="controls normal-upload">
+                        @*@Html.TextBox("void", null, new Dictionary<string, object>{{"placeholder", "Select documents to upload..."}, {"class", "faux-file"}})*@
+                        <div class="faux-file">
+                            <input type="text" placeholder="Select documents to upload..." />
+                            <button class="btn btn-primary">Browse</button>
+                        </div>
+                        @Html.TextBoxFor(model => model.File, fileInputObjectHtmlAttrObj)
+                        @Html.ValidationMessageFor(model => model.File)
+                    </div>
+                </div>
+            </fieldset>
+
+            @if(!Model.ReUpload)
+            { 
+            <fieldset class="meta-pane form-horizontal" style="display: none;">
+                <p class="strong">
+                    Please set the document category @if (canAccessPermissions)
+                    {
+                        <text>and customer access settings</text>
+                    } before uploading your documents.
+                </p>
+
+                <div class="well" style="padding-bottom: 0;">
+                    <div class="control-group check-group">
+                        <div class="controls">
+                            <input name="apply" value="true" type="checkbox" class="checkbox pull-left" id="apply" style="margin-right: 5px;" onclick=" ToggleSettings(this); " />
+                            <label for="apply">Apply the following settings to all documents</label>
+                        </div>
+                    </div>
+
+                    <div class="settings">
+                        @Html.HiddenFor(m => m.UploadId)
+                        @Html.HiddenFor(m => m.ContainerId)
+                        <div class="control-group">
+                            <div class="left-col">
+                                @Html.LabelFor(model => model.Overwrite, "Existing Files", disabled)
+                                <div class="controls">
+                                    <input name="Overwrite" value="true" type="checkbox" class="checkbox" id="Overwrite" disabled="disabled" />
+                                    @Html.DisplayNameFor(x => x.Overwrite)
+                                </div>
+                            </div>
+                            <div class="right-col">
+                                @Html.LabelFor(model => model.DocumentTypeId)
+                                <div class="controls">
+                                    @Html.DropDownListFor(model => model.DocumentTypeId, Model.DocumentTypes, disabled)
+                                    @Html.ValidationMessageFor(model => model.DocumentTypeId)
+                                </div>
+                            </div>
+                        </div>
+
+                        @if (canAccessPermissions)
+                        {
+                            <div class="control-group radio-group inline">
+                                @Html.LabelFor(model => model.Permission)
+                                <div class="controls">
+                                    @Html.RadioButtonListFor(m => m.Permission, Model.Permissions, new { disabled = "disabled", @class = "inline" })
+                                    @Html.ValidationMessageFor(m => m.Permission)
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </fieldset>
+            }
+            <fieldset class="upload-pane" style="display: none;">
+                <p class="in-progress">Uploading <span class="completed-count"></span> of <span class="total-count"></span> documents...  <a href="#cancel" class="cancelUpload">Cancel Upload</a></p>
+                <div class="progress">
+                    <div class="bar" style="width: 0;"></div>
+                </div>
+                <p><span class="failed-count"></span> of <span class="total-count"></span> documents could not be uploaded.  Please check these files and try again.</p>
+            </fieldset>
+
+            <table class="files" style="display: none;">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th class="primary-col">Filename</th>
+                        @if (!Model.ReUpload)
+                        {
+                            <th>@Html.DisplayNameFor(m => m.DocumentTypeId)</th>
+                            if (canAccessPermissions)
+                            {
+                                <th>@Html.DisplayNameFor(m => m.Permission)</th>
+                            }
+                            <th></th>
+                        }
+                    </tr>
+
+                </thead>
+                <tbody id="@fileQueueId"></tbody>
+            </table>
+
+            @if (Model.EnableLogging)
+            {
+                <fieldset class="uploadDebugLog">
+                    <strong onclick=" $('#messages').html(''); " title="Clear Log">Log:</strong>
+                    <div class="console" id="messages">
+                    </div>
+                </fieldset>
+            }
+        </div>
+        <div class="modal-footer browse-pane">
+            <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Cancel</button>
+            <input type="submit" class="btn btn-primary" value="Upload" disabled="disabled" />
+        </div>
+        <div class="modal-footer meta-pane" style="display: none;">
+            <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Cancel</button>
+            <input type="submit" class="btn btn-primary startUpload" value="Upload" />
+        </div>
+        <div class="modal-footer upload-pane" style="display: none;">
+            <button class="btn btn-info" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        </div>
+        <div class="modal-footer complete-footer" style="display: none;">
+            <button class="btn btn-info" data-dismiss="modal" aria-hidden="true">Dismiss</button>
+        </div>
+    </form>
+
+    <script type="text/javascript">
+    $('#@fileId').multiUpload2({
+        swf: '@Url.Content("~/images/uploadify.swf")',
+        uploader: '@Url.UploadDocumentPost(Model.UploadId)',
+        buttonImage: '@Url.TransparentImage()',
+        buttonText: "Browse",
+        itemTemplate: @itemTemplate,
+        queueId: "@fileQueueId",
+        multi: @AllowMultipleFiles.ToString().ToLower()
+    });
+
+    $('#@fileId').closest(".modal").find("input, textarea").placeholder();
+
+    function ToggleSettings(element) {
+        var checked = $(element).is(":checked");
+
+        //there could be multiple hidden upload modals, so keep selector scoped to this one
+        $(element).closest(".modal-body").find(".settings :input").not(".close").prop('disabled', !checked);
+        $(element).closest(".modal-body").find(".files :input").not(".close").prop('disabled', checked);
+    }
+    </script>
+
+
+
+@helper NewItemTemplate(bool canAccessPermissions)
+{
+    <tr id="${fileID}" class="uploadify-queue-item">
+        <td>
+            <i class="ul-icon-pending"></i>
+        </td>
+        <td>
+            <div class="fileName">${fileName} (${fileSize})</div><div class="data"></div>
+            <div class="uploadify-progress progress">
+                <div class="uploadify-progress-bar bar bar-success"><!--Progress Bar--></div>
+            </div>
+        </td>
+        <td>
+            @Html.DropDownListFor(model => model.DocumentTypeId, Model.DocumentTypes)
+        </td>
+        @if (canAccessPermissions)
+        {
+            <td>
+                @Html.DropDownListFor(m => m.Permission, Model.Permissions)
+            </td>
+        }
+        <td>
+            <button type="button" class="close" data-file-id="${fileID}">×</button>
+            @Html.HiddenFor(m => m.UploadId)
+            @Html.HiddenFor(m => m.ContainerId)
+        </td>
+    </tr>
+}
+
+
+
+
+
+@helper ReuploadItemTemplate(bool canAccessPermissions)
+    {
+
+        <tr id="${fileID}" class="uploadify-queue-item">
+            <td>
+                <i class="ul-icon-pending"></i>
+            </td>
+            <td>
+                <div class="fileName">${fileName} (${fileSize})</div><div class="data"></div>
+                <div class="uploadify-progress progress">
+                    <div class="uploadify-progress-bar bar bar-success"><!--Progress Bar--></div>
+                </div>
+                @Html.DropDownListFor(model => model.DocumentTypeId, Model.DocumentTypes, new { style = "display:none;" })
+                @if (canAccessPermissions)
+                {
+                    @Html.DropDownListFor(m => m.Permission, Model.Permissions, new { style = "display:none;" })
+                }
+                @Html.HiddenFor(m => m.UploadId)
+                @Html.HiddenFor(m => m.ContainerId)
+                @Html.HiddenFor(m => m.ReUpload)
+                @Html.HiddenFor(m=> m.AssetId)
+            </td>                   
+        </tr>
+    }
+

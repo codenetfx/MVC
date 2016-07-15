@@ -1,0 +1,47 @@
+﻿fieldset.legal-terms {
+	width: 830px;
+	margin: 0px auto;
+}
+.legal-terms .terms {
+	border: 1px solid #000000;
+	height: 550px; 
+	overflow: auto;
+	padding: 10px;
+}
+.legal-terms .editor-buttons {
+	margin: 20px 0;
+}
+
+fieldset.legal-terms {
+	width: 830px;
+	margin: 0px auto;
+}
+.legal-terms .editor-buttons {
+	margin: 20px 0;
+}
+
+@media print {
+	* {
+		font-family: times,serif;
+		font-size: 10px;
+	}
+	#header, footer, .hidden-print {
+		display: none;
+	}
+	.legal-terms .terms {
+		overflow: inherit;
+		border: none;
+		height: auto;
+	}
+}
+
+
+fieldset.unauthorized {
+	width: 675px;
+	margin: 0px auto;
+}
+.unauthorized .editor-buttons {
+	margin: 10em 0 20px 0;
+	border-top: solid 1px #333;
+	padding-top: 1em;
+}

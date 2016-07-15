@@ -1,0 +1,31 @@
+﻿@using UL.Aria.Web.Common.Models.Shared
+@model INavigationModel
+@{
+	ViewBag.SectionTitle = "Online Policies";
+	Layout = "~/Views/Shared/_LayoutSection.cshtml";
+	string sectionDescription = ViewBag.InstanceDescription ?? "Welcome to the UL Portal. At UL, we’re dedicated to providing the visitors to our site with a highly interactive and personalized experience, while at the same time protecting our rights and the rights of our users. We have developed these policies to govern your use of the UL Portal. We suggest you read them carefully. Please be aware that while you are using the UL Portal, you accept these conditions and that we may update these policies from time to time without notice to you.";
+}
+
+@section controls {
+	<div class="section-summary legal-summary">
+		@if (sectionDescription != null)
+		{
+			<div class="help-thumb pull-left">
+				<img src="@Url.Content("~/images/icon-onlinepolicies-48x48px.png")" />
+			</div>
+			@Helpers.TruncatedText(sectionDescription, 300)
+		}
+	</div>
+	@{ Html.RenderPartial("_PageActions", Model.PageLinks); }
+}
+
+@section aside {
+	@RenderSection("aside", required: false)
+	@{ Html.RenderPartial("_Faq"); }
+}
+
+@RenderBody()
+
+@section scripts {
+	@RenderSection("scripts", required: false)
+}

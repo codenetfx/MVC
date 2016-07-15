@@ -1,0 +1,14 @@
+﻿
+@using System.Diagnostics
+@using UL.Aria.Web.Portal.Controllers
+<div class="content-wrapper clearfix">
+	<div class="pull-left">
+	    <p>UL and the UL logo are trademarks of UL LLC <span title="@BaseController.PortalVersion">&copy;</span> @DateTime.UtcNow.Year All Rights Reserved. <a href="@Url.PageTermsOfUse()">Terms of Use.</a> <a href="@Url.PageAboutCookies()">About Cookies.</a></p>
+        <p>Current UTC Time: @DateTime.UtcNow</p>
+        
+
+	</div>
+</div>
+<!--
+	$correlationid:@Trace.CorrelationManager.ActivityId
+-->

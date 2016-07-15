@@ -1,0 +1,112 @@
+﻿@using UL.Aria.Web.Common.Models.Shared
+@model UL.Aria.Web.Common.Models.Shared.ProjectCreate
+
+@{
+    object displayMode;
+
+    if (Model.IsFromOrder)
+    {
+        displayMode = new { disabled = "disabled" };
+    }
+    else
+    {
+        displayMode = new { enabled = "enabled" };
+    }
+    bool isEditing = ((bool?)ViewBag.Editing).GetValueOrDefault(false);
+    bool orderNumberLocked = (isEditing && Model.OrderIsLocked) || (!isEditing && Model.IncomingOrderId != null);
+}
+<div class="form-horizontal control-group">
+    <div class="left-col">
+        @Html.LabelFor(model => model.CCN, new { @class = "ul-field" })
+        <div class="controls">
+            @Html.TextBoxFor(model => model.CCN)
+        </div>
+    </div>
+
+    <div class="right-col">
+        @Html.LabelFor(model => model.FileNo, new { @class = "ul-field" })
+        <div class="controls">
+            @Html.EditorFor(model => model.FileNo)
+        </div>
+    </div>
+</div>
+
+<div class="form-horizontal control-group">
+    @Html.LabelFor(model => model.Standards, new { @class = "ul-field" })
+    <div class="controls">
+        @Html.EditorFor(model => model.Standards)
+    </div>
+</div>
+
+
+<div class="form-horizontal control-group" style="margin-bottom:15px;">
+    <div style="width:45%;" class="left-col">
+        <div class="clearfix clear-both">
+            @Html.LabelFor(model => model.IndustryCode, new { @class = "strong pull-left" })
+        </div>
+        <div class="controls">
+           
+                @Html.AutoCompleteFor(model => model.IndustryCode, r => r.Industry,
+                                Url.PageTypeaheadSearchIndustryCodes(),
+                                minSearchTermLength: 2,
+                                maxScrollItems: 5,
+                                htmlAttributes: new { style = "width:99%" })
+           
+            @Html.ValidationMessageFor(model => model.IndustryCode, "Please select an Industry", new { @data_valmsg_for = "IndustryCode_display" })
+        </div>
+    </div>
+
+    <div class="right-col">
+        <div class="clearfix clear-both">
+            @Html.LabelFor(model => model.ServiceCode, "Service Line", new { @class = "strong pull-left" })
+        </div>
+        <div class="controls">
+           
+                @Html.AutoCompleteFor(model => model.ServiceCode, r=>r.ServiceDescription,
+                            Url.PageTypeaheadSearchServiceLineCodes(),
+                            minSearchTermLength: 2,
+                            maxScrollItems: 5,
+                            htmlAttributes: new { style = "width:99%" })
+          
+            @Html.ValidationMessageFor(model => model.ServiceCode, "Please select a Service Line", new { @data_valmsg_for = "ServiceCode_display" })
+        </div>
+    </div>
+</div>
+
+
+<div class="form-horizontal control-group">
+    <div class="left-col">
+        @Html.LabelFor(model => model.EstimatedTATDate, new { @class = "ul-field" })
+        <div class="controls">
+            @Html.EditorFor(model => model.EstimatedTATDate)
+        </div>
+    </div>
+    <div class="right-col">
+        @Html.LabelFor(model => model.Location, new { @class = "ul-field" })
+        <div class="controls">
+            @Html.TextBoxFor(model => model.Location, @displayMode)
+            @Html.DescriptionFor(x => x.Location)
+        </div>
+    </div>
+</div>
+
+<div class="form-horizontal control-group">
+    <div class="left-col">
+        @Html.LabelFor(model => model.NumberOfSamples, new { @class = "ul-field" })
+        <div class="controls">
+            @Html.TextBoxFor(model => model.NumberOfSamples)
+        </div>
+    </div>
+    <div class="right-col">
+
+    </div>
+</div>
+
+<div class="form-horizontal control-group">
+    @Html.LabelFor(model => model.SampleReferenceNumbers, new { @class = "ul-field" })
+    <div class="controls">
+        @Html.EditorFor(model => model.SampleReferenceNumbers)
+    </div>
+</div>
+
+

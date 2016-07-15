@@ -1,0 +1,58 @@
+﻿@using UL.Aria.Web.Common.Models.Profile
+@{
+	var id = "id-" + Guid.NewGuid().ToString();
+}
+@model SearchFavorite
+
+@using (Html.BeginForm("CreateFavoriteSearch", "Profile", FormMethod.Post, new {id = id}))
+{
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3 id="myModalLabel">Add Favorite</h3>
+	</div>
+
+	if (ViewBag.Success)
+	{
+		<div class="modal-body">
+			<i class="ul-icon-success"></i><span>Search criteria has been successfully created.</span>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-info" data-dismiss="modal" aria-hidden="true">Dismiss</button>
+		</div>
+		<script type="text/javascript">
+			var modal = $('#@id').closest(".modal").modal("hide");
+			UL.Refresh();
+		</script>
+	}
+	else
+	{
+		<div class="modal-body">
+			@Html.Partial("_SearchFavorite", Model)
+			@Html.ValidationSummary(true)
+		</div>
+
+		<div class="modal-footer">
+			@*Put this first so ENTER key creates instead of cancels*@
+			<input type="submit" id="btnCreateTask" class="btn pull-right btn-primary" value="Save" />
+			<button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Cancel</button>
+		</div>
+	}
+}
+
+
+<script type="text/javascript">
+	function validator() {
+		return $('#@id').validate().form();
+	}
+
+	$("#@id").ajaxForm({
+		target: $("#@id").parent(),
+		beforeSubmit: validator,
+		cache: false
+	});
+
+	$(document).ready(function() {
+		$('button[data-dismiss="modal"]').on("click", UL.Refresh);
+	});
+
+</script>

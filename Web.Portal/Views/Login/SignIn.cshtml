@@ -1,0 +1,17 @@
+﻿@model string
+
+@using (Html.BeginForm("SignIn", "Login", new {ReturnUrl = Model}))
+{
+	@Html.AntiForgeryToken()
+
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3>Session Timeout</h3>
+	</div>
+	<div class="modal-body">
+		<p>Your session has timed out. Please click Continue to reconnect.</p>
+	</div>
+	<div class="modal-footer upload-footer">
+        <input type="submit" class="btn btn-primary" value="Continue" />
+	</div>
+}

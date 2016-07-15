@@ -1,0 +1,13 @@
+﻿@using UL.Aria.Web.Common.Configuration
+@using UL.Aria.Web.Common.Xslt
+@model UL.Aria.Web.Common.Models.Order.OrderServicesSearchResult
+@{
+	var xsltUtility = new Dictionary<string, object> {
+		{XsltUtility.NamespaceUri, new XsltUtility(Url)}
+	};
+
+	var relativePath = Model.ResolveViewPath(ViewBag.PortalConfiguration as IPortalConfiguration);
+	var path = Server.MapPath(relativePath);
+}
+
+@Html.Transform(Model.LineXml, path, xsltUtility)

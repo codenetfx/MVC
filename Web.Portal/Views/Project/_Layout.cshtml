@@ -1,0 +1,38 @@
+﻿@model UL.Aria.Web.Common.Models.Shared.IHomeSectionModel
+@using UL.Aria.Web.Common.Models.Shared
+@using UL.Aria.Web.Common.Mvc
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles {
+	@RenderSection("styles", required: false)
+}
+
+<div class="section-page">
+    <div id="gritternotifications"></div>	
+    @RenderBody()
+</div>
+
+<aside class="section-controls">
+	@{Html.RenderPartial("_ProfileSummary");}
+	
+    ViewBag.PageLinks
+	
+	@{Html.RenderPartial("_UlApps", Model.UlApps);}
+
+	@RenderSection("controls", false)
+</aside>
+
+<aside class="section-aside">
+	@RenderSection("aside", false)
+    @{
+		Html.RenderPartial("_PageActionsRight", Model.PageActions);
+		Html.RenderPartial("_Faq");
+		Html.RenderPartial("_Contact");
+	}
+</aside>
+
+@section scripts {
+	@RenderSection("scripts", required: false)
+}

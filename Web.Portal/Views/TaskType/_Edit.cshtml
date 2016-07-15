@@ -1,0 +1,178 @@
+﻿@model UL.Aria.Web.Common.Models.TaskType.TaskTypeEditable
+@{
+    var success = ((bool?)ViewBag.Success).GetValueOrDefault(false);
+    var id = "form_" + Guid.NewGuid().ToString();
+    ViewBag.ModalTitle = "Edit Predefined Task";
+}
+
+<div class="edit-wrapper">
+    <div id="editTaskTypeDialog" data-add-document-template-button-id="#addDocumentTemplate" data-document-template-dropdown-list-id="#documentTemplateDropdownList" data-new-document-template-row-id="#newDocumentTemplateRow">
+        @using (Html.BeginForm("Edit", "TaskType", FormMethod.Post, new Dictionary<string, object>() { { "id", id }, { "class", "task-type-edit-form" } }))
+        {
+            @Html.HiddenFor(x => x.Id)
+            if (success)
+            {
+                <div class="modal-success-create">
+                    <div class="modal-body">
+                        <i class="ul-icon-success"></i><span>Predefined Task has been successfully updated.</span>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-info" data-dismiss="modal" aria-hidden="true" onclick=" UL.Refresh(); ">Dismiss</button>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="myModalLabel">Edit Predefined Task</h3>
+                </div>
+
+                <div class="modal-body edit-task-type">
+
+                    <div class="modal-center-pane">
+                        @Helpers.ModalSubmitFix()
+                        <div class="form-horizontal control-group">
+                            @Html.LabelFor(model => model.Name, new { @class = "strong" })
+                            <div class="controls">
+                                @Html.TextBoxFor(model => model.Name)
+                                @Html.ValidationMessageFor(model => model.Name)
+                            </div>
+
+                        </div>
+
+                        <div class="modal-tab-panel" id="modal-tasktype-details-view">
+
+                            <div class="strong">@Html.Partial("_Details", Model)</div>
+
+                        </div>
+
+                        <div class="modal-tab-panel" id="modal-tasktype-documents-view">
+                            <div class="strong">@Html.Partial("_Documents", Model)</div>
+                        </div>
+
+                        <div class="modal-tab-panel" id="modal-tasktype-links-view">
+                            <div class="strong">@Html.Partial("_Links", Model)</div>
+                        </div>
+
+                        <div class="modal-tab-panel" id="modal-tasktype-businessunit-view">
+                            <div class="strong">@Html.Partial("_BusinessUnit", Model)</div>
+                        </div>
+
+                        <div class="modal-tab-panel" id="modal-tasktype-behaviors-view">
+                            <div class="strong">@Html.Partial("_TaskBehaviors", Model)</div>
+                        </div>
+
+                        <div class="modal-tab-panel" id="modal-tasktype-notifications-view">
+                            <div class="strong">@Html.Partial("_Notifications", Model)</div>
+                        </div>
+
+                        @Html.ValidationSummary()
+
+                    </div>
+
+                    <div class="modal-controls">
+                        <ul class="section-menu clear-both accordion-group flat-menu" id="tab-task-type-edit">
+                            <li class="active empty accordion-heading menuLevel0">
+                                <!-- add .active class to add bgcolor -->
+                                <a class="accordion-toggle" data-tab-selector="#modal-tasktype-details-view" id="modal-tasktype-details" href="#">Predefined Task Details</a>
+                            </li>
+                            <li class="active empty accordion-heading menuLevel0">
+                                <!-- add .active class to add bgcolor -->
+                                <a class="accordion-toggle" data-tab-selector="#modal-tasktype-documents-view" id="modal-tasktype-documents" href="#">Document Templates</a>
+                            </li>
+
+                            <li class="inactive empty accordion-heading menuLevel0">
+                                <a class="accordion-toggle" data-tab-selector="#modal-tasktype-links-view" id="modal-tasktype-links" href="#">Links</a>
+                            </li>
+
+                            <li class="inactive empty accordion-heading menuLevel0">
+                                <a class="accordion-toggle" data-tab-selector="#modal-tasktype-businessunit-view" id="modal-tasktype-businessunit" href="#">Business Units</a>
+                            </li>
+
+                            <li class="inactive empty accordion-heading menuLevel0">
+                                <a class="accordion-toggle" data-tab-selector="#modal-tasktype-behaviors-view" id="modal-tasktype-behaviors" href="#">Task Behaviors</a>
+                            </li>
+
+                            <li class="inactive empty accordion-heading menuLevel0">
+                                <a class="accordion-toggle" data-tab-selector="#modal-tasktype-notifications-view" id="modal-tasktype-notifications" href="#">Notifications</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <input type="submit" id="btnUpdateTask" class="btn pull-right btn-primary" value="Save Predefined Task" />
+                    <button class="btn pull-left" id="task-modal" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                </div>
+            }
+        }
+
+        <div style="display: none;">
+            <table id="newDocumentTemplateRow" style="display: none;">
+                <tbody>
+                    @Html.DocumentTemplatesNewHtmlString(x => x.DocumentTemplates)
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+            @{
+	  	var tabkey = "";
+	  	if (this.Context.Request.Params.AllKeys.Contains("tab"))
+	  	{
+	  		tabkey = this.Context.Request.Params["tab"];
+	  	}
+	  }
+
+        var initTabKey = '@tabkey';
+
+        $(document).ready(function () {
+            $('.edit-task-type').closest('.modal').addClass('modal-two-col');
+
+            $('#@id').closest(".modal").modal({ backdrop: 'static', keyboard: false });
+            var successmsg = $('#@id .modal-success-create');
+            if (successmsg.length > 0) {
+                $('#@id').closest(".modal").modal("hide");
+                window.location.reload();
+            }
+
+
+            //idle session manager hook
+            $(".task-type-edit-form").sessionManager({
+                idleWarningTimeout: UlAriaWebPortalConfig.IdleWarningTimeoutMinutes * 60000, //60,000 == 1 minute
+                serverCallInterval: UlAriaWebPortalConfig.ServerCallIntervalMinutes * 60000, //60,000 == 1 minute
+            });
+
+
+            var proj = "";
+
+            function displayValidationErrors() {
+                $('a.accordion-toggle').removeClass('view-error');
+                $('span.field-validation-error, input.input-validation-error').each(function () {
+                    var view = $(this).closest('.modal-tab-panel').prop('id');
+                    var selector = 'a[data-tab-selector="#' + view + '"]';
+                    if (!$(selector).hasClass('view-error')) {
+                        $(selector).addClass('view-error');
+                        proj = view.substr(0, view.lastIndexOf("-"));
+                    }
+                });
+            }
+
+            displayValidationErrors();
+            var form = $("#@id");
+            form.removeData('validator');
+            form.removeData('unobtrusiveValidation');
+            $.validator.unobtrusive.parse(form);
+
+            $('#tab-task-type-edit').tabfy({ defaultTab: (proj == "") ? 'modal-tasktype-details' : proj, selectedTab: initTabKey });
+
+            //idle session manager hook
+
+            UL.BootstrapControls($(".edit-wrapper"));
+        });
+
+    </script>
+</div>

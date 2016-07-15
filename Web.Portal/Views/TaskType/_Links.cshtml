@@ -1,0 +1,11 @@
+﻿@using UL.Aria.Web.Common.Models.TaskType
+@model TaskTypeEditable
+
+<div class="form-horizontal control-group tasktype-links">
+    @Html.LabelFor(model => model.Links, new { @class = "strong" })
+    <div class="controls chkBusinessUnit">
+        @Html.DualListBox("PostedLinkIds", Model.AllLinks, Model.Links,
+        idMember: "Value", displayMember: "Text", maxRows: 14, sourceLabelText: String.Empty, destionationLabelText: String.Empty, moveButtonsCentered: true, enableShiftAll: false, addText: "Add >>", removeText: "<< Remove", moveUpText: "Move up", moveDownText: "Move down", htmlAttributes: new { @class = "dual-list-box" })
+    </div>
+</div>
+@*@Html.BootstrapControls(".tasktype-links")*@

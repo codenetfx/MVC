@@ -1,0 +1,114 @@
+﻿@using UL.Enterprise.Foundation
+@using UL.Aria.Web.Common.Models.Search
+@using UL.Aria.Web.Common.Models.Product
+@model ProductUploadStatus
+
+@{
+	Layout = "~/Views/Home/_Layout.cshtml";
+	ViewBag.SearchTitle = "Processed Products";
+	var totalProducts = Model.ProductUploadResultSearchResultSet.Results.Count();
+	var validProducts = Model.ProductUploadResultSearchResultSet.Results.Count(x => x.ProductUploadResult.IsValid == true);
+	var validationText = string.Format("{0} of {1} Valid", validProducts, totalProducts);
+	var id = Model.ProductUpload.Id.ToString("N");
+}
+
+
+@section controls
+{
+
+}
+@section aside {
+
+}
+
+<fieldset class="display product-upload-detail">
+	<legend><h2>Product Upload</h2></legend>
+	<div class="display-row">
+		<div class="display-label">Uploaded File:</div>
+		<div class="display-field">
+			<a href="@Url.ProductUploadExcelFile(Model.ProductUpload.Id)">@Html.DisplayFor(model => model.ProductUpload.OriginalFileName)</a>
+		</div>
+	</div>
+
+	<div class="display-row">
+		<div class="display-label">@Html.DisplayNameFor(model => model.ProductUpload.Status):</div>
+		<div class="display-field">@Model.ProductUpload.Status.SpaceIt()</div>
+	</div>
+
+	<div class="display-row">
+		<div class="display-label">Upload Summary:</div>
+		<div class="display-field">@validationText</div>
+	</div>
+</fieldset>
+
+@{
+	Html.RenderPartial("_SearchForm", Model.ProductUploadResultSearchResultSet.SearchCriteria);
+}
+<fieldset class="search-body">
+	@using (Html.BeginForm("Submit", "Product", FormMethod.Post, new Dictionary<string, object>() {{"id", id}}))
+	{
+		if (Model.ProductUploadResultSearchResultSet.Results.Any())
+		{
+			foreach (var item in Model.ProductUploadResultSearchResultSet.Results)
+			{
+				@Html.DisplayFor(m => item)
+			}
+			Html.RenderPartial("_SearchFormFooter", Model.ProductUploadResultSearchResultSet.SearchCriteria);
+			<div class="control-buttons" style="padding: 10px 0;">
+				<button class="btn btn-primary pull-right submit-product" style="display: none;" data-toggle="modal" data-target="#SubmitConfirmModal">Submit</button>
+			</div>
+		}
+		else
+		{
+			Html.RenderPartial("_SearchNotFound", Model.ProductUploadResultSearchResultSet.SearchCriteria);
+		}
+	}
+</fieldset>
+
+<!-- Modal Submit Dialog-->
+<div id="SubmitConfirmModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+		<h3 id="SubmitConfirmModalLabel">Submit Products</h3>
+	</div>
+	<div class="modal-body" id="utility_submit-body">
+	</div>
+	<div class="modal-footer">
+		<button class="btn pull-left" data-dismiss="modal">Cancel</button>
+		<button id="submit" class="btn btn-primary">Submit</button>
+	</div>
+</div>
+@section scripts {
+	<script type="text/javascript">
+		$('input[name=id]').click(function() {
+			if ($('input[name=id]:checked').length > 0) {
+				$('.submit-product').show();
+			} else {
+				$('.submit-product').hide();
+			}
+		});
+
+		$('.submit-product').click(function() {
+			$('#utility_submit-body').html();
+			$('#utility_submit-body').html("<p>Are you sure you want to submit the following products?</p>");
+			var list = $('<ul/>');
+			$('input[name=id]:checked').each(function() {
+				list.append("<li>" + $(this).data("itemName") + "</li>");
+			});
+
+			$('#utility_submit-body').append(list);
+		});
+
+		$('button#submit').click(function() {
+			$("#@id").submit();
+			return false;
+		});
+		$("#@id").ajaxForm({
+			target: "#SubmitConfirmModal",
+			beforeSubmit: function() {
+				$("#SubmitConfirmModal").modal('loading');
+			},
+			cache: false
+		});
+	</script>
+}

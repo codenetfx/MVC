@@ -1,0 +1,150 @@
+﻿@model UL.Aria.Web.Common.Models.Search.SearchCriteria
+@{
+    var id = Guid.NewGuid().ToString() ;
+    var addId = "add-" + id;
+}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Add Products to Project</h3>
+</div>
+
+
+
+@using (Html.BeginForm("SearchProduct", "Project", FormMethod.Post, new Dictionary<string, object>() { { "id", id } }))
+{  
+    <div class="modal-body">
+        <h5>Search for products to add to project @ViewBag.ProjectName </h5>
+        <div id="search-bar" class="search-bar">
+            <div class="input-append">
+                @Html.TextBoxFor(m => m.Query, new { placeholder = "Search by product name or model number", @class = "text-box single-line", sytle = "width: 450px;" })
+                <input type="submit" value="Search" class="btn btn-search" id="btnSearch" />
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("AddProduct", "Project", FormMethod.Post, new Dictionary<string, object>() { { "id", addId } }))
+{
+    <input type="hidden" name="id" value="@ViewBag.ProductId" />
+    <div class="modal-body" style="padding-top: 0px;">
+        <div class="form-horizontal control-group">
+
+            <div class="add-prodcut-col-left">
+                <strong>Matching Products </strong>
+                <div class="controls">
+                    <select id="src-@id" multiple="multiple" size="15" style="width: 230px;"></select>
+
+                </div>
+            </div>
+
+            <div class="add-prodcut-col-mid">
+                <a href="#" class="move-dest">&gt; </a>
+            </div>
+
+            <div class="add-prodcut-col-right">
+                <strong>Selected products</strong>
+                <div class="controls">
+                    <select id="dest-@id" name="productId" multiple="multiple" size="15" style="width: 230px;"></select>
+                </div>
+                <div>
+                    <a class="clear-selected" href="#">Clear Selected</a> &nbsp;&nbsp; <a href="#" class="remove-all">Remove All</a>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="modal-footer">
+        <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <button id="btnAddProducts" class="btn pull-right btn-primary">Add Products</button>
+    </div>
+}
+
+
+<script type="text/javascript">
+
+    $('.clear-selected').click(function () {
+        $("#dest-@id option:selected").remove();
+        return false;
+    });
+
+    $('.remove-all').click(function () {
+        $("#dest-@id option").remove();
+        return false;
+    });
+
+    $('.move-dest').click(function () {
+        $("#src-@id option:selected").each(function () {
+                if (!itemExists($(this).val())) {
+                    $("#dest-@id")
+                      .append($("<option></option>")
+                            .attr("value", $(this).val())
+                             .attr("title", $(this).text())
+                            .text($(this).text()));
+            }
+            });
+
+        });
+
+	$('.btn-search').closest("form").submit(function () {
+    	var $modal = $(this).closest(".modal");
+    	$modal.modal('loading');
+	    
+    	$.ajax({
+            type: 'POST',
+            url: $("#@id").attr("action"),
+            data: $('#@id').serialize(),
+    		success: function (result) {
+    			$modal.modal('removeLoading');
+
+    			if (result.message)
+    				$.gritter.add(result.message);
+    			
+    			if (result.success) {
+    				$("#src-@id option").remove();
+    				$.each(result.products, function(index, item) {
+    					$('#src-@id').append($("<option></option>").attr("value", item.key).attr("title", item.value).text(item.value));
+    				});
+    			}
+    		},
+            cache: false
+        });
+
+        return false;
+    });
+
+
+        function itemExists(selectedVal) {
+            var item = false;
+            $("#dest-@id option").each(function () {
+                if ($(this).val() == selectedVal) {
+                    item = true;
+                }
+
+            });
+            return item;
+        }
+
+
+        $("#@addId").ajaxForm({
+        target: $("#@addId").parent(),
+            beforeSerialize: function ($form, options) {
+                $("#dest-@id option").prop("selected", "selected");
+            },
+            success: function (result) {
+                $(this).closest(".modal").modal("hide");
+                $.gritter.add(result.message);
+                if (result.success) {
+                    setTimeout(function () {
+                        window.location = window.location;
+                    }, 500);
+                }
+            },
+            cache: false
+        });
+
+
+</script>

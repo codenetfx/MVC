@@ -1,0 +1,46 @@
+﻿#gritter-notice-wrapper {
+	position: static;
+	width: auto;
+
+}
+.gritter-image {
+	display: none;
+}
+.gritter-close {
+	display: inline-block;
+	vertical-align: text-top;
+	background-repeat: no-repeat;
+
+	margin: 0;
+	right: 5px;
+	top:5px;
+	left: auto;
+	position:absolute;
+	line-height: 16px;
+	width: 16px;
+	height: 16px;
+	background-image: url("img/upload_status_sprite.png");
+	background-position: 0px -48px;
+}
+.gritter-item-wrapper {
+	border: solid 4px #ccc;
+    max-height: 60px;
+}
+.gritter-top, .gritter-bottom, .gritter-item {
+	background-image: none;
+	height: auto;
+}
+.gritter-with-image {
+	float: none;
+	width: auto;
+}
+.gritter-item {
+	color: #333;
+	padding: 10px 10px;
+	overflow: auto;
+}
+.gritter-title {
+	color: #000;
+	text-shadow: none;
+	padding: 0;
+}

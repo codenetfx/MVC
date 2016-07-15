@@ -1,0 +1,40 @@
+﻿@model UL.Aria.Web.Common.Models.History.ProjectEntityHistoryModel
+@{
+    Layout = "~/Views/Project/_LayoutWide.cshtml";
+    var grid = new WebGrid(
+        Model.HistoryItems,
+        canPage: false,
+        canSort: false
+        );
+}
+
+<fieldset class="search-header">
+    <legend>
+        <h2>Project History</h2>
+        @if (ViewBag.TopActions != null)
+        {
+            @Html.Partial("_PageActionsTop", ViewBag.TopActions as IEnumerable<UL.Aria.Web.Common.Models.Shared.TaxonomyMenuItem>)
+        }
+    </legend>
+</fieldset>
+<div class="table">
+    <fieldset class="search-body">
+        @grid.GetHtml(
+            tableStyle: "table",
+            rowStyle: "item",
+            columns: new[] {
+                grid.Column("ActionDate", header: "Date/Time UTC"),
+                grid.Column("ActionType", header: "Event"),//, style: "nowrap"),
+                grid.Column("Details",
+                    style: "nowrap",
+                    format: @<text>@Html.Raw(item.ActionDetail)</text>
+                ),
+                grid.Column("ActionUserText", header: "Updated By")
+            }
+        )
+    </fieldset>
+</div>
+
+@section scripts
+{
+}

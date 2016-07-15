@@ -1,0 +1,226 @@
+﻿@using UL.Enterprise.Foundation
+@using UL.Aria.Web.Common.Models.Project
+@model UL.Aria.Web.Common.Models.Project.IncomingOrder
+
+
+@{
+	Layout = "_Layout.cshtml";
+}
+
+<fieldset class="display">
+	<legend><h2>Overview</h2></legend>
+	<div class="row-container">
+	<div class="div-product-attribute">
+		<div class="display-label-row">
+			@Html.DisplayNameFor(model => model.BusinessUnit)
+		</div>
+
+		<div class="display-field-row">
+			@Html.DisplayFor(model => model.BusinessUnit)
+		</div>
+	</div>
+
+	<div class="div-product-attribute">
+		<div class="display-label-row">
+			@Html.DisplayNameFor(model => model.CustomerRequestedDate)
+		</div>
+		<div class="display-field-row">
+			@Html.DisplayFor(model => model.CustomerRequestedDate)
+		</div>
+	</div>
+	</div>
+	<div class="row-container">
+	<div class="div-product-attribute">
+		<div class="display-label-row">
+			@Html.DisplayNameFor(model => model.CustomerProjectName)
+		</div>
+		<div class="display-field-row">
+			@Html.DisplayFor(model => model.CustomerProjectName)
+		</div>
+	</div>
+
+	<div class="div-product-attribute">
+		<div class="display-label-row">
+			@Html.DisplayNameFor(model => model.DateOrdered)
+		</div>
+		<div class="display-field-row">
+			@Html.DisplayFor(model => model.DateOrdered)
+		</div>
+	</div>
+
+	</div>
+	<div class="row-container">
+	<div class="div-product-attribute">
+		<div class="display-label-row">
+			@Html.DisplayNameFor(model => model.DateBooked)
+		</div>
+		<div class="display-field-row">
+			@Html.DisplayFor(model => model.DateBooked)
+		</div>
+	</div>
+
+
+
+
+	<div class="div-product-attribute">
+		<div class="display-label-row">
+			@Html.DisplayNameFor(model => model.ProjectNumber)
+		</div>
+		<div class="display-field-row">
+			@Html.DisplayFor(model => model.ProjectNumber)
+		</div>
+	</div>
+
+
+		</div>
+
+	<div class="row-container">
+	<div class="div-product-attribute">
+		<div class="display-label-row">
+			@Html.DisplayNameFor(model => model.LastUpdateDate)
+		</div>
+		<div class="display-field-row">
+			@if (Model.LastUpdateDate != null)
+			{
+				@Html.DisplayFor(model => model.LastUpdateDate)
+			}
+			else
+			{
+				<div class="display-field-row">Not Available</div>
+			}
+		</div>
+	</div>
+
+
+	<div class="div-product-attribute">
+		
+	</div>
+
+	</div>
+	<div class="row-container">
+	<div class="div-product-attribute">
+		<div class="display-label-row">
+			@Html.DisplayNameFor(model => model.OrderNumber)
+		</div>
+		<div class="display-field-row">
+			<a href="@string.Format("{0}&Filters.ariaOrderNumber={1}", Url.PageSearchOrders(false), Model.OrderNumber)"> <span>@Model.OrderNumber</span></a>
+		</div>
+	</div>
+
+
+	<div class="div-product-attribute">
+		<div class="display-label-row">
+			@Html.DisplayNameFor(model => model.Status)
+		</div>
+		<div class="display-field-row">
+			@Html.DisplayFor(model => model.Status)
+		</div>
+		</div>
+		
+	</div>
+
+	<div class="row-container">
+		<div class="div-product-attribute">
+			<div class="display-label-row">
+				@Html.DisplayNameFor(model => model.CustomerPo)
+			</div>
+			<div class="display-field-row">
+				@Html.DisplayFor(model => model.CustomerPo)
+			</div>
+		</div>
+
+
+		<div class="div-product-attribute">
+			<div class="display-field-row">
+				&nbsp;
+			</div>
+			<div class="display-field-row">
+				&nbsp;
+			</div>
+		</div>
+	</div>
+	<div class="row-container">
+		<div class="div-product-attribute">
+			<div class="display-label-row">
+				Agent @Html.DisplayNameFor(model => model.IncomingOrderContact.PartySiteNumber)
+			</div>
+			<div class="display-field-row">
+				@Html.DisplayFor(model => model.IncomingOrderContact.PartySiteNumber)
+			</div>
+		</div>
+
+
+		<div class="div-product-attribute">
+			<div class="display-label-row">
+				Agent Company Contact
+			</div>
+			<div class="display-field-row">
+				@Html.DisplayFor(model => model.IncomingOrderContact.FullName)
+			</div>
+		</div>
+	</div>
+	
+	<div class="row-container">
+		<div class="div-product-attribute">
+			<div class="display-label-row">
+				@Html.DisplayNameFor(model => model.QuoteNo)
+			</div>
+			<div class="display-field-row">
+				@Html.DisplayFor(model => model.QuoteNo)
+			</div>
+		</div>
+
+
+		<div class="div-product-attribute">
+			<div class="display-label-row">
+				@Html.DisplayNameFor(model => model.TotalOrderPrice)
+			</div>
+			<div class="display-field-row">
+				@Html.DisplayFor(model => model.TotalOrderPrice) @Html.DisplayFor(model => model.Currency) 
+			</div>
+		</div>
+	</div>
+
+</fieldset>
+
+<fieldset class="display">
+	<legend><h2>@Html.DisplayNameFor(model => model.ServiceLines)</h2></legend>
+	<table class="service-line-table">
+		<thead>
+			<tr style="background-color: #7db2b2">
+				<th class="customer-flag service-flag" style="width: 73px;">Line<br /> Number</th>
+				<th class="customer-flag service-flag" style="width: 160px;">Name</th>
+				<th style="width: 84px">Price</th>
+				<th style="width: 52px">Industry Code</th>
+				<th style="width: 52px">Service Line</th>
+				<th style="width: 84px">Preferred Location</th>
+				<th style="width: 84px">Cust. Product/Svc. Identifier</th>
+				<th style="width: 84px">Status</th>
+				
+			</tr>
+		</thead>
+		@if (Model.ServiceLines.Any())
+		{
+			foreach (var line in Model.ServiceLines)
+			{
+				<tr class="servicelinedata">
+					<td>@line.LineNumber</td>
+					<td>@line.Name</td>
+					<td>@Html.DisplayFor(x => line.Price) @Html.DisplayFor(x => x.Currency)</td>
+					<td><span title="@line.IndustryCodeLabel">@line.IndustryCodeDisplay</span></td>
+					<td><span title="@line.ServiceCodeLabel">@line.ServiceCodeDisplay</span></td>
+					<td>@line.LocationName</td>
+					<td>@line.CustomerModelNumber</td>
+					<td><span title="@line.ServiceCodeLabel">@line.Status</span></td>
+				</tr>
+			}
+		}
+		else
+		{
+			<tr>
+				<td colspan="6">No service lines</td>
+			</tr>
+		}
+	</table>
+
+</fieldset>

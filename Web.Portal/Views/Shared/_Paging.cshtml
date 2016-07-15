@@ -1,0 +1,61 @@
+﻿@model UL.Aria.Web.Common.Models.Search.Paging
+@{
+	var pageName = "Paging." + Html.DisplayNameFor(model => model.Page);
+}
+
+@if (Model.TotalResults > 0)
+{
+	<fieldset class="paging">
+		<div class="summary">Results @Html.DisplayFor(model => model.StartResult)-@Html.DisplayFor(model => model.EndResult) of @Html.DisplayFor(model => model.TotalResults)</div>
+		<ul class="pages">
+			@if (!Model.IsCurrentPageFirstPage)
+			{
+				<li>
+					<button id="@pageName" name="@pageName" type="submit" value="1" class="arrow first">&lt;&lt;</button>
+				</li>
+				<li class="arrows">
+					<button id="@pageName" name="@pageName" type="submit" value="@Model.PreviousPage" class="arrow previous">&lt;</button>
+				</li>
+			}
+			@if (Model.ArePreviousPages)
+			{
+				<li>
+					<button id="@pageName" name="@pageName" type="submit" value="1" class="arrow pages-previous">1</button>
+				</li>
+				if (Model.Page - Model.PageWindowSize > 0)
+				{
+					<li class="ellipsis"><button id="@pageName" name="@pageName" type="submit" value="@(Model.PreviousPagesPageNumber)" class="page-number">...</button></li>
+				}
+			}
+			@foreach (var pageNumber in Model.GetPages())
+			{
+				var onclick = (pageNumber == Model.Page ? "onclick=\"return false;\"" : null);
+                if (Model.GetPages().Count() > 1)
+                {
+                <li class="page @Model.PageNumberListItemClass(pageNumber)">
+					<button id="@pageName" name="@pageName" type="submit" value="@pageNumber" class="page-number @Model.SelectedCurrentPageInputClass(pageNumber)" @Html.Raw(onclick)>@pageNumber</button>
+				</li>  
+                }
+			}
+			@if (Model.AreNextPages)
+			{
+				if (Model.Page < (Model.LastPageNumber - 2))
+				{
+					<li class="ellipsis"><button id="@pageName" name="@pageName" type="submit" value="@(Model.NextPagesPageNumber)" class="page-number">...</button></li>
+				}
+				<li>
+					<button id="@pageName" name="@pageName" type="submit" value="@Model.LastPageNumber" class="arrow pages-next">@Model.LastPageNumber</button>
+				</li>
+			}
+			@if (!Model.IsCurrentPageLastPage)
+			{
+				<li>
+					<button id="@pageName" name="@pageName" type="submit" value="@Model.NextPageNumber" class="arrow next">&gt;</button>
+				</li>
+				<li>
+					<button id="@pageName" name="@pageName" type="submit" value="@Model.LastPageNumber" class="arrow last">&gt;&gt;</button>
+				</li>
+			}
+		</ul>
+	</fieldset>
+}

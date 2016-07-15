@@ -1,0 +1,43 @@
+﻿@using UL.Aria.Web.Common.Mvc
+@model UL.Aria.Web.Common.Models.Shared.BaseViewModel
+@{
+	Layout = "~/Views/Shared/_LayoutSection.cshtml";
+}
+
+
+@section controls {
+	<div class="clear-both section-summary order-summary">
+		<div class="profile-avitar-thumb">
+			<img src="~/Images/Default_Project.png" alt="Order Avitar" />
+		</div>
+		<h2>Flex Admin</h2>
+		
+	</div>
+	@{
+		Html.RenderPartial("_PageActions", Model.PageLinks);
+		Html.RenderPartial("_UlApps", Model.UlApps);
+	}
+
+	@RenderSection("controls", required: false)
+}
+
+@section aside {
+
+	@{ Html.RenderPartial("_PageActionsRight", Model.PageActions); }
+
+	@Html.Partial("_Faq")
+	@Html.Partial("_Contact")
+	@RenderSection("aside", required: false)
+}
+
+
+@RenderBody()
+
+@section scripts {
+	@RenderSection("scripts", required: false)
+}
+
+
+@section styles {
+	@RenderSection("styles", required: false)	
+}

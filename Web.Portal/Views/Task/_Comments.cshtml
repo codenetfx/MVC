@@ -1,0 +1,22 @@
+﻿@using UL.Aria.Web.Common.Models.Project
+@model IList<TaskComment>
+<div class="display-row">
+    <div class="gray-heading">
+        <label> <span class="icon icon-comment"></span> Comments</label>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="comments">
+            <dl>
+                @foreach (TaskComment comment in Model)
+                {
+                    <dd> <label>@comment.CreatedBy -  @comment.CreatedDate.ToString()</label></dd>
+                    <dd>@Helpers.TruncatedText(@comment.Comment, 255)</dd>
+                }
+            </dl>
+        </div>
+    }
+
+</div>
+

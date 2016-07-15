@@ -1,0 +1,30 @@
+﻿
+@model UL.Aria.Web.Common.Models.Search.SearchCriteria
+
+@using UL.Aria.Web.Common.Models.Shared
+@{
+	var auxiliaryFilters = ViewBag.AuxiliaryFilters as List<JsonTaxonomyMenuItem>;
+}
+@if (auxiliaryFilters != null && auxiliaryFilters.Count > 0)
+{
+	<li class="dropdown-submenu pull-left ui-shift-tableview-ddl">
+		<a tabindex="-1" href="#">Filter by:</a>
+		<ul class="dropdown-menu pull-left ui-shift-tableview-ddl" role="menu">
+			@foreach (var parent in auxiliaryFilters)
+			{
+				foreach (var child in parent.Children)
+				{
+					if (!string.IsNullOrWhiteSpace(child.RefinementValue))
+					{
+						
+						var activeCss = (Model != null && Model.Filters.ContainsKey(child.Key) && Model.Filters[child.Key].Contains(child.RefinementValue)) ?
+										"active" :string.Empty;
+						
+						<li><a class="auxiliary-filter-btn @activeCss" style="cursor: pointer;" data-filter-text="@child.Text" data-filter-parent-text="@parent.Text" data-key="@child.Key" data-refinement-value="@child.RefinementValue">@(parent.Text + ": " + child.Text)</a></li>
+					}
+				}
+			}
+		</ul>
+
+	</li>
+}

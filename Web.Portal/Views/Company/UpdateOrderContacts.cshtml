@@ -1,0 +1,33 @@
+﻿@using System.Diagnostics
+@model bool
+@{
+    ViewBag.Title = "UpdateOrderContacts";
+}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Synchronize Order Contacts</h3>
+</div>
+
+<div class="modal-body">
+    @if (Model)
+    {
+        <div id="utility_submit-body">
+            <p>A request has been submitted to synchronize contacts for all Projects and any Request matching this project's order number.</p>
+            <p>This may take several minutes to finish. You may continue working.</p>
+        </div>
+    }
+    else
+    {
+        {
+            <div id="utility_submit-body">
+                <p>
+                    Unable to submit a request to synchronize contacts at this time. Please try again in a few minutes. If this persists, please contact support with this id: @Trace.CorrelationManager.ActivityId.
+                </p>
+            </div>
+        }
+    }
+</div>
+<div class="modal-footer submit-footer">
+    <button type="button" id="btnSynchronizeContactsOk" class="btn" data-dismiss="modal" >OK</button>
+</div>

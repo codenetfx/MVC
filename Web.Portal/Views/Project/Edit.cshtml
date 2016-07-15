@@ -1,0 +1,352 @@
+﻿@using UL.Aria.Web.Common.Models.Project
+@using UL.Aria.Web.Portal.Controllers
+@using UL.Aria.Web.Common.Models.Shared
+@model UL.Aria.Web.Common.Models.Shared.ProjectCreate
+@{
+    var id = "cp_" + Guid.NewGuid().ToString("N");
+    ViewBag.Editing = true;
+    var success = ((bool?)ViewBag.Success).GetValueOrDefault(false);
+    ViewBag.MenuClass = "flat-menu";
+}
+@using (Html.BeginForm("Edit", "Project", FormMethod.Post, new Dictionary<string, object>() { { "id", id }, { "class", "project-edit-form" } }))
+{
+    @Html.HiddenFor(m => m.Id)
+
+    @Html.HiddenFor(m => m.EditForm)
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Edit Project</h3>
+    </div>
+    if (success)
+    {
+        <div class="modal-body">
+            <div class="success-block"><i class="ul-icon-success"></i>The project was successfully updated.</div>
+        </div>
+        <div class="modal-footer error-footer">
+            <button class="btn btn-info pull-right" data-dismiss="modal" aria-hidden="true" onclick=" UL.Refresh(); ">Dismiss</button>
+        </div>
+        <script type="text/javascript">
+            var modal = $('#@id').closest(".modal").modal("hide");
+            UL.Refresh();
+        </script>
+    }
+    else
+    {
+        <div class="modal-body">
+            <div class="modal-center-pane edit-project">
+                @Helpers.ModalSubmitFix()
+                <div class="form-horizontal control-group">
+                    <div class="customer-legend-text">Note: Icon denotes customer-visible field <i class="star-icon-white"></i></div>
+                </div>
+
+                <div class="modal-tab-panel" id="project-details-view">
+                    <div class="strong">@Html.Partial("_EditProjectSummary", Model)</div>
+                </div>
+                <div class="modal-tab-panel" id="project-order-view">
+                    <div class="strong">@Html.Partial("_ServiceLines", Model)</div>
+                </div>
+                <div class="modal-tab-panel" id="project-customer-view">
+                    <div class="strong">@Html.Partial("_Customer", Model)</div>
+                </div>
+                <div class="modal-tab-panel" id="project-agent-view">
+                    <div class="strong">@Html.Partial("_Agent", Model)</div>
+                </div>
+                <div class="modal-tab-panel" id="project-planning-view">
+                    <div class="strong">@Html.Partial("_EditPlanningAndOperations", Model)</div>
+                </div>
+               
+
+                @Html.ValidationSummary()
+            </div>
+            <div class="modal-controls">
+                @{
+                     Html.RenderPartial("Detail/_ProjectSummaryHeader");
+                }
+                <nav class="clearfix clear-both">
+                    <ul class="section-menu clear-both accordion-group flat-menu">
+                        <li class="active empty accordion-heading menuLevel0 active">
+                            <a class="accordion-toggle" href="#" data-toggle="collapse" >Project Information</a>
+
+                            <nav class="clearfix clear-both">
+                                <ul class="section-menu clear-both accordion-group flat-menu" id="tab-project-edit">
+                                    <li class="active empty accordion-heading menuLevel1">
+                                        <a class="accordion-toggle" data-tab-selector="#project-details-view" id="@ProjectTabNames.ProjectDetails" href="#">Project Summary</a>
+                                    </li>
+                                    <li class="inactive empty accordion-heading menuLevel1">
+                                        <a class="accordion-toggle" data-tab-selector="#project-order-view" id="@ProjectTabNames.ProjectOrder" href="#">Order Information</a>
+                                    </li>
+                                    <li class="inactive empty accordion-heading menuLevel1">
+                                        <a class="accordion-toggle" data-tab-selector="#project-customer-view" id="@ProjectTabNames.ProjectCustomer" href="#">Customer Information</a>
+                                    </li>
+                                    <li class="inactive empty accordion-heading menuLevel1">
+                                        <a class="accordion-toggle" data-tab-selector="#project-agent-view" id="@ProjectTabNames.ProjectAgent" href="#">Agent Information</a>
+                                    </li>
+                                    <li class="inactive empty accordion-heading menuLevel1">
+                                        <a class="accordion-toggle" data-tab-selector="#project-planning-view" id="@ProjectTabNames.ProjectPlanning" href="#">Planning & Operations</a>
+                                    </li>
+                                    
+                                </ul>
+                            </nav>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="modal-footer create-project-footer">
+            <input type="submit" id="btneditProject" class="btn btn-primary" value="Update Project" />
+            <button class="btn pull-left" id="project-edit-modal-cancel" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        </div>
+  
+    }
+}
+
+<div id="changeAlert" class="modal hide fade" style="display: none;">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3>Confirmation</h3>
+    </div>
+    <div class="modal-body">
+        <p></p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary " data-dismiss="modal" onclick="Go();">Yes</button>
+        <button class="btn btn-info pull-left" data-dismiss="modal">No</button>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    function SerializeSubset($form) {
+        //do not include fields that will not be saved, and thus we dont care if get changed
+        //we do this by disabling them so serialize() does not include them
+        var toIgnore = $form.find("[data-ignore=change],[type=hidden]").prop("disabled", true);
+        var current = $form.serialize();
+        toIgnore.prop("disabled", false);
+
+        return current;
+    }
+
+    function ChangesFound($element) {
+        var current = SerializeSubset($element.closest("FORM"));
+        return current != ChangesFound.originalValue;
+    }
+
+    ChangesFound.originalValue = SerializeSubset($("#@id"));
+
+    function Go() {
+        $('#@id').submit();
+    }
+
+    var str = window.location.href;
+    str = str.substr(str.lastIndexOf("/") + 1);
+    if (str === "") {
+        $('div.modal').one('show', function () {
+
+            var modal = this;
+            window.location.href += '#EditProject';
+            setTimeout(function () {
+                window.onhashchange = function () {
+                    if (!location.hash) {
+                        $(modal).modal('hide');
+                    }
+                }
+            }, 1000);
+        });
+
+        $('div.modal').on('hidden', function () {
+            UL.Refresh();
+        });
+    }
+
+    $('#btneditProject').on('click', function() {
+        if ($('#ProjectStatus').val() === '@ProjectStatus.Completed' || $('#ProjectStatus').val() === '@ProjectStatus.Canceled') {
+            var status = $('#ProjectStatus').val() === '@ProjectStatus.Completed' ? "Complete" : "Cancel";
+            var statustext = 'Are you sure you want to ' + status + ' the project?';
+            var modal = $("#changeAlert").modal("show");
+            modal.find('.modal-body').text(statustext);
+            modal.find(".btn-primary").val(status);
+            return false;
+        }
+        return true;
+    });
+
+
+    //hook ajax form submissions
+    $("#@id").ajaxForm({
+        target: $("#@id").parent(),
+        beforeSubmit: validateEdit,
+        cache: false
+    });
+
+
+    function validateEdit() {
+        var valid = $('#@id').validate().form();
+        //Client validation
+        displayValidationErrors();
+        if (valid) {
+            var modal = $('#@id').closest(".modal");
+            //hide/clean up any existing messages
+            try { modal.modal('removeLoading'); } catch (ex) { }
+            modal.modal('loading');
+        }
+
+        return valid;
+    }
+
+    var proj = "";
+    function displayValidationErrors() {
+        $('a.accordion-toggle').removeClass('view-error');
+        $('span.field-validation-error, input.input-validation-error').each(function () {
+            var view = $(this).closest('.modal-tab-panel').prop('id');
+            var selector = 'a[data-tab-selector="#' + view + '"]';
+            if (!$(selector).hasClass('view-error')) {
+                $(selector).addClass('view-error');
+                proj = view.substr(0, view.lastIndexOf("-"));
+            }
+        });
+    }
+    //idle session manager hook
+    $(".project-edit-form").sessionManager({
+        idleWarningTimeout: UlAriaWebPortalConfig.IdleWarningTimeoutMinutes * 60000, //60,000 == 1 minute
+        serverCallInterval: UlAriaWebPortalConfig.ServerCallIntervalMinutes * 60000, //60,000 == 1 minute
+    });
+
+    @{
+        var tabkey = "";
+        if (this.Context.Request.Params.AllKeys.Contains("tab"))
+        {
+            tabkey = this.Context.Request.Params["tab"];
+        }
+      }
+    var initTabKey = '@tabkey';
+    
+    UL.BootstrapControls($(".modal-body"));
+
+
+    $(document).ready(function () {
+
+        $('.edit-project').closest('.modal').addClass('modal-two-col');
+        displayValidationErrors();
+        var form = $("#@id");
+        form.removeData('validator');
+        form.removeData('unobtrusiveValidation');
+        $.validator.unobtrusive.parse(form);
+
+        $('#tab-project-edit').tabfy({ defaultTab: (proj == "") ? 'project-details' : proj, selectedTab: initTabKey });
+
+        var enableServiceLinandIndustry = function () {
+        	if ($('.chkorderline:checked').length <= 0) {
+        		$('input[name="ServiceDescription"]').removeAttr('disabled');
+        		$('input[name="Industry"]').removeAttr('disabled');
+        	} else {
+        		$('input[name="ServiceDescription"]').val('');
+        		$('input[name="Industry"]').val('');
+        		$('input[name="ServiceDescription"]').attr('disabled', 'disabled');
+        		$('input[name="Industry"]').attr('disabled', 'disabled');
+        	}
+        }
+
+        enableServiceLinandIndustry();
+
+        $('.chkorderline,.checkorderlineall').click(function () {
+        	enableServiceLinandIndustry();
+        });
+
+    });
+
+
+</script>
+
+
+<script type="text/javascript">
+
+    // Get array of description values from hidden identical dropdown
+    var objDesc = $('#ProjectDescDropdown option');
+    var arrayDesc = $.makeArray(objDesc);
+
+    // For editing, display the option description
+
+    optDesc = $('#ProjectDescDropdown').find(":selected").text();
+    $('#ProjectDescription').text(optDesc);
+
+
+    $(document).ready(function () {
+        var projectTemplateDropdown = $('#AdditionalProjectTemplateId');
+        if ($('#AdditionalBusinessUnitCode').val()) {
+            projectTemplateDropdown.enable();
+        } else {
+            projectTemplateDropdown.disable();
+        }
+    });
+
+    $('#AdditionalBusinessUnitCode').change(function () {
+        var self = $(this);
+        var projectTemplateDropdown = $('#AdditionalProjectTemplateId');
+        if (self.val()) {
+            projectTemplateDropdown.removeAttr('disabled');
+            var url = self.data("url");;
+            url = url + '/' + self.val();
+            $.ajax({
+                type: 'GET',
+                url: url,
+                success: function (result) {
+                    if (result.success) {
+                        projectTemplateDropdown.find("option").remove();
+                        projectTemplateDropdown.append($("<option></option>").text("Select Project Template"));
+                        $.each(result.templates, function (index, item) {
+                            projectTemplateDropdown.append($("<option></option>").attr("value", item.id).text(item.name));
+                        });
+                        $('#tCount').text('(' + result.templates.length + ')');
+                    }
+                },
+                cache: false
+            });
+
+
+
+        } else {
+            projectTemplateDropdown.attr('disabled', 'disabled');
+        }
+    });
+
+
+    // Use index of identical array to match selected id with description and write to div
+    $('#AdditionalProjectTemplateId').change(function () {
+        var selectedOption = $("#AdditionalProjectTemplateId option:selected");
+        $('#ProjectDescDropdown').val(selectedOption.val());
+        $('#ProjectDescription').text(selectedOption.text());
+    });
+
+    $(document).ready(function () {
+        var form = $("#@id");
+        form.removeData('validator');
+        form.removeData('unobtrusiveValidation');
+        $.validator.unobtrusive.parse(form);
+        $.validator.setDefaults({ ignore: [] });
+
+
+        var enableServiceLinandIndustry = function () {
+            if ($('.chk-order-line-group:checked').length <= 0) {
+                $('input[name="ServiceDescription"]').removeAttr('disabled');
+                $('input[name="Industry"]').removeAttr('disabled');
+            } else {
+                $('input[name="ServiceDescription"]').val('');
+                $('input[name="Industry"]').val('');
+                $('input[name="ServiceDescription"]').attr('disabled', 'disabled');
+                $('input[name="Industry"]').attr('disabled', 'disabled');
+            }
+        }
+
+        enableServiceLinandIndustry();
+
+        $('.chk-order-line-group,.toggle-check-all-on-click ').click(function () {
+            enableServiceLinandIndustry();
+        });
+
+
+    });
+
+
+
+</script>

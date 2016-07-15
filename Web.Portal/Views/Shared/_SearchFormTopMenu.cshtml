@@ -1,0 +1,119 @@
+﻿@using UL.Aria.Web.Common.Models.Search
+@using UL.Aria.Web.Common.Models.Shared
+@model UL.Aria.Web.Common.Models.Search.SearchCriteria
+
+@{
+	string searchTitle = ViewBag.SearchTitle ?? ViewBag.PageTitle;
+    var viewTypeVal = Request.QueryString["viewType"] ?? "0";
+    var showMultiView = ViewBag.ShowMultiViewOptions ?? false;
+
+    var currentSort = Model.Sorts.Count > 0 ? Model.Sorts[0] : new Sort();
+}
+@helper SortItem(Sort sort, bool active)
+{
+    if (active)
+    {
+        <li class="disabled"><a onclick=" return false; " href="#@sort.FieldName">@sort.DisplayName</a></li>
+    }
+    else
+    {
+        <li><a class="filter-sort-btn" href="#@sort.FieldName" data-sort-field="@sort.FieldName" data-sort-order="@sort.Order">@sort.DisplayName</a></li>
+    }
+}
+@using (Html.BeginForm(null, null, FormMethod.Get, new Dictionary<string, object> { { "class", "form-inline" }, { "id", "frmSearchTop" }, { "defaultbutton", "btnHomeSearch" } }))
+{
+    <fieldset class="search-header">
+        <legend>
+            <h2>@searchTitle</h2>
+
+            @if (showMultiView)
+            {
+                <span class="project-view-actions">
+                    <span>List Views </span>
+                    @if (ViewBag.GridViewLink != null)
+                    {
+                        if (ViewBag.viewType.ToString() == "Grid")
+                        {
+                            <span class="project-view-icon-wrapper"><a href="@ViewBag.GridViewLink"><span class="project-view-icon grid-icon selected">&nbsp;</span></a></span>
+
+                        }
+                        else
+                        {
+                            <span class="project-view-icon-wrapper"><a href="@ViewBag.GridViewLink"><span class="project-view-icon grid-icon">&nbsp;</span></a></span>
+
+                        }
+
+                    }
+                    @if (ViewBag.ListVievLink != null)
+                    {
+                        if (ViewBag.viewType.ToString() == "List" || ViewBag.viewType.ToString() == "Default" || ViewBag.viewType == null)
+                        {
+                            <span class="project-view-icon-wrapper"><a href="@ViewBag.ListVievLink"><span class="project-view-icon list-icon selected">&nbsp;</span></a></span>
+                        }
+                        else
+                        {
+                            <span class="project-view-icon-wrapper"><a href="@ViewBag.ListVievLink"><span class="project-view-icon list-icon ">&nbsp;</span></a></span>
+                        }
+
+                    }
+                  
+                </span>
+            }
+
+            @if (ViewBag.TopActions != null)
+            {
+                @Html.Partial("_PageActionsTop", ViewBag.TopActions as IEnumerable<TaxonomyMenuItem>)
+            }
+            @if (null != ViewBag.ShowActionMenu && ViewBag.ShowActionMenu)
+            {
+                <ul class="actions-list project-view-action-dropdown">
+                    <li class="result-actions">
+                        <div class="dropdown pull-right">
+                            <a class="dropdown-toggle action-toggle" title="Open Menu" href="#" data-toggle="dropdown"></a>
+                            <ul class="dropdown-menu search-menu" role="menu">
+                                
+                                @if (ViewBag.ListVievLink == null)
+                                {
+                                    <li class="disabled"><a href="#">List View</a></li>
+                                }
+                                else
+                                {
+                                    <li><a href="@ViewBag.ListVievLink">List View</a></li>
+                                }
+                                <li class="disabled"><a href="#">Table View</a></li>
+                                @if (Model.SortingOptions.Any())
+                                {
+                                    <li class="dropdown-submenu pull-left ui-shift-tableview-ddl">
+                                        <a tabindex="-1" href="#">Sort by:</a>
+                                        <ul class="dropdown-menu pull-left ui-shift-tableview-ddl" role="menu">
+                                            @foreach (var sort in Model.SortingOptions)
+                                            {
+                                                var active = (currentSort.FieldName == sort.FieldName && currentSort.Order == sort.Order);
+                                                @SortItem(sort, active)
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+								@{Html.RenderPartial("_AuxiliaryFilter", Model);}
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            }
+        </legend>
+        <div id="search-bar" class="search-bar">
+			<div class="input-append input-append-wide focus">
+				@Html.TextBoxFor(m => m.Query, new { placeholder = string.Concat("Search within ", searchTitle, "..."), @class = "text-box single-line" })
+				<input type="submit" value="Search" class="btn" id="btnHomeSearch" />
+			</div>
+        </div>
+        <input type="hidden" name="viewType" value="@viewTypeVal" />
+    </fieldset>
+            if (ViewBag.HidePaging != true)
+            {
+                Html.RenderPartial("_Paging", Model.Paging);
+            }
+            Html.RenderPartial("_SearchCriteriaHidden", Model);
+}
+
+

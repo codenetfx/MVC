@@ -1,0 +1,15 @@
+﻿
+@{
+    Layout = "~/Views/Help/_Layout.cshtml";
+    ViewBag.Breadcrumbs = Model.Breadcrumbs;
+}
+
+<fieldset class="search-header">
+    <legend><h2>Contact Us</h2></legend>
+
+    <div class="display-row">
+        <strong>Thank you for contacting UL.</strong>  Your question has been send and a UL Customer Service Representative will reply to you shortly.
+    </div>
+
+    <div class="display-row"><a href="@Url.PageContactUs()">Submit another question  &raquo;</a></div>
+</fieldset>

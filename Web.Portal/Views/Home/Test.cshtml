@@ -1,0 +1,138 @@
+﻿    @model UL.Aria.Web.Common.Models.Project.ProjectDetail
+    @{
+        Layout = null;
+    }
+
+    <!DOCTYPE html>
+
+    <html>
+    <head>
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="The description of my page" />
+        @Styles.Render("~/content/css")
+        @Styles.Render("~/content/ulcss")
+        @Scripts.Render("~/bundles/modernizr")
+        @{ Html.RenderPartial("_Tracking"); }
+
+    </head>
+    <body>
+        @{
+            var options = new List<object>();
+            for (var i = 0; i < 50; i++)
+            {
+                var inc = i.ToString("000");
+                options.Add(new
+                 {
+                     id = Guid.NewGuid(),
+                     Display = "Option " + inc,
+                     Desscrition = "Option Description " + inc
+                 });
+            };
+
+            var selectedDptions = new List<object>();
+            for (var i = 51; i < 100; i++)
+            {
+                var inc = i.ToString("000");
+                selectedDptions.Add(new
+                {
+                    id = Guid.NewGuid(),
+                    Display = "Option " + inc,
+                    Desscrition = "Option Description " + inc
+                });
+            };
+
+
+            var servLineSource = new List<UL.Aria.Web.Common.Models.Project.IncomingOrderServiceLine>();
+
+           
+            for (var i = 0; i < 50; i++)
+            {
+                var inc = i.ToString("000");
+                servLineSource.Add(new UL.Aria.Web.Common.Models.Project.IncomingOrderServiceLine
+                {
+                    Id = Guid.NewGuid(),
+                    IndustryCode = "Option Description " + inc
+                });
+            };
+            
+            
+        }
+
+
+
+
+      
+
+        <div style="width: 700px; height:800px; padding: 50px 50px 50px 50px; background-color:white;">
+
+            <form>
+
+
+                @Html.DualListBoxFor(m => m.ServiceLineItems, servLineSource,
+                             displayMember: "IndustryCode"
+                             ,moveButtonsCentered:true,
+                             enableShiftAll:false)
+
+                @* Html.DualListBox("MyItemsList", options, destinationItems: selectedDptions)*@
+
+                <input type="submit" value="Submit Form" />
+            </form>
+            <!--
+        <br />
+        <div class="ul-duallistbox"
+             data-source-selector="source"
+             data-destination-selector="destination"
+             data-list-max-rows="18"
+             data-source-title="Source on hover text."
+             data-source-text="Source"
+             data-destination-title="Destionation on hover text."
+             data-destionation-text="Destination">
+            <div class="source">
+
+                <div class="ul-label"></div>
+                <select size="18"></select>
+            </div>
+            <div class="buttons">
+                <button class="add">&gt;</button>
+                <button class="remove">&lt;</button>
+                <button class="remove-all">«</button>
+                <button class="add-all">»</button>
+            </div>
+            <div class="destination">
+                <div class="ul-label"></div>
+                <select size="18"></select>
+            </div>
+            <div class="buttons move">
+                <button class="move-up">&#x25B2;</button>
+                <button class="move-down">&#x25BC;</button>
+            </div>
+
+        </div>
+            -->
+        </div>
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @Scripts.Render("~/signalR/hubs")
+        @Scripts.Render("~/bundles/ul")
+
+    </body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>

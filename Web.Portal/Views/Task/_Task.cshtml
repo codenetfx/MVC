@@ -1,0 +1,181 @@
+﻿@using UL.Aria.Service.Contracts.Dto
+@using UL.Enterprise.Foundation
+@using UL.Aria.Web.Common.Models.Project
+@model TaskDetail
+
+<div>
+	@Html.HiddenFor(x => x.TaskId)
+	@Html.HiddenFor(x => x.TaskNumber)
+	@Html.HiddenFor(x => x.ContainerId)
+	@Html.HiddenFor(x => x.ProjectHandler)
+	@Html.Hidden("ProjectHandlerToken", AssetFieldNames.ProjectHandlerToken)
+    <div class="form-horizontal control-group">
+        <div class="left-col">
+            @Html.LabelFor(model => model.BusinessUnits, new { @class = "strong" })
+            <div class="controls">
+                @Html.DropDownList("BusinessUnitFilter", Model.BusinessUnits, new { @class = "business-unit-dropdown" })
+            </div>
+        </div>
+    </div>
+
+	<div class="form-horizontal control-group">
+		<div class="left-col">
+			@Html.LabelFor(model => model.TaskName, new { @class = "strong" })
+			<div class="controls">
+				
+				@Html.ComboboxFor(x => x.TaskName, x => x.TaskTypeId, Model.TaskTypes, displayMember: "Name", idMember: "Id", placeholderText: "Create Freeform Task", makeListGlobal: true, globalListId: "taskTypesList")
+				@Html.ValidationMessageFor(model => model.TaskName)
+			</div>
+		</div>
+		<div class="right-col">
+			@Html.LabelFor(model => model.Description, new { @class = "strong" })
+			<div class="controls">
+				
+				@Html.TextBoxFor(model => model.Description, Model.HtmlAttributes)
+				@Html.ValidationMessageFor(model => model.Description)
+			</div>
+		</div>
+	</div>
+	
+	<div class="form-horizontal control-group">
+		<div class="left-col">
+			@Html.LabelFor(m => m.ParentTaskNumber, new { @class = "strong" })
+			@Html.TextBoxFor(model => model.ParentTaskNumber)
+			@Html.ValidationMessageFor(model => model.ParentTaskNumber, Model.ParentTaskNumberErrorMessage)
+		</div>
+		<div class="right-col">
+			@Html.LabelFor(m => m.ChildTaskNumber, new { @class = "strong" })
+			@Html.TextBoxFor(model => model.ChildTaskNumber)
+			@Html.ValidationMessageFor(model => model.ChildTaskNumber, Model.ChildTaskErrorMessage)
+		</div>
+
+	</div>
+
+	<div class="form-horizontal control-group">
+		@Html.LabelFor(x => x.PredecessorTask)
+		<div class="controls">
+			@Html.TextBoxFor(model => model.PredecessorTask)
+			@Html.DescriptionFor(x => x.PredecessorTask)
+			@Html.ValidationMessageFor(model => model.PredecessorTask, Model.PredecessorTaskErrorMessage)
+		</div>
+	</div>
+
+	<div class="form-horizontal control-group">
+		<div class="left-col">
+			@Html.LabelFor(x => x.Phase)
+			<div class="controls">
+				@Html.DropDownListFor(m => m.Phase, new SelectList(Model.PhaseList, "key", "value", Model.Phase))
+				@Html.ValidationMessageFor(model => model.Phase, Model.PhaseChangeErrorMessage)
+			</div>
+		</div>
+		<div class="right-col">
+			@*@Html.LabelFor(x => x.Progress)
+			<div class="controls">
+				@Html.DropDownListFor(m => m.Progress, new SelectList(Model.ProgressList, "key", "value", Model.Progress))
+			</div>*@
+		</div>
+	</div>
+
+	<div class="form-horizontal control-group">
+		<div class="left-col">
+			@Html.LabelFor(model => model.StartDate, new { @class = "strong" })
+			<div class="controls">
+				@Html.EditorFor(model => model.StartDate)
+				@Html.ValidationMessageFor(model => model.StartDate)
+			</div>
+		</div>
+		<div class="right-col">
+			@Html.LabelFor(model => model.EndDate, new { @class = "strong" })
+			<div class="controls">
+				@Html.EditorFor(model => model.EndDate)
+				@Html.ValidationMessageFor(model => model.EndDate)
+			</div>
+		</div>
+	</div>
+	<div class="form-horizontal control-group">
+		<div class="left-col">
+			@Html.LabelFor(model => model.ReminderDate, new { @class = "strong" })
+			<div class="controls">
+				@Html.EditorFor(model => model.ReminderDate)
+				@Html.ValidationMessageFor(model => model.ReminderDate)
+			</div>
+		</div>
+
+	</div>
+	<div class="form-horizontal control-group">
+		<div class="left-col">
+			@Html.LabelFor(x => x.EstimatedDuration)
+			<div class="controls">
+				@Html.TextBoxFor(model => model.EstimatedDuration)
+				@Html.ValidationMessageFor(model => model.EstimatedDuration)
+			</div>
+		</div>
+		<div class="right-col">
+			@Html.LabelFor(x => x.ActualDuration)
+			<div class="controls">
+				@Html.TextBoxFor(model => model.ActualDuration)
+				@Html.ValidationMessageFor(model => model.ActualDuration)
+			</div>
+		</div>
+	</div>
+
+	<div class="form-horizontal control-group">
+		<div class="left-col">
+			@Html.LabelFor(x => x.PercentComplete)
+			<div class="controls">
+				@Html.DropDownListFor(m => m.PercentComplete, new SelectList(Model.PercentCompleteList, "key", "value", Model.PercentComplete))
+			</div>
+		</div>
+		@*<div class="right-col">
+				@Html.LabelFor(x => x.ClientBarrierHours)
+				<div class="controls">
+					@Html.TextBoxFor(model => model.ClientBarrierHours)
+					@Html.ValidationMessageFor(mode => Model.ClientBarrierHours)
+				</div>
+			</div>*@
+	</div>
+
+	<div class="form-horizontal control-group">
+		@Html.LabelFor(m => m.TaskOwnerAssigned, new { @class = "strong" })
+		<div class="controls">
+			@Html.RadioButtonFor(m => m.TaskOwnerAssigned, EnumTaskOwner.AssignToMe, new { @checked = true }) <strong>@EnumTaskOwner.AssignToMe.GetDisplayName()</strong>
+		</div>
+		<div class="controls">
+			@Html.RadioButtonFor(m => m.TaskOwnerAssigned, EnumTaskOwner.AssignToGroup) <strong>@EnumTaskOwner.AssignToGroup.GetDisplayName()</strong>
+		</div>
+		<div class="controls">
+			<div class="left-col">
+				@Html.RadioButtonFor(m => m.TaskOwnerAssigned, EnumTaskOwner.AssignToHandler) <strong>@EnumTaskOwner.AssignToHandler.GetDisplayName()</strong>
+			</div>
+			<div class="left-col" style="margin-left: 15px;">
+				@Html.AutoCompleteFor(m => m.TaskOwner, Url.PageSearchULUsers(), Model.TaskOwnerAssigned != EnumTaskOwner.AssignToHandler, minSearchTermLength: 2)
+				@Html.ValidationMessageFor(model => model.TaskOwner)
+			</div>
+		</div>
+	</div>
+
+	<div class="form-horizontal control-group">
+		@Html.LabelFor(x => x.Comment)
+		<div class="controls">
+			@Html.TextAreaFor(model => model.Comment, new { rows = "5" })
+		</div>
+	</div>
+
+
+	@if (Model.Comments.Any())
+	{
+		<div class="form-horizontal control-group">
+			@Html.LabelFor(x => x.Comments)
+			<div class="controls">
+				<div class="comments">
+					@foreach (TaskComment comment in Model.Comments)
+					{
+						<text>@comment.CreatedBy -  @comment.CreatedDate.ToString()</text>
+						<p>@comment.Comment</p>
+					}
+				</div>
+			</div>
+		</div>
+	}
+
+</div>

@@ -1,0 +1,62 @@
+﻿@using UL.Aria.Web.Common.Models.Project
+@model UL.Aria.Web.Common.Models.Project.IProjectSummary
+
+@{
+	const string statusPath = "ProjectStatus/";
+	var projectStatusViews = new Dictionary<string, string>()
+        {
+                {"InProgress", statusPath + "_InProgress"} ,
+                {"OnHold", statusPath + "_OnHold"},
+                {"Canceled", statusPath + "_Canceled"},
+                {"Completed", statusPath + "_Completed"}
+        };
+}
+
+
+<div class="project-summary section-summary">
+	@if (Model.PageActions.Any())
+	{
+		<div class="result-actions">
+			<div class="dropdown pull-right">
+				<a title="Open Menu" class="dropdown-toggle caret" data-toggle="dropdown" href="#"></a>
+				<ul class="dropdown-menu" role="menu">
+					@foreach (var item in Model.PageActions)
+					{
+						@Helpers.ActionLink(item)
+					}
+				</ul>
+			</div>
+		</div>
+	}
+
+	<div>
+		@{Html.RenderPartial(projectStatusViews[(Model.ProjectStatus.ToString())]);}
+	</div>
+
+	<dl class="clear-both dl-horizontal">
+		<dt>@Html.DisplayNameFor(x => x.CompanyName):</dt>
+		<dd class="clearfix clear-both" style="padding-left: 0px; margin-left: 0px;">@Helpers.TruncateTextWithOutMore(Model.CompanyName, 30)</dd>
+
+		@if (!(string.IsNullOrEmpty(Model.OrderNumber)))
+		{
+			<dt>@Html.DisplayNameFor(m => m.OrderNumber):</dt>
+			<dd><a href="@string.Format("{0}&Filters.ariaOrderNumber={1}", Url.PageSearchOrders(false), Model.OrderNumber)"> <span>@Model.OrderNumber</span></a></dd>
+		}
+
+		<dt>@Html.DisplayNameFor(m => m.ProjectHandler):</dt>
+		<dd title="@Model.ProjectHandler">@Html.DisplayFor(m => m.ProjectHandler)</dd>
+
+		@if (Model.EndDate != null && Model.EndDate != default(DateTime))
+		{
+			<dt>ECD:</dt>
+			<dd>@Html.DisplayFor(x => x.EndDate)</dd>
+		}
+		@if (Model.HasAutoComplete && !Model.OverrideAutoComplete)
+		{
+			<dd class="auto-complete-message">(Auto-Complete is set for this project)</dd>
+		}
+	</dl>
+
+
+
+</div>

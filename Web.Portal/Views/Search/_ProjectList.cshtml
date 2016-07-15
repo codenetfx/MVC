@@ -1,0 +1,51 @@
+﻿@using UL.Aria.Service.Contracts.Dto
+@using UL.Aria.Web.Common.Models.Search;
+@model  ISearchResultSet<UL.Aria.Web.Common.Models.Search.ProjectSearchResult>
+
+
+<div class="clear-both" style="overflow: auto;">
+        <ul class="page-actions page-actions-no-margin">
+        <li class="arrow primary">
+            <a data-toggle="modal" href="@Url.PageOrderCreate(null)">Create a Project</a>
+        </li>
+    </ul>
+</div>
+
+<table>
+	<thead>
+		<tr>
+			<th><a onclick="return UL.Sort(this);" href="#" data-sortfield="@AssetFieldNames.AriaCompanyName" data-sortorder="@Model.SearchCriteria.GetSortOrder(AssetFieldNames.AriaCompanyName)">Company <span class="@Model.SearchCriteria.SortClassName(AssetFieldNames.AriaCompanyName)"></span></a></th>
+			<th><a onclick="return UL.Sort(this);" href="#" data-sortfield="@AssetFieldNames.AriaProjectName" data-sortorder="@Model.SearchCriteria.GetSortOrder(AssetFieldNames.AriaProjectName)" >Project <span class="@Model.SearchCriteria.SortClassName(AssetFieldNames.AriaProjectName)"></span></a></th>
+			<th class="nowrap"><a onclick="return UL.Sort(this);" href="#" data-sortfield="@AssetFieldNames.AriaProjectHandler" data-sortorder="@Model.SearchCriteria.GetSortOrder(AssetFieldNames.AriaProjectHandler)" >Project Handler  <span class="@Model.SearchCriteria.SortClassName(AssetFieldNames.AriaProjectHandler)"></span></a></th>
+			<th class="nowrap"><a onclick="return UL.Sort(this);" href="#" data-sortfield="@AssetFieldNames.AriaProjectStatus" data-sortorder="@Model.SearchCriteria.GetSortOrder(AssetFieldNames.AriaProjectStatus)" >Project Phase  <span class="@Model.SearchCriteria.SortClassName(AssetFieldNames.AriaProjectStatus)"></span></a></th>
+			<th class="nowrap"><a onclick="return UL.Sort(this);" href="#" data-sortfield="@AssetFieldNames.AriaProjectEndDate" data-sortorder="@Model.SearchCriteria.GetSortOrder(AssetFieldNames.AriaProjectEndDate)" >Due Date  <span class="@Model.SearchCriteria.SortClassName(AssetFieldNames.AriaProjectEndDate)"></span></a></th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model.Results)
+		{
+			<tr>
+				<td class="nowrap">@item.CompanyName</td>
+				<td class="primary-col"><a href="@Url.PageProjectOverview(item.ProjectId)">@item.ProjectName</a></td>
+				<td>@item.ProjectHandler</td>
+				<td>@item.Status</td>
+				<td>@item.EndDate</td>
+				<td class="nowrap">
+					<div class="result-actions">
+						<input type="checkbox" class="pull-right" style="margin: 2px 0 0 10px;" value="@item.Id" data-group-name="@item.EntityType.ToString()" onclick="return UL.Result_OnChange(this);" @(item.IsSelected ? "checked='checked'" : null) />
+						<div class="dropdown pull-right">
+							<a title="Open Menu" class="dropdown-toggle caret" data-toggle="dropdown" href="#"><i></i></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="@Url.PageProjectOverview(item.ProjectId)">View</a></li>
+								<li><a href="@Url.PageProjectEdit(item.ProjectId)" data-toggle="modal" >Edit</a></li>
+							</ul>
+						</div>
+					</div>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+

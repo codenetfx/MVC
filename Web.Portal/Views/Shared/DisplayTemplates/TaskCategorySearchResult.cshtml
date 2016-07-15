@@ -1,0 +1,42 @@
+﻿@using UL.Aria.Web.Common.Mvc
+@model UL.Aria.Web.Common.Models.TaskCategory.TaskCategorySearchResult
+
+
+<div class="search-result project-result clearfix">
+    <div class="result-icon-container">
+        <div class="result-icon">
+            <a href="#">
+                <img src="@Url.TransparentImage()" alt="@Model.Name" />
+            </a>
+        </div>
+    </div>
+
+    <div class="result-actions">
+        <div class="dropdown pull-right">
+            <a title="Open Menu" class="dropdown-toggle caret" data-toggle="dropdown" href="#"><i></i></a>
+            <ul class="dropdown-menu" role="menu">
+                @*<li><a href="@Url.PageViewTaskCategory(Model.Id.Value)">View</a></li>*@
+                <li><a data-toggle="modal" href="@Url.PageEditTaskTemplate(Model.Id)">Edit Template</a></li>
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#DeleteModal" data-item-href="@Url.PageDeleteTaskTemplate(Model.Id)" data-modal-title="Delete Task Template" data-item-name="Are you sure you want to delete '<span>@Html.DisplayFor(model => Model.Name)</span>'?" >Delete</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    <div class="result-detail">
+        <div class="result-item-title">
+            <a href="#">@Model.Name</a>
+        </div>
+        <div class="display-row">
+            <div class="display-label">@Html.DisplayNameFor(model => model.Name):</div>
+            <div class="display-field">@Html.DisplayFor(model => model.Name)</div>
+        </div>
+
+        <div class="display-row">
+            <div class="display-label">@Html.DisplayNameFor(model => model.Description):</div>
+            <div class="display-field">@Html.DisplayFor(model => model.Description)</div>
+        </div>
+
+    </div>
+</div>

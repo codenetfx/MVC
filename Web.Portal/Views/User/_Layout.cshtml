@@ -1,0 +1,39 @@
+﻿@using UL.Aria.Web.Common.Models.Shared
+@using UL.Aria.Web.Common.Mvc
+@model UL.Aria.Web.Common.Models.Shared.IUserSectionModel
+@{
+	Layout = "~/Views/Shared/_LayoutSection.cshtml";
+	ViewBag.ShowDefaultActions = ViewBag.ShowDefaultActions ?? false;
+}
+
+@helper SectionLink(string url, string text)
+{
+	bool isActive = Url.IsCurrentUrl(url);
+	string className = isActive ? "active" : "inactive";
+	<li class="menuLevel0 empty @className"><a href="@url">@text</a></li>
+}
+
+@section controls {
+	@{ Html.RenderPartial("_PageActions", Model.PageLinks); }
+}
+
+@section aside {
+	@RenderSection("aside", required: false)
+	@if (ViewBag.ShowDefaultActions)
+ {
+		<ul class="page-actions">
+			<li class="arrow">
+				<a href="@Url.PageCompanyUserEdit(Model.UserId)">Edit User</a>
+			</li>
+			<li class="arrow">
+				<a href="@Url.PageCompanyUserEditContainerAccess(Model.UserId)">Edit Container Access</a>
+			</li>
+		</ul>
+ }
+}
+
+@RenderBody()
+
+@section scripts {
+	@RenderSection("scripts", required: false)
+}

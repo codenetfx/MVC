@@ -1,0 +1,13 @@
+﻿@model IEnumerable<UL.Aria.Web.Common.Models.Shared.GrowlMessage>
+
+@if (Model != null && Model.Any())
+{
+	<script type="text/javascript">
+		@foreach (var message in Model)
+		{
+			@Html.Encode("$.gritter.add(");
+			@Html.Raw(Json.Encode(message));
+			@Html.Encode(");");
+		}
+	</script>
+}

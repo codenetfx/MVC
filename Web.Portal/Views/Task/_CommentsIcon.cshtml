@@ -1,0 +1,25 @@
+﻿@using UL.Aria.Service.Contracts.Dto
+@using UL.Aria.Web.Common.Models.Project
+
+@model UL.Aria.Web.Common.Models.Search.TaskSearchResult
+@{
+    var enabled = Model.HasComments;
+    var isClosed = (Model.Status == TaskStatusEnum.Canceled || Model.Status == TaskStatusEnum.Completed);
+    var target = isClosed ? "" : "data-toggle=modal";
+    var href = isClosed ? Url.PageViewTask(Model.Id, Model.ContainerId) : Url.PageEditTask(Model.Id, Model.ContainerId) +"&tab=modal-task-comments";
+}
+<span class="dropdown @(enabled ? "dropdown-comments" : "")">
+    <a href="@href" @target @(enabled ? "class=\"dropdown-toggle\" data-toggle=\"dropdown\"" : "")>
+        <img class="@(enabled ? "comments-dropdown-enabled" : "")" src="@Url.Content("~/Content/img/icons/comment.png")">
+    </a>
+    @{
+        if (enabled)
+        {
+            <ul class="dropdown-menu" role="menu">
+                <li>
+                    <div>@Model.LastComment</div>
+                </li>
+            </ul>
+        }
+    }
+</span>

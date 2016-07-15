@@ -1,0 +1,38 @@
+﻿@model UL.Aria.Web.Common.Models.Shared.ProjectCreate
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th class="nowrap">Line No.</th>
+			<th class="nowrap">Name</th>
+			<th class="nowrap">Price</th>
+			<th><input type="checkbox" onclick="ToggleCheck(this);" class="checkorderlineall" data-ignore="change" /></th>
+		</tr>
+	</thead>
+	@if (Model != null && Model.ServiceLines.Any())
+	{
+		for (int i = 0; i < Model.ServiceLines.Count; i++)
+		{
+			<tr>
+				<td>@Model.ServiceLines.ElementAt(i).LineNumber</td>
+				<td>@Model.ServiceLines.ElementAt(i).Name</td>
+				<td>@Html.DisplayFor(x => Model.ServiceLines.ElementAt(i).Price) @Html.DisplayFor(x => @Model.ServiceLines.ElementAt(i).Currency)</td>
+				<td>@Html.CheckBoxFor(m => m.SelectedServiceLines[i].Selected, new { @class = "chkorderline" })
+					@Html.HiddenFor(m => m.SelectedServiceLines[i].Value, new {value = Model.ServiceLines.ElementAt(i).LineNumber})
+				</td>
+			</tr>
+		}
+	}
+	else
+	{
+		<tr>
+			<td colspan="4">No service lines found</td>
+		</tr>
+	}
+</table>
+<script type="text/javascript">
+	function ToggleCheck(element) {
+		$element = $(element);
+		var checked = $element.is(":checked");
+		$element.closest('table').find('TD INPUT').each(function() { $(this).prop("checked", checked); });
+	}
+</script>

@@ -1,0 +1,16 @@
+﻿@using UL.Aria.Web.Common.Models.TaskType
+@model TaskTypeEditable
+
+<div class="form-horizontal control-group tasktype-task-behaviors">
+	
+	<div class="controls check-group form-inline">
+		@Html.EditorFor(m => m.PreventDeletion)
+	</div>
+    <div class="controls check-group form-inline">
+        <dl>
+            <dt>Restrict Edit to Project Handler</dt>
+            @Html.CheckboxListFor(m => m.TaskTypeBehaviors, Model.TaskTypeBehaviors)
+        </dl>
+    </div>
+
+</div>

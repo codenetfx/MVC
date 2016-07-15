@@ -1,0 +1,47 @@
+﻿@model UL.Aria.Web.Common.Models.TaskCategory.TaskCategoryCreate
+@{
+	var success = ((bool?)ViewBag.Success).GetValueOrDefault(false);
+	var id = "form_" + Guid.NewGuid().ToString();
+	ViewBag.ModalTitle = "Create Task Template";
+}
+
+@using (Html.BeginForm("Create", "TaskCategory", FormMethod.Post, new Dictionary<string, object>() { { "id", id }, { "class", "project-edit-form" } }))
+{
+	if (success)
+	{
+		<div class="modal-success-create">
+			<div class="modal-body">
+				<i class="ul-icon-success"></i><span>Task Template has been successfully created.</span>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-info" data-dismiss="modal" aria-hidden="true" onclick=" UL.Refresh(); ">Dismiss</button>
+			</div>
+		</div>
+	
+	}
+	else
+	{
+		Html.RenderPartial("_TaskTemplate", Model);
+	}
+}
+
+<script type="text/javascript">
+	//hook ajax form submissions
+	$("#@id").ajaxForm({
+		target: $("#@id").parent(),
+		beforeSubmit: $.proxy(UL.ValidateModal, $("#@id")),
+		cache: false
+	});
+	$(document).ready(function () {
+		$('#@id').closest(".modal").modal({ backdrop: 'static', keyboard: false });
+
+		var successmsg = $('.modal-success-create');
+		if (successmsg.length > 0) {
+			$('#@id').closest(".modal").modal("hide");
+			window.location.reload();
+		}
+	});
+
+</script>
+
+

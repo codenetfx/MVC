@@ -1,0 +1,70 @@
+﻿@model UL.Aria.Web.Common.Models.DocumentTemplate.DocumentTemplateSearchResult
+
+<div class="search-result project-result clearfix">
+	<div class="result-icon-container">
+		<div class="result-icon">
+			<a href="#">
+				<img src="@Url.TransparentImage()" alt="@Model.Name" />
+			</a>
+		</div>
+	</div>
+	@if (!Model.IsDeleted)
+	{
+		<div class="result-actions">
+			<div class="dropdown pull-right">
+				<a title="Open Menu" class="dropdown-toggle caret" data-toggle="dropdown" href="#"><i></i></a>
+
+				<ul class="dropdown-menu" role="menu">
+
+					<li><a data-toggle="modal" href="@Url.PageEditDocumentTemplate(Model.Id)">Edit Document Template</a></li>
+					<li>
+						<a href="#" data-toggle="modal" data-target="#DeleteModal" data-item-href="@Url.PageDeleteDocumentTemplate(Model.Id)" data-modal-title="Deactivate Document Template" data-item-name="Are you sure you want to deactivate '<span>@Html.DisplayFor(model => Model.Name)</span>'?" >Deactivate Document Template</a>
+					</li>
+
+				</ul>
+
+			</div>
+		</div>
+	}
+	<div class="result-detail">
+		<div class="result-item-title">
+			@if (!Model.IsDeleted)
+			{
+				<a data-toggle="modal" href="@Url.PageEditDocumentTemplate(Model.Id)">@Model.Name</a>
+			}
+			else
+			{
+				<a href="#">@Model.Name</a>
+			}
+			
+		</div>
+		<div class="display-row">
+			<div class="display-label">@Html.DisplayNameFor(model => model.CreatedBy):</div>
+			<div class="display-field">@Html.DisplayFor(model => model.CreatedBy)</div>
+		</div>
+
+		<div class="display-row">
+			<div class="display-label">@Html.DisplayNameFor(model => model.BusinessUnitCodes):</div>
+			<div class="display-field">@Html.DisplayFor(model => model.BusinessUnitCodes)</div>
+		</div>
+
+		<div class="display-row">
+			<div class="display-label">@Html.DisplayNameFor(model => model.Status):</div>
+			<div class="display-field">@Html.DisplayFor(model => model.Status)</div>
+		</div>
+		<div class="display-row">
+			<div class="display-label">@Html.DisplayNameFor(model => model.LastModifiedBy):</div>
+			<div class="display-field">@Html.DisplayFor(model => model.LastModifiedBy)</div>
+		</div>
+		<div class="display-row">
+			<div class="display-label">@Html.DisplayNameFor(model => model.ChangeDate):</div>
+			<div class="display-field">@Html.DisplayFor(model => model.ChangeDate)</div>
+		</div>
+
+		<div class="display-row">
+			<div class="display-label">@Html.DisplayNameFor(model => model.Description):</div>
+			<div class="display-field">@Html.DisplayFor(model => model.Description)</div>
+		</div>
+
+	</div>
+</div>

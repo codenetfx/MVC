@@ -1,0 +1,63 @@
+﻿@using UL.Aria.Web.Common.Models.Shared
+@model INavigationModel
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles {
+	@RenderSection("styles", required: false)
+}
+
+@section header {
+	<div class="header_links">
+		<ul class="nav nav-pills">
+			@foreach (var link in Model.PageLinks)
+   {
+				<li><a href="@link.Url">@link.Text</a></li>
+   }
+		</ul>
+	</div>
+}
+
+
+<aside class="section-controls search-controls">
+	<div class="section-filters">
+		<div class="section-filters-header"><h3>Your Filters</h3><a href="#" class="filters-clear">Clear All Filters</a></div>
+        <ul>
+            <li>
+                <h4>Category Heading</h4>
+                <a href="#" class="section-filter">Filter Name</a>
+            </li>
+            <li>
+                <h4>Category Heading</h4>
+                <a href="#" class="section-filter">Filter Name</a>
+            </li>
+            <li>
+                <h4>Category Heading</h4>
+                <a href="#" class="section-filter">Filter Name</a>
+            </li>
+        </ul>
+        <p class="right"><button class="btn">Save Search</button></p>
+	</div>
+	<nav class="clearfix clear-both">
+		<div class="section-menu">
+			@{
+				ViewBag.MenuLevel = 1;
+				var links = Model.PageLinks.First(x => x.Key == EntityType.Project.ToString()).Children.Cast<TaxonomyMenuItem>();
+
+				Html.RenderPartial("_PageActions", links);
+			}
+		</div>
+	</nav>
+
+	@RenderSection("controls", false)
+</aside>
+
+
+<div class="section-page section-page-wide">
+	<div id="gritternotifications"></div>
+	@RenderBody()
+</div>
+@section scripts {
+	@RenderSection("scripts", required: false)
+}

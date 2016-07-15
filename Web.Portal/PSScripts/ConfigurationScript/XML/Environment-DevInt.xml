@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="1.0">
+	<Environments>
+		<Environment>
+			<Name>DevInt</Name>
+			<DomainName>d9.aria.local</DomainName>
+			<!-- Name of the folder where the substitution files live -->
+			<EnvironmentConfigFolderName>Development-Azure2</EnvironmentConfigFolderName> 
+
+			<!-- Servers that installation binaries are copied to -->
+			<!-- Server names should be separated by a space -->
+			<!-- No need to copy binaries to AD since, the install is running on the AD box -->
+			<!-- Only need to specify one server in the SharePoint farm -->
+			<!-- DBDeploy runs from the server where the deploy is running from (AD).  No need to copy anything to SQL -->
+			<PortalServers>d9Portal1</PortalServers> 
+			<MiddleTierServers>d9Portal1</MiddleTierServers>
+						<!--UseUnifiedPortalMiddleTier will deploy both the portal and middle tier components to a single server-->
+			<!--The PortalServers and MiddleTierServers should be identical when the UseUnifiedPortalMiddleTier is set to True-->
+			<UseUnifiedPortalMiddleTier>True</UseUnifiedPortalMiddleTier>
+			<SharePointServer>d9APP1</SharePointServer>
+
+			<!-- Servers that Configuration Scripts and software are copied to -->
+			<!-- Configuration and software is copied to these servers in addtion to the servers listed above.-->
+			<ActiveDirectoryServers>d9AD1</ActiveDirectoryServers>
+			<SharePointAPPs></SharePointAPPs>
+			<SharePointWFEs></SharePointWFEs>
+			<OnPremServer>USNBKA356D</OnPremServer>
+
+			<!-- Domain User name used for remote PowerShell Sessions on each server -->
+			<RemotePowerShellUser>ULAdmin</RemotePowerShellUser>
+			<!-- Password used to for Remote PowerShell and Services -->
+			<RemotePowerShellPwd>ALLAccount$</RemotePowerShellPwd>
+
+			<!-- IIS Sites: Portal and Services tiers -->
+			<IisSiteUserName>Web_Aria</IisSiteUserName>
+			<IisSiteUserPwd>th3_f0rce</IisSiteUserPwd>
+
+			<!-- On-Premises Services -->
+			<StartWindowsServicesOnPrem>False</StartWindowsServicesOnPrem>
+			
+			<!-- Search -->
+			<CrawlAfterDeploy>True</CrawlAfterDeploy>
+			
+			<!-- DBDeploy - SQL Server -->
+			<dataSource>UL_Aria</dataSource>
+			<dbUser>sa</dbUser>
+			<dbPassword>th3_f0rce</dbPassword>
+	
+			<!-- SQL Server -->
+			<SQLServerNameSharePoint>d9SQL1</SQLServerNameSharePoint>
+			<SQLServerInstanceNameSharePoint>SP</SQLServerInstanceNameSharePoint>
+			
+			<SQLAliases>
+				<SQLAlias><Name>UL_Aria</Name><SqlServerName>d9SQL1</SqlServerName><SQLInstance></SQLInstance><Port>1433</Port><Protocol>tcp</Protocol></SQLAlias>
+				<SQLAlias><Name>SharePointDb</Name><SqlServerName>d9SQL1</SqlServerName><SQLInstance>SP</SQLInstance><Port>1435</Port><Protocol>tcp</Protocol></SQLAlias>
+				<SQLAlias><Name>SP_SubscriptionSettings</Name><SqlServerName>d9SQL1</SqlServerName><SQLInstance>SP</SQLInstance><Port>1435</Port><Protocol>tcp</Protocol></SQLAlias>
+				<SQLAlias><Name>UL_Aria_Log</Name><SqlServerName>d9SQL1</SqlServerName><SQLInstance></SQLInstance><Port>1433</Port><Protocol>tcp</Protocol></SQLAlias>
+			</SQLAliases>
+			
+			<SQLServers>
+				<SQLServer Name="d9SQL1">
+					<SQLInstances>
+						<SQLInstance Name="Default" InstallSqlDatDir="F:\" SqlTempdbDir="F:\MSSQL\Data" SqlTempdbLogDir="G:\MSSQL\Log" SqlUserDbDir="F:\MSSQL\Data" SqlUserDbLogDir="G:\MSSQL\Log"></SQLInstance>
+						<SQLInstance Name="SP" InstallSqlDatDir="F:\" SqlTempdbDir="F:\MSSQL.SP\Data" SqlTempdbLogDir="G:\MSSQL.SP\Log" SqlUserDbDir="F:\MSSQL.SP\Data" SqlUserDbLogDir="G:\MSSQL.SP\Log"></SQLInstance>
+					</SQLInstances>
+				</SQLServer>
+			</SQLServers>
+			
+			<!-- SharePoint -->
+			<PassPhrase>th3_f0rce</PassPhrase>
+			
+			<!-- SharePointFarmAdmins - 
+				 Users/Groups that will be added as SharePoint admins in addition to the SharePoint Setup Account (SP_Install) 
+			     specify the AD user name or AD group to be added as a farm admin.
+				 You don't need to specify the domain name.  The current domain will be used.
+			-->
+			<SharePointFarmAdmins>
+				<SharePointFarmAdmin>mitch</SharePointFarmAdmin>
+				<SharePointFarmAdmin>dave</SharePointFarmAdmin>
+				<SharePointFarmAdmin>todd</SharePointFarmAdmin>
+				<SharePointFarmAdmin>kyle</SharePointFarmAdmin>
+				<SharePointFarmAdmin>uladmin</SharePointFarmAdmin>
+			</SharePointFarmAdmins>
+			
+			<!-- Accounts created in Active Directory -->
+			<!-- Token - The substitution token used ConfigureAutoSPInstaller.ps1 script to update the account usernames and passwords -->
+			<Accounts>
+				<Account><Username>Administrator</Username><Password>th3_f0rce</Password><FirstName>Administrator</FirstName><LastName></LastName><DisplayName>Administrator</DisplayName><WorkEmail></WorkEmail><Description></Description><Token>ADMIN</Token></Account>
+				<!-- SQL Server -->
+				<Account><Username>SQLsvc</Username><Password>th3_f0rce</Password><FirstName>SQLsvc</FirstName><LastName>Service</LastName><DisplayName>SQL Service</DisplayName><WorkEmail></WorkEmail><Description></Description><Token>SQLSVC</Token></Account>
+				<Account><Username>SQLAgentsvc</Username><Password>th3_f0rce</Password><FirstName>SQLAgentsvc</FirstName><LastName>Service</LastName><DisplayName>SQL Agent</DisplayName><WorkEmail></WorkEmail><Description></Description><Token>SQLAGENTSVC</Token></Account>
+				<Account><Username>SQL_Admin</Username><Password>th3_f0rce</Password><FirstName>SQL_Admin</FirstName><LastName>Service</LastName><DisplayName>SQL_Admin</DisplayName><WorkEmail></WorkEmail><Description></Description></Account>
+				<Account><Username>SQL_Service</Username><Password>th3_f0rce</Password><FirstName>SQL_Service</FirstName><LastName>Service</LastName><DisplayName>SQL_Service</DisplayName><WorkEmail></WorkEmail><Description></Description></Account>
+				<!-- SharePoint -->
+				<Account><Username>SP_Install</Username><Password>th3_f0rce</Password><FirstName>Install </FirstName><LastName>SharePoint</LastName><DisplayName>Farm Install Account</DisplayName><WorkEmail></WorkEmail><Description></Description><Token>INSTALL</Token></Account>
+				<Account><Username>SP_Farm</Username><Password>th3_f0rce</Password><FirstName>Farm </FirstName><LastName>SharePoint</LastName><DisplayName>Farm Account</DisplayName><WorkEmail></WorkEmail><Description></Description><Token>FARM</Token></Account>
+				<!-- <Account><Username>SP_FarmCreator</Username><Password>th3_f0rce</Password><FirstName>FarmCreator</FirstName><LastName>SharePoint</LastName><DisplayName>Farm Creator</DisplayName><WorkEmail></WorkEmail><Description></Description></Account> -->
+				<Account><Username>SP_PortalAppPool</Username><Password>th3_f0rce</Password><FirstName>Portal</FirstName><LastName>SharePoint</LastName><DisplayName>Portal App Pool</DisplayName><WorkEmail></WorkEmail><Description></Description><Token>PORTALAPPPOOL</Token></Account>
+				<Account><Username>SP_ProfilesAppPool</Username><Password>th3_f0rce</Password><FirstName>Profiles</FirstName><LastName>SharePoint</LastName><DisplayName>Profiles App Pool</DisplayName><WorkEmail></WorkEmail><Description></Description><Token>MYSITEAPPPOOL</Token></Account>
+				<Account><Username>SP_Services</Username><Password>th3_f0rce</Password><FirstName>Services</FirstName><LastName>SharePoint</LastName><DisplayName>SharePoint Services</DisplayName><WorkEmail></WorkEmail><Description></Description><Token>SPSERVICES</Token></Account>
+				<Account><Username>SP_SearchService</Username><Password>th3_f0rce</Password><FirstName>SearchService</FirstName><LastName>SharePoint</LastName><DisplayName>SearchService</DisplayName><WorkEmail></WorkEmail><Description></Description><Token>SEARCHSERVICE</Token></Account>
+				<Account><Username>SP_SearchContent</Username><Password>th3_f0rce</Password><FirstName>SearchContent</FirstName><LastName>SharePoint</LastName><DisplayName>SearchContent</DisplayName><WorkEmail></WorkEmail><Description></Description><Token>SEARCHCONTENT</Token></Account>
+				<Account><Username>SP_CacheSuperUser</Username><Password>th3_f0rce</Password><FirstName>CacheSuperUser</FirstName><LastName>SharePoint</LastName><DisplayName>CacheSuperUser</DisplayName><WorkEmail></WorkEmail><Description></Description></Account>
+				<Account><Username>SP_CacheSuperReader</Username><Password>th3_f0rce</Password><FirstName>CacheSuperReader</FirstName><LastName>SharePoint</LastName><DisplayName>CacheSuperReader</DisplayName><WorkEmail></WorkEmail><Description></Description></Account>
+				<Account><Username>SP_ExcelUser</Username><Password>th3_f0rce</Password><FirstName>ExcelUser</FirstName><LastName>SharePoint</LastName><DisplayName>Excel User</DisplayName><WorkEmail></WorkEmail><Description>Excel Services Unattended User Account</Description><Token>EXCELSERVICES</Token></Account>
+				<Account><Username>SP_VisioUser</Username><Password>th3_f0rce</Password><FirstName>VisioUser</FirstName><LastName>SharePoint</LastName><DisplayName>Visio User</DisplayName><WorkEmail></WorkEmail><Description></Description><Token>VISIO</Token></Account>
+				<Account><Username>SP_PerfPointUser</Username><Password>th3_f0rce</Password><FirstName>PerformancePoint</FirstName><LastName>SharePoint</LastName><DisplayName>PerformancePoint</DisplayName><WorkEmail></WorkEmail><Description></Description><Token>PERFPOINT</Token></Account>
+				<Account><Username>SP_ProfileSync</Username><Password>th3_f0rce</Password><FirstName>ProfileSync</FirstName><LastName>SharePoint</LastName><DisplayName>User Profile Synchronization</DisplayName><WorkEmail></WorkEmail><Description></Description><Token>PROFILESYNC</Token></Account>
+				<!-- Aria Portal and Services Tiers-->
+				<Account><Username>Web_Aria</Username><Password>th3_f0rce</Password><FirstName>Web_Aria</FirstName><LastName>Aria</LastName><DisplayName>Web_Aria</DisplayName><WorkEmail></WorkEmail><Description></Description></Account>
+				<Account><Username>messagehost</Username><Password>message-hostACCT-Us##i</Password><FirstName>messagehost</FirstName><LastName>Aria</LastName><DisplayName>messagehost</DisplayName><WorkEmail></WorkEmail><Description></Description></Account>				
+				<!--Human Users-->
+				<Account><Username>mitch</Username><Password>th3_f0rce</Password><FirstName>Mitch</FirstName><LastName>Prince</LastName><DisplayName>Mitch Prince</DisplayName><WorkEmail></WorkEmail><Description></Description></Account>
+				<Account><Username>dave</Username><Password>th3_f0rce</Password><FirstName>Dave</FirstName><LastName>Bishop</LastName><DisplayName>Dave Bishop</DisplayName><WorkEmail></WorkEmail><Description></Description></Account>
+				<Account><Username>kyle</Username><Password>th3_f0rce</Password><FirstName>Kyle</FirstName><LastName>Caufield</LastName><DisplayName>Kyle Caulfield</DisplayName><WorkEmail></WorkEmail><Description></Description></Account>
+				<Account><Username>todd</Username><Password>th3_f0rce</Password><FirstName>Todd</FirstName><LastName>Ellington</LastName><DisplayName>Todd Ellington</DisplayName><WorkEmail></WorkEmail><Description></Description></Account>
+				<Account><Username>ivan</Username><Password>th3_f0rce</Password><FirstName>Ivan</FirstName><LastName>Ewert</LastName><DisplayName>Ivan Ewert</DisplayName><WorkEmail></WorkEmail><Description></Description></Account>
+			
+			</Accounts>
+			<!-- Certificates -->
+			<Certificates>
+				<Certificate>
+					<Name>HighTrustApp</Name>
+					<certPath>..\Certificates</certPath>
+					<cerFile>HighTrustAriaCert.cer</cerFile>
+					<pfxFile>HighTrustAriaCert.pfx</pfxFile>
+					<pfxPassword>password</pfxPassword>
+					<thumbprint>8B03BFE463839AF940EFDDB520EBF97E39A0450F</thumbprint>
+					<certRootStore>LocalMachine</certRootStore>
+					<certStore>Root</certStore>
+					<pfxCertStore>My</pfxCertStore>
+				</Certificate>
+				<Certificate>
+					<Name>Aria</Name>
+					<certPath>..\Certificates</certPath>
+					<cerFile></cerFile>
+					<pfxFile>localhost.pfx</pfxFile>
+					<pfxPassword>1234</pfxPassword>
+					<thumbprint>8C1BD39E20DC740F520D0D09F481A6A8BC54FCE1</thumbprint>
+					<certRootStore>LocalMachine</certRootStore>
+					<certStore>Root</certStore>
+					<pfxCertStore>My</pfxCertStore>
+				</Certificate>
+				<Certificate>
+					<Name>Aria</Name>
+					<certPath>..\Certificates</certPath>
+					<cerFile></cerFile>
+					<pfxFile>localhost.pfx</pfxFile>
+					<pfxPassword>1234</pfxPassword>
+					<thumbprint>8C1BD39E20DC740F520D0D09F481A6A8BC54FCE1</thumbprint>
+					<certRootStore>LocalMachine</certRootStore>
+					<certStore>Root</certStore>
+					<pfxCertStore>Root</pfxCertStore>
+				</Certificate>
+			</Certificates>
+			<ProductKeys>
+				<ProductKey Name="SQL" Key="YQWTX-G8T4R-QW4XX-BVH62-GP68Y"></ProductKey>
+				<ProductKey Name="SharePoint" Key="N3MDM-DXR3H-JD7QH-QKKCR-BY2Y7"></ProductKey>
+			</ProductKeys>
+			
+			<AzureServices>
+				<UserName>web_aria</UserName>
+				<Password>th3_f0rce</Password>
+				<Service>
+					<Name>UL.Aria.Service.OutboundMessage.Host</Name>
+					<DisplayName>UL Aria Service Outbound Message Host</DisplayName>
+					<StartupType>Manual</StartupType>
+					<Description>Aria Service used to send messages from Aria back on premises to UL.Aria.External.Relay.Host</Description>
+					<RelativeExecutablePath>\Bin\UL.Aria.Service.OutboundMessage.Host\UL.Aria.Service.OutboundMessage.Host.exe</RelativeExecutablePath>
+				</Service>
+				<Service>
+					<Name>UL.Aria.Service.InboundOrderProcessor.Host</Name>
+					<DisplayName>UL Aria Service Inbound Message Host</DisplayName>
+					<StartupType>Automatic</StartupType>
+					<Description>Aria Service Used to process messages received by UL.Aria.Message.Host to create orders and requests.</Description>
+					<RelativeExecutablePath>\Bin\UL.Aria.Service.InboundOrderProcessing.Host\UL.Aria.Service.InboundOrderProcessing.Host.exe</RelativeExecutablePath>
+				</Service>
+				<Service>
+					<Name>UL.Aria.Service.ProductUploadImportService</Name>
+					<DisplayName>UL Aria Service Product Upload Import Service</DisplayName>
+					<StartupType>Automatic</StartupType>
+					<Description>Aria Service used to process product file uploads.</Description>
+					<RelativeExecutablePath>\Bin\UL.Aria.Service.ProductProcessing.Host\UL.Aria.Service.ProductProcessing.Host.exe</RelativeExecutablePath>
+				</Service>
+				<Service>
+					<Name>UL.Aria.Service.Relay.Host</Name>
+					<DisplayName>UL Aria Service Relay Host</DisplayName>
+					<StartupType>Automatic</StartupType>
+					<Description>Aria on-premises service.  Relays messages from the Azure environment back to Buy/Pay.</Description>
+					<RelativeExecutablePath>\Bin\UL.Aria.Service.Relay.Host\UL.Aria.Service.Relay.Host.exe</RelativeExecutablePath>
+				</Service>
+			</AzureServices>
+			<OnPremiseServices>
+				<StartWindowsServicesOnPrem>False</StartWindowsServicesOnPrem>
+				<UserName></UserName>
+				<Password></Password>
+				<Service>
+					<Name>UL.Aria.External.JMS.Host.DevInt2</Name>
+					<DisplayName>UL Aria External JMS Host (DevInt2)</DisplayName>
+					<StartupType>Automatic</StartupType>
+					<Description>Aria on-premises service.  Listens for incoming messages from Buy/Pay and forwards them to Aria.</Description>
+					<RelativeExecutablePath>\UL.Aria.External.JMS.Host\UL.Aria.External.JMS.Host.exe</RelativeExecutablePath>
+				</Service>
+				<Service>
+					<Name>UL.Aria.External.Relay.Host.DevInt2</Name>
+					<DisplayName>UL Aria External Relay Host (DevInt2)</DisplayName>
+					<StartupType>Automatic</StartupType>
+					<Description>Aria on-premises service.  Relays messages from the Azure environment back to Buy/Pay.</Description>
+					<RelativeExecutablePath>\UL.Aria.External.Relay.Host\UL.Aria.External.Relay.Host.exe</RelativeExecutablePath>
+				</Service>
+				<Service>
+					<Name>UL.Aria.External.Service.Enterprise.Host.DevInt2</Name>
+					<DisplayName>UL Aria External Enterprise Host (DevInt2)</DisplayName>
+					<StartupType>Automatic</StartupType>
+					<Description>Aria on-premises service.  Relays  for enterprise services.</Description>
+					<RelativeExecutablePath>\UL.Aria.External.Service.Enterprise.Host\UL.Aria.External.Service.Enterprise.Host.exe</RelativeExecutablePath>
+				</Service>
+			</OnPremiseServices>
+			<AzureServicesWebSites> 
+				<WebSite><Name>UL.Aria.Service.Host</Name><Port>802</Port></WebSite>
+				<WebSite><Name>UL.Aria.Web.STS</Name><Port>804</Port></WebSite> 
+				<!-- <WebSite><Name>UL.Aria.Service.Message.Host</Name><Port>805</Port></WebSite> -->
+			</AzureServicesWebSites>
+			<OnPremServicesWebSites>
+				<WebSite><Name>UL.Aria.External.Service.Host.DevInt2</Name><Port>807</Port></WebSite>
+			</OnPremServicesWebSites>
+			<PortalWebSites> 
+				<WebSite><Name>UL.Aria.Web.Portal</Name><Port>801</Port></WebSite>
+			</PortalWebSites>
+			<RedisAzureSettings>
+				<AzurePortalMachine Domain="d9.aria.local">
+					 <Host>uld9portal.redis.cache.windows.net</Host>
+					 <Port>6380</Port>
+					 <AccessKey>Wv1xvkeyMChwGt2qMzSMh3NBZasda2iCRs6GS/uI8OU=</AccessKey>
+					 <ApplicationName>DevInt</ApplicationName>
+				</AzurePortalMachine>
+			</RedisAzureSettings>
+		</Environment>
+	</Environments>
+</Configuration>

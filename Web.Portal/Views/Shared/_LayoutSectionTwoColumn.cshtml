@@ -1,0 +1,22 @@
+﻿@{ 
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles {
+    @RenderSection("styles", required: false)	
+}
+
+@section scripts {
+    @RenderSection("scripts", required: false)
+}
+
+<aside class="section-controls">
+	@RenderSection("controls")
+</aside>
+
+<div class="section-page section-page-wide">
+    <div id="gritternotifications"></div>		
+    @RenderBody()
+    &nbsp;
+</div>
+

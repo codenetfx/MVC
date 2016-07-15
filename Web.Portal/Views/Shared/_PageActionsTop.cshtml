@@ -1,0 +1,10 @@
+﻿@model IEnumerable<UL.Aria.Web.Common.Models.Shared.TaxonomyMenuItem>
+@if (Model.Any())
+{
+    <ul class="page-actions-top pull-right">
+        @foreach (dynamic item in Model)
+        {
+            @Helpers.ActionLink(item)
+        }
+    </ul>
+}

@@ -1,0 +1,45 @@
+﻿@model UL.Aria.Web.Common.Models.Search.ISearchResultSet<UL.Aria.Web.Common.Models.Profile.SearchFavorite>
+@{
+    Layout = "_LayoutWide.cshtml";
+    var selectedCount = Model.SelectedItems == null ? 0 : Model.SelectedItems.Count;
+}
+
+<div class="fav-searchcontainer">
+    @{ Html.RenderPartial("_SearchForm", Model.SearchCriteria); }
+</div>
+
+<div id="selectedItems" class="selection-pane" data-spy="affix" data-offset-top="0" style="@(selectedCount > 0 ? null : "display:none;")">
+	<div class="modal-header">
+		<h3>I want to...</h3>
+	</div>
+	<div class="modal-body">
+		<div>There are <span class="selected-count">@selectedCount</span> selected items</div>
+		<ul>
+			<li><a href="#" data-toggle="modal"  data-target="#DeleteModal" data-item-name="Are you sure you want to delete the selected task(s)?"  data-item-href ="@Url.PageDeleteFavoriteSearchGroup()">Delete</a></li>
+		</ul>
+	</div>
+</div>
+
+<fieldset class="search-body">
+    @if (Model.Results.Any())
+    {
+        Html.RenderPartial("_FavoriteSearchResult", Model.Results);
+    }
+    else
+    {
+        Html.RenderPartial("_SearchNotFound", Model.SearchCriteria);
+    }
+</fieldset>
+
+@{ Html.RenderPartial("_SearchFormFooter", Model.SearchCriteria); }
+
+
+
+
+@section scripts {
+    <script type="text/javascript">
+       
+
+    </script>
+
+}

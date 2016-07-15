@@ -1,0 +1,16 @@
+﻿@model UL.Aria.Web.Common.Models.Profile.UserProfile
+
+@{
+	Layout = "~/Views/User/_Layout.cshtml";
+	ViewBag.ShowDefaultActions = true;
+}
+
+<fieldset class="display user-detail">
+	<legend><h2>User Information</h2></legend>
+	@Html.DisplayFor(m => m.BasicInformation)
+</fieldset>
+
+<fieldset class="display user-detail">
+	<legend><h2>Company Information</h2></legend>
+	@Html.DisplayFor(m => m.Company)
+</fieldset>

@@ -1,0 +1,14 @@
+﻿@model DateTime?
+
+@if (Model.HasValue && Model.Value != default(DateTime))
+{
+	@ViewData.TemplateInfo.FormattedModelValue
+}
+else if (ViewData.ModelMetadata.NullDisplayText != null)
+{
+	@ViewData.ModelMetadata.NullDisplayText
+}
+else
+{
+	<text>&nbsp;</text>
+}

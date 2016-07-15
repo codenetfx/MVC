@@ -1,0 +1,50 @@
+﻿@using UL.Aria.Web.Common.Models.Shared
+@using UL.Aria.Web.Common.Mvc
+@model UL.Aria.Web.Common.Models.Search.OrderSearchResult
+
+
+
+<div class="search-result order-result clearfix">
+	<div class="result-icon">
+		<a href="@Url.OrderDetails(Model.OrderId)">
+			<img src="@Url.TransparentImage()" alt="@Model.OrderNumber" /></a>
+	</div>
+	<div class="result-actions">
+		<div class="dropdown pull-right">
+			<a title="Open Menu" class="dropdown-toggle caret" data-toggle="dropdown" href="#"><i></i></a>
+			<ul class="dropdown-menu" role="menu">
+				<li><a href="@Url.OrderOverview(Model.OrderId)">View</a></li>
+				@if (!Model.IsReadOnly)
+				{
+					<li><a class="upload" data-toggle="modal" href="@Url.UploadMultipleDocuments(Model.OrderId, EntityType.Order, Model.ContainerId)" data-width="@TaxonomyMenuItem.UploadModalWidth">Upload Documents</a></li>
+				}
+			</ul>
+		</div>
+	</div>
+	<div class="result-detail">
+		<div class="result-item-header">
+			<div class="display-status">
+				@Model.Status
+			</div>
+		</div>
+		<div class="result-item-title">
+			<a href="@Url.OrderOverview(Model.OrderId)">@Model.OrderNumber</a>
+		</div>
+		@if (Model.IsDisplayCustomerName)
+		{
+			<div class="display-row">
+				<div class="display-label">@Html.DisplayNameFor(m => Model.CustomerName):</div>
+				<div class="display-field">@Html.DisplayFor(m => Model.CustomerName)</div>
+			</div>
+		}
+		<div class="display-row">
+			<div class="display-label">@Html.DisplayNameFor(m => Model.CustomerProjectName):</div>
+			<div class="display-field">@Html.DisplayFor(m => Model.CustomerProjectName)</div>
+		</div>
+
+		<div class="display-row muted row-horizontal">
+			<div class="display-label">@Html.DisplayNameFor(model => model.OrderDate):</div>
+			<div class="display-field">@Html.DisplayFor(model => model.OrderDate)</div>
+		</div>
+	</div>
+</div>

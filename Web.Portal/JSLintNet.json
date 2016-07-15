@@ -1,0 +1,41 @@
+﻿{
+  "ignore": [
+    "\\UL.Aria.Web.Portal.Config.js",
+    "\\Scripts\\Lib\\",
+    "\\Scripts\\src\\_references.js",
+    "\\Scripts\\src\\UL.Core.js",
+    "\\Scripts\\src\\Widgets\\UL.Monitor.js",
+    "\\Scripts\\src\\UL.Core.Validation.js",
+    "\\Scripts\\UL.Core.js",
+    "\\Scripts\\UL.Core.Validation.js",
+    "\\Scripts\\i18n\\",
+    "\\Scripts\\src\\Extensions\\Globals.js",
+    "\\Scripts\\src\\Extensions\\UL.JqGridMethodOverrides.js"
+  ],
+  "options": {
+    "predef": {
+      "jQuery": false,
+      "$": false,
+      "UL": false,
+      "Window": false,
+      "window": false,
+      "ko": false,
+      "Enumerable": false,
+      "moment": false,
+      "MvcJqGrid": false,
+      "DeepDiff": false
+    },
+    "ass": false,
+    "bitwise": true,
+    "browser": true,
+    "evil": false,
+    "node": false,
+    "passfail": false,
+    "plusplus": true,
+    "unparam": true,
+    "vars": true,
+    "white": true
+  },
+  "runOnSave": true,
+  "cancelBuild": false
+}

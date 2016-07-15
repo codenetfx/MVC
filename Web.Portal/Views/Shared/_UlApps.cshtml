@@ -1,0 +1,15 @@
+﻿@model IEnumerable<UL.Aria.Web.Common.Models.Shared.MenuItem>
+<section class="section-apps">
+    <h6>UL Apps</h6>
+    <ul>
+        @foreach (dynamic app in Model)
+        {
+            <li>
+                <a href="@app.Url" target="_blank" class="@app.Class">
+                    <img src="@Url.TransparentImage()"/>
+                    <span>@app.Text</span>
+                </a>
+            </li>	
+        }
+    </ul>
+</section>

@@ -1,0 +1,18 @@
+﻿@using UL.Aria.Web.Common.Mvc
+@model  UL.Aria.Web.Common.Models.Product.DocumentAttribute
+@{
+	Guid assetId;
+}
+
+@if (Guid.TryParse(Model.Value, out assetId))
+{
+	<a href="@Url.DownloadDocument(assetId)">Download  @Model.Name</a>
+}
+else if (!string.IsNullOrEmpty(Model.Value))
+{
+	@Model.Value
+}
+else
+{
+	<text>&nbsp;</text>
+}

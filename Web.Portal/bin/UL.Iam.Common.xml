@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UL.Iam.Common</name>
+    </assembly>
+    <members>
+        <member name="T:UL.Iam.Common.CertificateService">
+            <summary>
+            Implements the <see cref="T:UL.Iam.Common.ICertificateService"/>
+            </summary>
+        </member>
+        <member name="T:UL.Iam.Common.ICertificateService">
+            <summary>
+            Provides services for manipulating and locating X509Certificates
+            </summary>
+        </member>
+        <member name="M:UL.Iam.Common.ICertificateService.LookupCertificateByThumbprint(System.Security.Cryptography.X509Certificates.StoreName,System.Security.Cryptography.X509Certificates.StoreLocation,System.String)">
+            <summary>
+            Looks up the certificate by thumbprint.
+            </summary>
+            <param name="name">The store name.</param>
+            <param name="location">The store location.</param>
+            <param name="thumbprint">The certificate thumbprint.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Iam.Common.CertificateService.LookupCertificateByThumbprint(System.Security.Cryptography.X509Certificates.StoreName,System.Security.Cryptography.X509Certificates.StoreLocation,System.String)">
+            <summary>
+            Looks up the certificate by thumbprint.
+            </summary>
+            <param name="name">The store name.</param>
+            <param name="location">The store location.</param>
+            <param name="thumbprint">The certificate thumbprint.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="T:UL.Iam.Common.CertificateUtility">
+            <summary>
+                Class CertificateUtility
+            </summary>
+        </member>
+        <member name="M:UL.Iam.Common.CertificateUtility.GetCertificate(System.Security.Cryptography.X509Certificates.StoreName,System.Security.Cryptography.X509Certificates.StoreLocation,System.String)">
+            <summary>
+                Get the certificate from a specific store/location/thumbprint.
+            </summary>
+        </member>
+        <member name="T:UL.Iam.Common.OAuth.ISharePointRestApiAccessTokenGenerator">
+            <summary>
+            Generates OAuth Bearer tokens that are compatible with SharePoint Rest Services
+            </summary>
+        </member>
+        <member name="M:UL.Iam.Common.OAuth.ISharePointRestApiAccessTokenGenerator.GenerateSmtpClaimsIdentityAccessToken(System.Uri,System.String)">
+            <summary>
+            Generates the SMTP claims identity access token.
+            </summary>
+            <param name="siteUrl">The site URL.</param>
+            <param name="emailAddress">The email address.</param>
+            <returns></returns>
+        </member>
+        <member name="T:UL.Iam.Common.OAuth.SharePointRestApiAccessTokenGenerator">
+            <summary>
+                SharePointRestApiAccessTokenGenerator implementation
+                <note>
+                    This implementation has been heavily borrowed from the TokenHelper.cs provided in
+                    SharePoint for making server to server calls over the rest interface.
+                </note>
+            </summary>
+        </member>
+        <member name="M:UL.Iam.Common.OAuth.SharePointRestApiAccessTokenGenerator.#ctor(UL.Iam.Common.OAuth.ISharePointRestApiAccessTokenGeneratorConfiguration,UL.Iam.Common.ICertificateService)">
+            <summary>
+                Initializes a new instance of the <see cref="T:UL.Iam.Common.OAuth.SharePointRestApiAccessTokenGenerator"/> class.
+            </summary>
+            <param name="configuration">The configuration.</param>
+            <param name="certificateService">The certificate service.</param>
+        </member>
+        <member name="M:UL.Iam.Common.OAuth.SharePointRestApiAccessTokenGenerator.GenerateSmtpClaimsIdentityAccessToken(System.Uri,System.String)">
+            <summary>
+                Generates the SMTP claims identity access token.
+            </summary>
+            <param name="siteUrl">The site URL.</param>
+            <param name="emailAddress">The email address.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="T:UL.Iam.Common.OAuth.ISharePointRestApiAccessTokenGeneratorConfiguration">
+            <summary>
+            Configuration necessary for the <see cref="T:UL.Iam.Common.OAuth.SharePointRestApiAccessTokenGenerator"/>
+            </summary>
+        </member>
+        <member name="P:UL.Iam.Common.OAuth.ISharePointRestApiAccessTokenGeneratorConfiguration.ClientId">
+            <summary>
+            Gets or sets the client API.
+            </summary>
+            <value>
+            The client API.
+            </value>
+        </member>
+        <member name="P:UL.Iam.Common.OAuth.ISharePointRestApiAccessTokenGeneratorConfiguration.SiteId">
+            <summary>
+            Gets or sets the issuer id.
+            </summary>
+            <value>
+            The issuer id.
+            </value>
+        </member>
+        <member name="P:UL.Iam.Common.OAuth.ISharePointRestApiAccessTokenGeneratorConfiguration.TrustedCertificateThumprint">
+            <summary>
+            Gets or sets the trusted certificate thumprint.
+            </summary>
+            <value>
+            The trusted certificate thumprint.
+            </value>
+        </member>
+        <member name="P:UL.Iam.Common.OAuth.ISharePointRestApiAccessTokenGeneratorConfiguration.TrustedCertificateStoreName">
+            <summary>
+            Gets or sets the name of the trusted certificate store.
+            </summary>
+            <value>
+            The name of the trusted certificate store.
+            </value>
+        </member>
+        <member name="P:UL.Iam.Common.OAuth.ISharePointRestApiAccessTokenGeneratorConfiguration.TrustedCertificateLocation">
+            <summary>
+            Gets or sets the trusted certificate location.
+            </summary>
+            <value>
+            The trusted certificate location.
+            </value>
+        </member>
+        <member name="T:UL.Iam.Common.OifSamlSecurityTokenHandler">
+            <summary>
+                OifSamlSecurityTokenHandler
+            </summary>
+        </member>
+        <member name="M:UL.Iam.Common.OifSamlSecurityTokenHandler.#ctor">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:UL.Iam.Common.OifSamlSecurityTokenHandler.#ctor(System.IdentityModel.Tokens.SamlSecurityTokenRequirement)">
+            <summary>
+            </summary>
+            <param name="samlSecurityTokenRequirement"></param>
+        </member>
+        <member name="M:UL.Iam.Common.OifSamlSecurityTokenHandler.ReadSigningKeyInfo(System.Xml.XmlReader,System.IdentityModel.Tokens.SamlAssertion)">
+            <summary>
+            </summary>
+            <param name="reader"></param>
+            <param name="assertion"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Iam.Common.OifSamlSecurityTokenHandler.LoadCustomConfiguration(System.Xml.XmlNodeList)">
+            <summary>
+            </summary>
+            <param name="customConfigElements"></param>
+        </member>
+    </members>
+</doc>

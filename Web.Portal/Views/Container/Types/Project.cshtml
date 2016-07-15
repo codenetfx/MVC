@@ -1,0 +1,12 @@
+﻿@model UL.Aria.Web.Common.Models.Container.ContainerModel
+
+@{
+	ViewBag.Title = Model.Name + " :: Projects";
+	ViewBag.SectionTitle = "Project";
+}
+
+<fieldset>
+	<legend>Project Information</legend>
+
+	@Html.DisplayForModel()
+</fieldset>

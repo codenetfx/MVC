@@ -1,0 +1,91 @@
+﻿@using UL.Aria.Web.Common.Models.Search
+@model UL.Aria.Web.Common.Models.Project.ProjectDetail
+@{
+    Layout = "~/Views/Project/Detail/_DetailsLayout.cshtml";
+}
+
+@{ Html.RenderPartial("_SearchForm", Model.SearchResults.SearchCriteria); }
+
+<fieldset class="search-body">
+    @if (Model.SearchResults.Results.Any())
+    {
+        foreach (object item in Model.SearchResults.Results)
+        {
+        @Html.DisplayFor(m => item)
+        }
+    }
+    else
+    {
+        Html.RenderPartial("_SearchNotFound", Model.SearchResults.SearchCriteria);
+    }
+</fieldset>
+
+@{ Html.RenderPartial("_SearchFormFooter", Model.SearchResults.SearchCriteria); }
+
+
+<div id="RemoveConfirmModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 id="DeleteConfirmModalLabel">Remove Product Association</h3>
+    </div>
+    <div class="modal-body" id="utility_body">
+        <p>Do you want remove product association for this project?</p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn pull-left" data-dismiss="modal">Cancel</button>
+        <button id="submit" class="btn btn-primary">Remove Product</button>
+
+    </div>
+</div>
+
+@section scripts{
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+
+            $('a[name="removeProduct"]').on('click', function () {
+               
+                $('button#submit').attr('data-item-href', $(this).attr('data-item-href'));
+              
+            });
+
+            $('button#submit').on('click', function (event) {
+                $('#RemoveConfirmModal').modal('hide');
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('data-item-href'),
+                    success: function (result) {
+                        $.gritter.add(result.message);
+                        if (result.success) {
+                            setTimeout(function () {
+                                window.location = window.location;
+                            }, 500);
+                        }
+                    },
+                    cache: false
+                });
+            });
+
+        });
+
+ 
+    // Takes current value of text inside of #ProjectHandler input field
+    // and removes spaces from before and after string (not in string itself) when focus leaves field.
+    $("#ProjectHandler").blur(function () {
+
+
+        var handlerText = $("#ProjectHandler").val();
+        handlerText = handlerText.replace(/^\s+|\s+$/gm, '');
+        $("#ProjectHandler").val(handlerText);
+    });
+
+     
+            $(document).ready(function () {
+                $('.primary-refiner-a').on('click', function() {
+                    UL.RefineSearch(this);
+                });
+            });
+     
+    </script>
+}

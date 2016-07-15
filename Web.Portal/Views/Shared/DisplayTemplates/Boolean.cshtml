@@ -1,0 +1,9 @@
+﻿@model bool?
+@if (Model == null)
+{
+	<text>&nbsp;</text>
+}
+else
+{
+	@(Model.Value ? "Yes" : "No")
+}

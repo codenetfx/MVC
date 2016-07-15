@@ -1,0 +1,41 @@
+﻿@model UL.Aria.Web.Common.Models.TaskType.TaskTypeEditable
+@{
+    var success = ((bool?) ViewBag.Success).GetValueOrDefault(false);
+    var id = "form_" + Guid.NewGuid();
+    ViewBag.ModalTitle = "Create Predefined Task";
+}
+
+<div class="form-horizontal control-group">
+    @Html.LabelFor(x => x.Description)
+    <div class="controls">
+        @Html.TextBoxFor(model => model.Description, new
+        {
+            @class = "task-comment-box"
+        })
+    </div>
+</div>
+
+<div class="form-horizontal control-group">
+    <div class="left-col">
+        @Html.LabelFor(x => x.TaskOwner)
+        <div>
+            <div class="controls">
+	            <p>
+		            @Html.AutoCompleteFor(m => m.TaskOwner, Url.PageSearchULUsers(),  minSearchTermLength: 2)
+	            </p>
+
+                <p>-&nbsp;OR&nbsp;-</p>
+                <p>
+                    <span id="useProjectHandler" class="model-description">@Html.CheckBoxFor(m => m.UseProjectHandler) Project Handler</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="right-col">
+        @Html.LabelFor(x => x.EstimatedDuration)
+        <div class="controls">
+            @Html.TextBoxFor(x => x.EstimatedDuration)
+        </div>
+    </div>
+</div>

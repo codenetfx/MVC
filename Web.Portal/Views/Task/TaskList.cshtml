@@ -1,0 +1,70 @@
+﻿@using UL.Aria.Service.Contracts.Dto
+@using UL.Aria.Web.Common
+@using UL.Aria.Web.Common.Models.Project
+@using UL.Aria.Web.Common.Models.Search
+@using UL.Aria.Web.Common.Models.Shared
+@model ISearchResultSet<TaskSearchResult>
+
+<table class="table">
+    <thead>
+        <tr>
+	        <th class="nowrap">@Helpers.SortColumnHeader("Task", AssetFieldNames.AriaTaskTitle, Model.SearchCriteria)</th>
+			<th class="nowrap">@Helpers.SortColumnHeader("Short Description", AssetFieldNames.AriaTaskDescription, Model.SearchCriteria)</th>
+            <th class="nowrap">@Helpers.SortColumnHeader("Project", AssetFieldNames.AriaProjectName, Model.SearchCriteria)</th>
+	        <th class="nowrap">@Helpers.SortColumnHeader("Task Status", AssetFieldNames.AriaTaskPhase, Model.SearchCriteria)</th>
+			@*<th class="nowrap">Progress</th>
+			<th class="nowrap">@Helpers.SortColumnHeader("Start Date", AssetFieldNames.AriaTaskStartDate, Model.SearchCriteria)</th>
+	        <th class="nowrap">@Helpers.SortColumnHeader("Reminder Date", AssetFieldNames.AriaTaskReminderDate, Model.SearchCriteria)</th>*@
+	        <th class="nowrap">@Helpers.SortColumnHeader("Due Date", AssetFieldNames.AriaTaskDueDate, Model.SearchCriteria)</th>
+            <th class="nowrap">@Helpers.SortColumnHeader("Assignee", AssetFieldNames.AriaTaskOwner, Model.SearchCriteria)</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model.Results)
+    {
+        var projectStatus = ((item.ProjectStatus == ProjectStatus.Completed) || ((item.ProjectStatus == ProjectStatus.Canceled)));
+
+            <tr>
+	            <td>
+		            @Html.DisplayFor(m => item.Name)
+		            @if (item.HasComments)
+		            {
+			            <sup class="icon-comment"></sup>
+		            }
+					@if (item.ShouldTriggerBilling)
+					{
+						<span class="billing-trigger-label">(@ConstantKeys.BillingTriggerTask)</span>
+					}
+	            </td>
+				<td>@Html.DisplayFor(m => item.Description)</td>
+				<td>
+					<a href="@Url.PageProjectOverview(item.ProjectId)" title="@Html.DisplayFor(m => item.ProjectName)">
+						@Helpers.TruncateTextWithOutMore(item.ProjectName, 30)
+					</a>
+				</td>
+	            <td class="@item.TaskStatusCssClass">@Html.DisplayFor(m => item.Status)</td>
+	            @*<td>@Html.DisplayFor(m => item.Progress)</td>
+	            <td>@Html.DisplayFor(m => item.StartDate)</td>
+				<td>@Html.DisplayFor(m => item.ReminderDate)</td>*@
+                <td>@Html.DisplayFor(m => item.DueDate)</td>
+                <td>@Html.DisplayFor(m => item.TaskOwner)</td>
+                <td>
+                    <div class="result-actions">
+                        <!--<input type="checkbox" class="pull-right" style="margin: 2px 0 0 10px;" value="@item.Id"  data-group-name="@EntityType.Task" onclick="return UL.Result_OnChange(this);" @(item.IsSelected ? "checked='checked'" : null)  />-->
+                        <div class="dropdown pull-right">
+                            <a title="Open Menu" class="dropdown-toggle caret" data-toggle="dropdown" href="#"><i></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="@Url.PageViewTask(item.Id, item.ContainerId)">View Task</a></li>
+                                @if (!projectStatus && (item.Status != TaskStatusEnum.Completed && item.Status != TaskStatusEnum.Canceled))
+                                {
+                                    <li><a href="@Url.PageEditTask(item.Id, item.ContainerId)" data-toggle="modal">Edit Task</a></li>
+                                    <li><a href="@Url.PageEditTask(item.Id, item.ContainerId)&tab=modal-task-documents" data-toggle="modal">Add Documents</a></li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+    }
+</table>

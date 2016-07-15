@@ -1,0 +1,81 @@
+﻿@model UL.Aria.Web.Common.Models.DocumentTemplate.DocumentTemplateEdit
+
+@{
+	var fileId = "f" + Model.UploadId;
+}
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	<h3 id="myModalLabel">@ViewBag.ModalTitle</h3>
+</div>
+<div class="modal-body">
+	@Html.HiddenFor(x=>x.UploadId)
+	@Html.HiddenFor(x => x.Id)
+	@Html.HiddenFor(x => x.DocumentId)
+	<fieldset class="upload-pane form-horizontal">
+		<div class="form-horizontal control-group">
+			@Html.LabelFor(model => model.Name, new { @class = "strong" })
+			<div class="controls">
+				@Html.EditorFor(model => model.Name)
+				@Html.ValidationMessageFor(x => x.Name)
+			</div>
+		</div>
+
+		<div class="control-group">
+			@Html.LabelFor(model => model.File, "Document Template", new { @class = "strong" })
+			<div class="controls" style="clear:left">
+				@*<div class="faux-file">
+					<input type="text" placeholder="Select documents to upload..." />
+					<button class="btn btn-primary">Browse</button>
+				</div>*@
+				<a href="@Url.PageDownloadDocumentTemplate(Model.Id.Value)"><strong>@Model.FileName</strong></a>
+				<br/>
+				@Html.TextBoxFor(model => model.File, new { type = "file", id = fileId, @class = "file" })
+				@Html.ValidationMessageFor(model => model.File)
+			</div>
+		</div>
+
+		
+		<div class="form-horizontal control-group">
+			@Html.LabelFor(model => model.BusinessUnits, new { @class = "strong" })
+			<div class="controls chkBusinessUnit">
+				@Html.CheckboxListFor(m => m.BusinessUnits, Model.BusinessUnits)
+				<input type="hidden" name="BusinessUnitsValidation" />
+				@Html.ValidationMessage("BusinessUnitsValidation")
+			</div>
+		</div>
+
+		<div class="form-horizontal control-group">
+			@Html.LabelFor(model => model.Description, new { @class = "strong" })
+			<div class="controls">
+				@Html.TextAreaFor(model => model.Description, new { rows = "5", @class = "task-comment-box" })
+				@Html.ValidationMessageFor(x => x.Description)
+			</div>
+		</div>
+
+		@Html.ValidationSummary()
+
+		</fieldset>
+		<fieldset class="progress-pane" style="display: none;">
+			<strong>Progress:</strong>
+			<div class="progress progress-striped">
+				<div class="bar" style="width: 0;"></div>
+			</div>
+			<div class="status-message"></div>
+		</fieldset>
+
+</div>
+
+
+<div class="modal-footer upload-footer">
+	<button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Cancel</button>
+	<input type="submit" class="btn btn-primary" value="Upload" />
+</div>
+<div class="modal-footer progress-footer" style="display: none;">
+	<button class="btn btn-warning" data-dismiss="modal" aria-hidden="true">Cancel</button>
+</div>
+<div class="modal-footer error-footer" style="display: none;">
+	<button class="btn btn-info" data-dismiss="modal" aria-hidden="true">Dismiss</button>
+</div>
+
+
+

@@ -1,0 +1,49 @@
+﻿@using UL.Aria.Web.Common.Mvc
+@model UL.Aria.Web.Common.Models.Profile.UserProfile
+
+@{
+	Layout = "~/Views/Profile/_Layout.cshtml";
+	ViewBag.IsEditing = true;
+	ViewBag.PageTitle = "Edit Profile";
+	ViewBag.Title = "Edit Profile :: UL";
+}
+
+@using (Html.BeginForm())
+{
+	@Html.ValidationSummary()
+	@Html.HiddenFor(m =>m.BasicInformation.CompanyExternalId)
+    @Html.HiddenFor(m => m.BasicInformation.LoginId)
+
+	<fieldset class="profile-form">
+		<div class="control-group">
+			@Html.LabelFor(model => model.BasicInformation.DisplayName)
+			<div class="controls">
+				@Html.EditorFor(model => model.BasicInformation.DisplayName)
+				@Html.ValidationMessageFor(model => model.BasicInformation.DisplayName)
+			</div>
+		</div>
+
+		<div class="control-group">
+			@Html.LabelFor(model => model.BasicInformation.Title)
+			<div class="controls">
+				@Html.EditorFor(model => model.BasicInformation.Title)
+				@Html.DescriptionFor(model => model.BasicInformation.Title)
+				@Html.ValidationMessageFor(model => model.BasicInformation.Title)
+			</div>
+		</div>
+
+		<div class="control-group">
+			@Html.LabelFor(model => model.BasicInformation.AboutMe)
+			<div class="controls">
+				@Html.EditorFor(model => model.BasicInformation.AboutMe)
+				@Html.DescriptionFor(model => model.BasicInformation.AboutMe)
+				@Html.ValidationMessageFor(model => model.BasicInformation.AboutMe)
+			</div>
+		</div>
+
+		<p class="control-buttons">
+			<input type="button" value="Cancel" class="btn" data-redirect="@Url.PageProfile()" />
+			<input type="submit" value="Save" class="btn btn-primary pull-right" />
+		</p>
+	</fieldset>
+}

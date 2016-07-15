@@ -1,0 +1,74 @@
+﻿@using UL.Aria.Web.Common.Models.Shared
+@using UL.Aria.Service.Contracts.Dto;
+@using UL.Aria.Web.Common.Models.Notification
+@model HomeViewModel
+@{
+    Layout = "~/Views/Home/_Layout.cshtml";
+    ViewBag.Title = "Home :: UL";
+    ViewBag.MaxMenuLevel = 0;//to prevent Tasks showing refiners in _PageActions
+}
+
+@section styles {
+    @Styles.Render("~/css/tile")
+}
+
+<fieldset class="search-header">
+    <legend><h2>Home</h2></legend>
+    <div class="live-tile-holder">
+        @{
+            var tileCount = 0;
+        }
+        @foreach (var tile in Model.PageLinks)
+        {
+            if (tile.Key == "Home")
+            {
+                continue;
+            }
+            
+            tileCount++;
+            <div class="live-tile tile-@tile.Key"  data-link="@tile.Url">
+                <div class="tile-details">
+                    <div>@tile.Text</div>
+                    @foreach (TaxonomyMenuItem status in tile.Children)
+                    {
+                        <p class="text-center short-line">@status.Text (@status.Count)</p>
+                    }
+                </div>
+                <div>
+                    <span class="tile-count">@tile.Count</span>
+                    <img src="@Url.TransparentImage()" class="tile-icon" /> 
+                </div>
+            </div>
+        }
+    </div>
+</fieldset>
+
+@{
+    var notifyInitModel = new NotificationInitModel() { SectionKey = "homeNotifications", EnableViewEntity = true };
+    Html.RenderPartial("~/Views/Shared/_Notifications.cshtml", notifyInitModel);
+}
+
+@section scripts {
+  
+    <script type="text/javascript">
+        var $tiles = $(".live-tile").liveTile({
+            playOnHover: true,
+            repeatCount: 0,
+            delay: 0,
+            startNow: true,
+            currentIndex: 0,
+            stops: "67%,0px",
+            bounce: true,
+            stack: false
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var notifyJq = $('#@notifyInitModel.SectionKey').notification({ 
+                enableEnityView: @notifyInitModel.EnableViewEntity.ToString().ToLower() 
+            });
+        });
+    </script>
+
+}

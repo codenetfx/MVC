@@ -1,0 +1,86 @@
+﻿@using UL.Aria.Web.Common.Mvc
+@model UL.Aria.Web.Common.Models.Product.ProductUpload
+@{
+	var fileId = "f" + Model.UploadId;
+	Layout = null;
+}
+
+<form method="POST" action="@Url.PageCreateProducts()/" enctype="multipart/form-data">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3 id="myModalLabel">Upload Products</h3>
+	</div>
+	<div class="modal-body">
+		<fieldset class="upload-pane form-horizontal">
+			<div class="pull-left" style="width:300px;">
+				<div class="control-group">
+					@Html.LabelFor(model => model.File, new Dictionary<string, object>{ { "style", "float:left; padding-right: 10px;" } })
+					@Html.DescriptionFor(m => m.File)
+					<div class="controls normal-upload" style="clear:left">
+						<div class="faux-file">
+							<input type="text" placeholder="Select documents to upload..." />
+							<button class="btn btn-primary">Browse</button>
+						</div>
+						@Html.TextBoxFor(model => model.File, new {type = "file", id = fileId, @class = "file"})
+						@Html.ValidationMessageFor(model => model.File)
+					</div>
+				</div>
+				@if (Model.Companies != null)
+				{
+					<div class="control-group">
+						@Html.LabelFor(model => model.CompanyId)
+						<div class="controls">
+							@Html.DropDownListFor(model => model.CompanyId, Model.Companies)
+							@Html.ValidationMessageFor(model => model.CompanyId)
+						</div>
+					</div>
+				}
+				else
+				{
+					@Html.HiddenFor(model => model.CompanyId)
+				}
+			</div>
+			@if (Model.CanSeeFamilies)
+			{
+				<div class="pull-left" style="width: 225px;">
+					@{ Html.RenderPartial("_ProductFamily"); }
+				</div>
+			}
+		</fieldset>
+
+		<fieldset class="progress-pane" style="display: none;">
+			<strong>Progress:</strong>
+			<div class="progress progress-striped">
+				<div class="bar" style="width: 0;"></div>
+			</div>
+			<div class="status-message"></div>
+			@Html.HiddenFor(m => m.UploadId)
+		</fieldset>
+
+		@if (Model.EnableLogging)
+		{
+			<fieldset class="uploadDebugLog">
+				<strong onclick=" $('#messages').html(''); " title="Clear Log">Log:</strong>
+				<div class="console" id="messages">
+				</div>
+			</fieldset>
+		}
+	</div>
+	<div class="modal-footer upload-footer">
+		<button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Cancel</button>
+		<input type="submit" class="btn btn-primary" value="Upload" />
+	</div>
+	<div class="modal-footer progress-footer" style="display: none;">
+		<button class="btn btn-warning cancel" data-dismiss="modal" aria-hidden="true">Cancel</button>
+	</div>
+	<div class="modal-footer error-footer" style="display: none;">
+		<button class="btn btn-info" data-dismiss="modal" aria-hidden="true">Dismiss</button>
+	</div>
+</form>
+
+<script type="text/javascript">
+	$("#@fileId").fancyUpload({
+		dropHole: ".file-drag"
+	});
+	$('#@fileId').closest(".modal").find("input").placeholder();
+</script>

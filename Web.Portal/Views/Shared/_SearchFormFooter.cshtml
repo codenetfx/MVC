@@ -1,0 +1,13 @@
+﻿@model UL.Aria.Web.Common.Models.Search.SearchCriteria
+@{
+    var viewTypeVal = Request.QueryString["viewType"] ?? "0";
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Get))
+{
+    <input type="hidden" name="viewType" value="@viewTypeVal" />
+    Html.RenderPartial("_Paging", Model.Paging);
+    @Html.HiddenFor(m => m.Query)
+
+    Html.RenderPartial("_SearchCriteriaHidden", Model);
+}

@@ -1,0 +1,122 @@
+﻿@using UL.Aria.Web.Common.Mvc
+@model UL.Aria.Web.Common.Models.Company.CompanyUserModel
+
+@{
+	Layout = "~/Views/User/_Layout.cshtml";
+	var userId = Model.UserId;
+}
+
+@section aside {
+	<ul class="page-actions">
+		<li class="primary add">
+			@{
+				var siteUrl = Model.HasCompanyAccess ? Url.PageCompanyUserDenyAccess(userId, Model.CompanyId) : Url.PageCompanyUserGrantAccess(userId, Model.CompanyId);
+				var siteText = Model.HasCompanyAccess ? "Remove Site Access" : "Grant Site Access";
+				<a href="@siteUrl">@siteText</a>
+			}
+		</li>
+		<li class="secondary add">
+			@{
+				var orderUrl = Model.HasCompanyOrderAccess ? Url.PageCompanyOrderRemoveAccess(userId, Model.CompanyId) : Url.PageCompanyOrderGrantAccess(userId, Model.CompanyId);
+				var orderText = Model.HasCompanyOrderAccess ? "Remove Company Order Access" : "Grant Company Order Access";
+				<a href="@orderUrl">@orderText</a>
+			}
+		</li>
+		<li class="secondary add">
+			@{
+				var projectUrl = Model.HasCompanyProjectAccess ? Url.PageCompanyProjectRemoveAccess(userId, Model.CompanyId) : Url.PageCompanyProjectGrantAccess(userId, Model.CompanyId);
+				var projectText = Model.HasCompanyProjectAccess ? "Remove Company Project Access" : "Grant Company Project Access";
+				<a href="@projectUrl">@projectText</a>
+			}
+		</li>
+		<li class="secondary add">
+			@{
+				var productUrl = Model.HasCompanyProductAccess ? Url.PageCompanyProductRemoveAccess(userId, Model.CompanyId) : Url.PageCompanyProductGrantAccess(userId, Model.CompanyId);
+				var productText = Model.HasCompanyProductAccess ? "Remove Company Product Access" : "Grant Company Product Access";
+				<a href="@productUrl">@productText</a>
+			}
+		</li>
+		@if (Model.IsUlEmployee)
+		{
+		<li class="secondary add">
+			@{
+			var orderAdminUrl = Model.IsUlOrderAdministrator ? Url.PageOrderAdminRemoveAccess(userId, Model.CompanyId) : Url.PageOrderAdminGrantAccess(userId, Model.CompanyId);
+			var orderAdminText = Model.IsUlOrderAdministrator ? "Remove Global Order Access" : "Grant Global Order Access";
+				<a href="@orderAdminUrl">@orderAdminText</a>
+			}
+		</li>
+		}
+	    <li class="secondary add">
+	        @{
+	            var adminUrl = Model.IsCompanyAdmin ? Url.PageCompanyAdminRemoveAccess(userId, Model.CompanyId) : Url.PageCompanyAdminGrantAccess(userId, Model.CompanyId);
+	            var adminLabel = Model.IsCompanyAdmin ? "Remove Company Admin Access" : "Grant Company Admin";
+	            <a href="@adminUrl">@adminLabel</a>
+	        }
+	    </li>
+        @if (Model.IsUlEmployee)
+        {
+            <li class="secondary add">
+                @{
+            var orderAdminUrl = Model.IsUlProjectTemplateManager ? Url.PageCompanyProjectTemplateManagerRemoveAccess(userId) : Url.PageCompanyProjectTemplateMangerGrantAccess(userId);
+            var orderAdminText = Model.IsUlProjectTemplateManager ? "Remove Template Manager Access" : "Grant Template Manager Access";
+            <a href="@orderAdminUrl">@orderAdminText</a>
+                }
+            </li>
+        }
+	</ul>
+}
+
+@using (Html.BeginForm())
+{
+	@Html.ValidationSummary(true)
+	<fieldset class="profile-form">
+		<legend>Edit User</legend>
+
+		<div class="control-group display-group">
+			@Html.LabelFor(m => m.CompanyExternalId)
+			<div class="controls">
+				@Html.DisplayFor(model => model.CompanyExternalId)
+			</div>
+		</div>
+
+		<div class="control-group display-group">
+			@Html.LabelFor(m => m.LoginId)
+			@Model.LoginId
+		</div>
+
+	    <div class="control-group">
+	        @Html.LabelFor(m => m.DisplayName)
+	        <div class="controls">
+	            @Html.EditorFor(model => model.DisplayName)
+	            @Html.ValidationMessageFor(model => model.DisplayName)
+	        </div>
+	    </div>
+        @if (Model.IsUlEmployee)
+        {
+            <div class="control-group">
+                @Html.LabelFor(m => m.EmployeeId)
+                <div class="controls">
+                    @Html.EditorFor(model => model.EmployeeId)
+                    @Html.ValidationMessageFor(model => model.EmployeeId)
+                </div>
+            </div>
+        }
+
+	    @Html.HiddenFor(m => m.CompanyId)
+		@Html.HiddenFor(m => m.CompanyExternalId)
+		@Html.HiddenFor(m => m.UserId)
+		@Html.HiddenFor(m => m.LoginId)
+
+		<p class="control-buttons">
+			<input type="button" value="Cancel" class="btn" data-redirect="@Url.PageCompanyMembers(Model.CompanyId)" />
+			<input type="submit" value="Update" class="btn btn-primary pull-right" />
+		</p>
+	</fieldset>
+}
+
+
+@section scripts {	
+	<script type="text/javascript">
+		$(document).ready(UL.hookCancelButtons);
+	</script>
+}

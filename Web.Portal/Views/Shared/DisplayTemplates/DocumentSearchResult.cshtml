@@ -1,0 +1,125 @@
+﻿@using UL.Aria.Web.Common.Mvc
+@model UL.Aria.Web.Common.Models.Search.DocumentSearchResult
+
+@{
+	var modalId = string.Concat("modal-", Model.Id.ToString("N"));
+	var docDlUrl = Url.DownloadDocument(Model.Id);
+	var modalEditId = string.Concat("modalEdit-", Model.Id.ToString("N"));
+}
+
+<div class="search-result document-result clearfix">
+	<div class="result-icon">
+		<div class="icon-container @Model.IconCSSClass">
+			<a href="@docDlUrl">
+				<img class="document-spacer" src="@Url.Content("~/Images/clear.gif")" alt="@Model.Title" />
+			</a>
+		</div>
+	</div>
+	<div class="result-actions">
+		@*<input type="checkbox" class="pull-right" style="margin: 2px 0 0 10px;" />*@
+		<div class="dropdown pull-right">
+			<a title="Open Menu" class="dropdown-toggle caret" data-toggle="dropdown" href="#"><i></i></a>
+			<ul class="dropdown-menu" role="menu">
+				<li>
+					<a href="@docDlUrl">Download</a>
+				</li>
+				@if (Model.CanEdit)
+				{
+					if (Model.CanEditDocumentOnline)
+					{
+						<li>
+							<a id="@modalEditId" class="editDocumentOnline" data-href="@Url.Action("EditDocumentOnline","Container")" data-id="@Model.Id" data-document-href="@Model.DocumentEditUrl">Edit Document</a>
+						</li>
+					}
+
+					<li>
+						<a id="@modalEditId" href="@Url.EditDocumentMetadata(Model.Id)" data-toggle="modal">Edit Properties</a>
+					</li>
+
+					if (Model.CanReUpload)
+					{
+						<li>
+							<a id="@modalEditId" href="@Url.UploadMultipleDocuments(Model.Id, UL.Aria.Web.Common.Models.Shared.EntityType.Document, Model.ContainerId, Model.AssetId)" data-toggle="modal">Re-Upload</a>
+						</li>
+					}
+					if (Model.CanDelete)
+					{
+						var deleteText = string.Format(@"Are you sure you want to delete the file <strong>{0}</strong>?", Model.Title);
+						<li>
+							<a href="#" data-toggle="modal" data-target="#DeleteModal"
+							   data-item-href="@Url.DeleteDocument(Model.Id)"
+							   data-item-name="@deleteText"
+							   data-item-id="">Delete</a>
+						</li>
+					}
+				}
+
+			</ul>
+
+		</div>
+	</div>
+	<div class="result-detail">
+		<div class="result-item-header">
+			<div class="display-status">
+				@Model.FormatDocumentType(ViewBag.PortalConfiguration)
+			</div>
+		</div>
+		<div class="result-item-title-document">
+			@if (Model.CanPreviewDocumentOnline && !Model.IsLocked )
+			{
+				<a class="editDocumentOnline" data-href="@Url.Action("PreviewDocumentOnline","Container")" data-id="@Model.Id" data-open-new-window ="true" data-document-href="@Model.DocumentPreviewUrl">@Model.Title</a>
+			}
+			else
+			{
+				<a href="@docDlUrl">@Model.Title</a>
+			}
+		</div>
+		<div class="display-row">
+			<div class="display-label">@Html.DisplayNameFor(model => model.Size):</div>
+			<div class="display-field">@Html.DisplayFor(model => model.Size)</div>
+		</div>
+
+		<div class="display-row">
+			<div class="display-label">@Html.DisplayNameFor(model => model.ChangeDate):</div>
+			<div class="display-field">@Html.DisplayFor(model => model.ChangeDate)</div>
+		</div>
+
+		<div class="display-row">
+			<div class="display-label">@Html.DisplayNameFor(model => model.LastModifiedBy):</div>
+			<div class="display-field">@Html.DisplayFor(model => model.LastModifiedBy)</div>
+		</div>
+
+
+		@if (!string.IsNullOrEmpty(Model.LockedBy))
+		{
+			<div class="display-row">
+				<div class="display-label">@Html.DisplayNameFor(model => model.LockedBy):</div>
+				<div class="display-field">
+					@Html.DisplayFor(model => model.LockedBy)
+					@if (Model.CanUnlock)
+					{
+						<a class="ul-modal-dialog" style="margin-left: 10px;" data-callback="UL.UnlockDocument" data-message="Are you sure you want to unlock @Model.Title" data-title="Unlock Document" data-cancel-button-text="Cancel" data-submit-button-text="Unlock" data-id="@Model.Id" data-url="@Url.PageUnlockDocument(Model.Id)">unlock</a>
+					}
+				</div>
+			</div>
+		}
+	</div>
+</div>
+
+<div id="@modalId" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+	@using (Html.BeginForm("DeleteDocument", "Container", new { id = Model.Id }, FormMethod.Post))
+	{
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 id="myModalLabel">Confirm Delete</h3>
+		</div>
+		<div class="modal-body">
+			<p>Are you sure you want to delete the file "<strong>@Model.Title</strong>"?</p>
+			<p>You cannot undo this action.</p>
+		</div>
+		<div class="modal-footer">
+			<button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Cancel</button>
+			<input type="submit" class="btn btn-danger" x-data-dismiss="modal" value="Delete" />
+		</div>
+	}
+</div>

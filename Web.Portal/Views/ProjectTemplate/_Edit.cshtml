@@ -1,0 +1,46 @@
+﻿@using UL.Aria.Web.Common.Models.Project
+@model UL.Aria.Web.Common.Models.Project.ProjectTemplateCreate
+@{
+	var success = ((bool?)ViewBag.Success).GetValueOrDefault(false);
+	var id = "form_" + Guid.NewGuid().ToString();
+	ViewBag.ModalTitle = "Edit Project Template";
+}
+
+<div class="ul-dialog">
+	<div id="project-template" data-form-id="@id" >
+
+
+		@using (Html.BeginForm("Edit", "ProjectTemplate", FormMethod.Post, new Dictionary<string, object>() { { "id", id }, { "class", "project-template-form" } }))
+		{
+			@Html.HiddenFor(x => x.CorrelationId)
+			@Html.HiddenFor(x => x.Id)
+			@Html.HiddenFor(x => x.Version)
+			if (success)
+			{
+				<script type="text/javascript">
+					var modal = $('#@id').closest(".modal").modal("hide");
+					UL.Refresh();
+				</script>
+			}
+			else
+			{
+				Html.RenderPartial("_ProjectTemplate", Model);
+			}
+		}
+
+		<div style="display: none;">
+			<table id="idnewrow" style="display: none;">
+				<tbody>
+					@Html.ProjectTemplateNewTaskHtmlString(x => x.Tasks, Model.TaskTypes, Model.BusinessUnits, Model.DefaultTaskTypeId)
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+</div>
+
+<script type="text/javascript">
+	UL.BootstrapControls($(".ul-dialog"));
+</script>
+
+

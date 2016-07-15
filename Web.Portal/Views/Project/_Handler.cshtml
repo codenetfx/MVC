@@ -1,0 +1,66 @@
+﻿@model UL.Aria.Web.Common.Models.Shared.ProjectCreate
+
+@{
+    bool isEditing = ((bool?)ViewBag.Editing).GetValueOrDefault(false);
+}
+
+<div class="project-handler-group customer-flag">
+    
+@if (isEditing)
+{
+    <div class="form-horizontal control-group" id="edit-project-handler">
+        <div class="cyan-box"></div>
+        <div class="cyan-text">Denotes customer-visible field.</div>
+    </div>
+}
+
+    <div class="form-horizontal control-group">
+        <div class="cyan-flag">
+            @Html.LabelFor(m => m.ProjectHandlerAssigned, new { @class = "strong" })
+        </div>
+        <div class="controls">
+            @Html.RadioButtonFor(m => m.ProjectHandlerAssigned, false) <strong>Assign to Me</strong>
+            @Html.DescriptionFor(m => m.ProjectHandlerAssigned)
+        </div>
+    </div>
+    <div class="form-horizontal control-group">
+        <div class="controls">
+            <div class="left-col">
+                @Html.RadioButtonFor(m => m.ProjectHandlerAssigned, true) <strong>Assign a Handler</strong>
+            </div>
+            <div class="left-col">
+                @Html.TextBoxFor(model => model.ProjectHandler, !Model.ProjectHandlerAssigned)
+                @Html.ValidationMessageFor(model => model.ProjectHandler)
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (isEditing)
+{
+   <p id="sIsEmailRequested">@Html.CheckBoxFor(m => m.IsEmailRequested)  Send project reassignment emails to original and new Project Handler</p> 
+}
+
+<script type="text/javascript">
+
+
+    $('input:radio[name=ProjectHandlerAssigned]').change(function() {
+        var handler = $(this).closest(".project-handler-group").find("INPUT[name=ProjectHandler]");
+        handler.prop('disabled', $(this).val() != "True");
+    });
+
+    // Added to remove problem with duplicate DOM elements klling remove spaces script below
+    $("button#project-edit-modal-cancel").click(function () {
+        $('#ProjectHandler').detach();
+    });
+
+    // Takes current value of text inside of #ProjectHandler input field 
+    // and removes spaces from before and after string (not in string itself) when focus leaves field.
+    $("#ProjectHandler").blur(function () {
+        var handlerText = $("#ProjectHandler").val();
+        handlerText = handlerText.replace(/^\s+|\s+$/gm,'');
+        $("#ProjectHandler").val(handlerText);
+    });
+
+
+</script>

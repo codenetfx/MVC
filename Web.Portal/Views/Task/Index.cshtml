@@ -1,0 +1,72 @@
+﻿@using UL.Aria.Web.Common.Models.Search
+@using UL.Aria.Web.Common.Models.Search
+@model ISearchResultSet<TaskSearchResult>
+@{
+    Layout = "~/Views/Search/Wide.cshtml";
+    var selectedCount = Model.SelectedItems == null ? 0 : Model.SelectedItems.Count;
+}
+@section filters
+{
+    @{
+        Html.RenderPartial("_FilterBlock", Model);
+    }
+}
+@{ Html.RenderPartial("_SearchFormTopMenu", Model.SearchCriteria); }
+
+<div id="selectedItems" class="selection-pane" data-spy="affix" data-offset-top="0" style="@(selectedCount > 0 ? null : "display:none;")">
+    <div class="modal-header">
+        <h3>I want to...</h3>
+    </div>
+    <div class="modal-body">
+        <div>There are <span class="selected-count">@selectedCount</span> selected items</div>
+        <ul>
+            <li><a href="#" data-toggle="modal"  name="group-delete"  data-target="#DeleteGroupModal" data-modal-Title="Delete Task(s)" data-item-name="Are you sure you want to delete the selected task(s)? If any parent tasks are selected, then all child tasks associated with them will also be deleted and you will not be able to recover this information."  data-item-href ="@Url.PageDeleteTaskGroup(null)">Delete</a></li>
+        </ul>
+    </div>
+</div>
+
+
+<div id="DeleteGroupModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 id="DeleteGroupModalLabel">Delete Task(s)</h3>
+    </div>
+    <div class="modal-body" id="delete_group_modal_body">
+      
+    </div>
+    <div class="modal-footer">
+        <button class="btn pull-left" data-dismiss="modal">Cancel</button>
+        <button id="submitGroupDelete" class="btn btn-primary">Delete</button>
+    </div>
+</div>
+
+<fieldset class="search-body">
+    @if (Model.Results.Any())
+    {
+        Html.RenderPartial("~/Views/Task/TaskList.cshtml", Model);
+    }
+    else
+    {
+        Html.RenderPartial("_SearchNotFound", Model.SearchCriteria);
+    }
+</fieldset>
+
+@{ Html.RenderPartial("_SearchFormFooter", Model.SearchCriteria); }
+
+
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            
+
+            $('a[name=group-delete]').click(function () {
+                var message = "<p>Are you sure you want to delete the selected <span>" + $('.selected-count').text() + "</span> task(s)?<BR />If any parent tasks are selected, then all child tasks associated with them will also be deleted and you will not be able to recover this information.</p>";
+                $('#delete_group_modal_body').html(message);
+                $('button#submitGroupDelete').data($(this).data());
+            });
+
+            $('#submitGroupDelete').click(UL.ModalDelete);
+        });
+    </script>
+}

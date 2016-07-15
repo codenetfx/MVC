@@ -1,0 +1,75 @@
+﻿@model UL.Aria.Web.Common.Models.Help.ContactUsModel
+
+@{
+	Layout = "~/Views/Help/_Layout.cshtml";
+}
+
+@section aside {
+	@{ Html.RenderPartial("_Faq"); }
+}
+
+@using (Html.BeginForm())
+{
+	<fieldset class="search-header">
+		<legend><h2>Contact Us</h2></legend>
+
+		<p>
+			Have a question? We're here to help. Call <span class="strong">877-UL-HELPS (877-85-43577)</span> or fill out the form below and a UL Customer Service Representative will address your concerns as quickly as possible.
+		</p>
+
+		<div>
+			@Html.ValidationSummary(true)
+		</div>
+
+
+		<div class="control-group">
+			@Html.RequiredLabelFor(m => m.ContactEmail, new {@class = "label-required"})
+			<div class="controls extralarge">
+				@Html.TextBoxFor(m => m.ContactEmail, true)
+				@Html.HiddenFor(m => m.ContactEmail)
+				@Html.ValidationMessageFor(m => m.ContactEmail)
+			</div>
+		</div>
+
+		<div class="control-group">
+			@Html.RequiredLabelFor(m => m.Industry, new {@class = "label-required"})
+			<div class="controls">
+				@Html.DropDownListFor(m => m.Industry, new SelectList(Model.IndustryList, "key", "value", Model.Industry), "Select an industry")
+				@Html.ValidationMessageFor(m => m.Industry)
+			</div>
+		</div>
+
+
+		<div class="control-group">
+			@Html.LabelFor(m => m.Subject, new {@class = "label-required"})
+			<div class="controls">
+				@Html.TextBoxFor(m => m.Subject, new {@class = "extralarge"})
+				@Html.ValidationMessageFor(m => m.Subject)
+			</div>
+		</div>
+
+
+		<div class="control-group">
+			@Html.RequiredLabelFor(m => m.Message, new {@class = "label-required"})
+			<div class="controls">
+				@Html.TextAreaFor(m => m.Message, new {@class = "extralarge", rows = "7"})
+				@Html.DescriptionFor(m => m.Message)
+				@Html.ValidationMessageFor(m => m.Message)
+			</div>
+		</div>
+
+
+		<div class="control-group">
+			@Html.LabelFor(m => m.ContactCopyEmail, new {@class = "strong"})
+			<div class="controls">
+				@Html.TextBoxFor(m => m.ContactCopyEmail, new {@class = "extralarge"})
+				@Html.ValidationMessageFor(x => x.ContactCopyEmail)
+			</div>
+		</div>
+
+		<div class="control-buttons">
+			<button id="btnSend" class="btn btn-primary">Send</button>
+		</div>
+
+	</fieldset>
+}

@@ -1,0 +1,43 @@
+﻿@using UL.Aria.Web.Common.Mvc
+@model UL.Aria.Web.Common.Models.Container.ContainerUserSearchModel
+
+@{
+	Layout = "~/Views/Container/_Layout.cshtml";
+	ViewBag.Title = "Members";
+	ViewBag.PageTitle = "Members";
+	ViewBag.SectionTitle = Model.Container.Type.ToString();
+	int rowIndex = 0;
+}
+
+@{Html.RenderPartial("_SearchForm", Model.SearchCriteria);}
+
+
+<table>
+	<thead>
+		<tr>
+			<th class="primary-col">Name</th>
+			<th>Email</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model.Results)
+  {
+			<tr class="@Html.TableRowClass(rowIndex++)">
+				<td class="primary-col">
+					<a href="@Url.PageUserDetails(item.Id.Value)">@item.BasicInformation.DisplayName</a>
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.BasicInformation.LoginId)
+				</td>
+			</tr>
+  }
+		@if (!Model.Results.Any())
+		{
+			<tr>
+				<td colspan="5" class="no-results">No results</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+@{Html.RenderPartial("_SearchFormFooter", Model.SearchCriteria);}

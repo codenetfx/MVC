@@ -1,0 +1,29 @@
+﻿@using UL.Aria.Web.Common.Models.Shared
+@using UL.Enterprise.Foundation;
+@using UL.Aria.Web.Common.Models.Search;
+@model UL.Aria.Web.Common.Models.Search.ISearchResultSet<dynamic>
+@{
+	Layout = "~/Views/TemplateAdmin/_Layout.cshtml";
+}
+
+
+@{ Html.RenderPartial("_SearchForm", Model.SearchCriteria); }
+<fieldset class="search-body">
+	@if (Model.Results.Any())
+	{
+		foreach (var item in Model.Results)
+		{
+			@Html.DisplayFor(m => item)
+		}
+	}
+	else
+	{
+		Html.RenderPartial("_SearchNotFound", Model.SearchCriteria);
+	}
+</fieldset>
+
+@{ Html.RenderPartial("_SearchFormFooter", Model.SearchCriteria); }
+
+@section scripts {
+	
+}

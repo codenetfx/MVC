@@ -1,0 +1,50 @@
+﻿@using UL.Aria.Web.Common.Configuration
+@model UL.Aria.Web.Common.Models.Shared.ISessionStash
+@{
+    var config = ViewBag.PortalConfiguration as PortalConfiguration;
+	var maxFavorites = config.MaxFavoritesToShow;
+}
+<div class="dropdown pull-left">
+	<a href="#" title="Favorites Menu" class="dropdown-toggle link" data-toggle="dropdown"><span>@Model.SavedSearchCount</span></a>
+	@if (Model.SearchFavorites.Any())
+	{
+		<ul class="dropdown-menu pull-right dropdown-favorites" role="menu">
+			<li>
+				<table class="search-favorites">
+					<tr>
+						<td colspan="3"><strong>Favorites</strong></td>
+					</tr>
+					@foreach (var fav in Model.SearchFavorites)
+					{
+						<tr>
+							<td class="primary-col"><a href="@fav.PageUrl@fav.QueryString" class="link-favorite" title="@fav.Title">@fav.Title</a></td>
+							<td><a class="icon-pencil" href="@Url.PageEditFavoriteSearch(fav.Id)"  data-toggle="modal"></a></td>
+							<td><a class="icon-remove" href="#" data-toggle="modal" data-target="#DeleteModal" data-item-name="Are you sure you want to delete favorite @fav.Title?" data-item-href="@Url.PageDeleteFavoriteSearch(fav.Id)"></a></td>
+						</tr>
+					}
+					@if (Model.SavedSearchCount > maxFavorites)
+					{
+						<tr>
+							<td colspan="3"><a href="@Url.PageFavorites()">View all favorites &raquo;</a></td>
+						</tr>
+					}
+				</table>
+			</li>
+			@*<li class="dropdown-header"><strong>Favorites</strong></li>
+			@foreach (var fav in Model.SearchFavorites)
+			{
+				<li>
+					<div class="clearfix">
+						<a class="pull-left" href="@fav.PageUrl@fav.QueryString">@fav.Title some very long text to determin wrappinggsadasdf</a>
+						<a class="icon" href="@Url.PageEditFavoriteSearch(fav.Id)" data-toggle="modal"><i class="icon-pencil"></i></a>
+						<a class="icon" href="#" data-toggle="modal" data-target="#DeleteModal" data-item-name="Are you sure you want to delete favorite @fav.Title?" data-item-href="@Url.PageDeleteFavoriteSearch(fav.Id)"><i class="icon-remove"></i></a>
+					</div>
+				</li>
+			}
+			@if (Model.SavedSearchCount > maxFavorites)
+			{
+				<li><a href="@Url.PageFavorites()">View all favorites &raquo;</a></li>
+			}*@
+		</ul>
+	}
+</div>

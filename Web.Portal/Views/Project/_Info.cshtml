@@ -1,0 +1,160 @@
+﻿@using UL.Aria.Web.Common.Models.Shared
+@model UL.Aria.Web.Common.Models.Shared.ProjectCreate
+
+@{
+    bool isEditing = ((bool?)ViewBag.Editing).GetValueOrDefault(false);
+    bool orderNumberLocked = (isEditing && Model.OrderIsLocked) || (!isEditing && Model.IncomingOrderId != null);
+    ViewBag.MenuClass = "flat-menu";
+}
+
+
+<div class="form-horizontal control-group">
+    
+    <div class="cyan-box"></div>
+    <div class="cyan-text">Denotes customer-visible field.</div>
+</div>
+
+
+
+
+<div class="form-horizontal control-group customer-flag two-column">
+    <div class="left-col cyan-flag">
+        @Html.LabelFor(model => model.Name, new { @class = "strong" })
+        <div class="controls">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+    </div>
+    <div class="right-col cyan-flag">
+        @Html.LabelFor(model => model.ProjectStatus, new { @class = "strong" })
+        <div class="controls">
+            @Html.DropDownListFor(model => model.ProjectStatus, Model.ProjectStatusSelect)
+        </div>
+        @Html.ValidationMessageFor(model => model.ProjectStatus, Model.ProjectStatusErrorMessage)
+    </div>
+</div>
+
+
+@if (isEditing)
+{
+    <div class="form-horizontal control-group customer-flag one-column">
+        <div>
+            @Html.LabelFor(model => model.Description, new {@class = "strong"})
+            <div class="controls">
+                @Html.EditorFor(model => model.Description)
+                @Html.DescriptionFor(model => model.Description)
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="form-horizontal control-group">
+        @Html.LabelFor(model => model.Description, new {@class = "strong"})
+        <div class="controls">
+            @Html.EditorFor(model => model.Description)
+            @Html.DescriptionFor(model => model.Description)
+        </div>
+    </div>
+}
+
+
+@if (isEditing)
+{
+    <div class="form-horizontal control-group dates-section">
+        <div class="left-col">
+            @Html.LabelFor(model => model.StartDate, new {@class = "strong"})
+            <div class="controls">
+                @Html.EditorFor(model => model.StartDate)
+                @Html.ValidationMessageFor(model => model.StartDate)
+            </div>
+        </div>
+        <div class="right-col cyan-flag">
+            @Html.LabelFor(model => model.EndDate, new { @class = "strong" })
+            <div class="controls">
+                @Html.EditorFor(model => model.EndDate)
+                @Html.ValidationMessageFor(model => model.EndDate)
+            </div>
+        </div>
+    </div>
+}
+
+<div class="form-horizontal control-group customer-flag two-column">
+    <div class="left-col cyan-flag">
+        @Html.LabelFor(model => model.OrderNumber, new { @class = "strong" })
+        <div class="controls">
+            @Html.TextBoxFor(model => model.OrderNumber, orderNumberLocked)
+            @if (orderNumberLocked)
+            {
+                @Html.HiddenFor(m => m.OrderNumber)
+            }
+        </div>
+    </div>
+
+
+
+    @if (isEditing)
+    {
+        <div class="right-col">
+            @Html.LabelFor(model => model.NumberOfSamples, new { @class = "strong" })
+            <div class="controls">
+                @Html.EditorFor(model => model.NumberOfSamples)
+                @Html.ValidationMessageFor(model => model.NumberOfSamples)
+            </div>
+        </div>
+    }
+</div>
+
+<div class="form-horizontal control-group customer-flag one-column">
+    <div class="cyan-flag">
+        @Html.LabelFor(model => model.CompanyId, new { @class = "strong" })
+        <div class="controls">
+            @if (!orderNumberLocked)
+            {
+                @Html.DropDownListFor(model => model.CompanyId, new SelectList(Model.Companies, "Key", "Value", Model.CompanyId), "Select a Company")
+            }
+            else
+            {
+                @Html.TextBoxFor(model => model.CompanyName, true)
+                @Html.HiddenFor(model => model.CompanyId)
+            }
+        </div>
+        @Html.ValidationMessageFor(model => model.CompanyId, "Please select a Company Name.")
+    </div>
+</div>
+
+@if (isEditing)
+{
+    <div class="form-horizontal control-group">
+        @Html.LabelFor(model => model.SampleReferenceNumbers, new {@class = "strong"})
+        <div class="controls">
+            @Html.EditorFor(model => model.SampleReferenceNumbers)
+        </div>
+    </div>
+}
+
+<div class="form-horizontal control-group ccn">
+    <div class="left-col">
+        @Html.LabelFor(model => model.CCN, new { @class = "strong" })
+        <div class="controls">
+            @Html.TextBoxFor(model => model.CCN)
+        </div>
+    </div>
+
+    <div class="right-col">
+        @Html.LabelFor(model => model.FileNo, new { @class = "strong" })
+        <div class="controls">
+            @Html.EditorFor(model => model.FileNo)
+        </div>
+    </div>
+
+</div>
+
+<div class="form-horizontal control-group customer-flag one-column">
+    <div class="cyan-flag">
+        @Html.LabelFor(model => model.StatusNotes, new { @class = "strong" })
+        <div class="controls">
+            @Html.EditorFor(model => model.StatusNotes)
+        </div>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+﻿@model UL.Aria.Web.Common.Models.Shared.IHomeSectionModel
+@{
+    var MaxAboutMeCharacters = 200;	
+}
+
+<div class="section-summary profile-summary">
+    <div class="result-actions">
+        <div class="dropdown pull-right">
+            <a title="Open Menu" class="dropdown-toggle caret" data-toggle="dropdown" href="#"></a>
+            <ul class="dropdown-menu" role="menu">
+                <li>
+                    <a href="@Url.PageProfile()">View Profile</a>
+                </li>
+                <li><a href="@Url.PageFavorites()">Favorites</a></li>
+                <li>
+                    <a href="@Url.PageScratchSpace()">View Scratch Space</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="profile-avitar-thumb">
+        <img src="@Url.PageProfileAvatar()" alt="Profile Avitar" />
+    </div>
+    <h2 title="@Model.UserDisplayName">@Model.UserDisplayName</h2>
+    <em title="Job Title">@Model.UserJobTitle</em>
+    <em title="Company">@Model.UserCompanyName</em>
+   @Helpers.TruncatedText(Model.UserAboutMe, MaxAboutMeCharacters)
+</div>

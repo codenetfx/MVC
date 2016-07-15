@@ -1,0 +1,181 @@
+﻿@using UL.Aria.Web.Common
+@using UL.Aria.Web.Common.Models.Project
+@using UL.Aria.Web.Common.Models.Shared
+@model UL.Aria.Web.Common.Models.Project.ProjectDetail
+@{
+	Layout = "~/Views/Project/_LayoutWide.cshtml";
+	var selectedCount = Model.SearchResults.SelectedItems == null ? 0 : Model.SearchResults.SelectedItems.Count;
+	ViewBag.HidePaging = true;
+
+	ViewBag.ShowMultiViewOptions = true;
+	var viewLinkFormat = HttpContext.Current.Request.Url.AbsolutePath + "?&viewType={0}";
+	ViewBag.GridViewLink = string.Format(viewLinkFormat, TaskViewType.Grid.ToString());
+	ViewBag.ListVievLink = string.Format(viewLinkFormat, TaskViewType.List.ToString());
+
+	var viewType = Request.QueryString["viewType"] ?? "List";
+
+}
+
+@{ Html.RenderPartial("_SearchFormTopMenu", Model.SearchResults.SearchCriteria); }
+
+<div id="selectedItems" class="selection-pane" data-spy="affix" data-offset-top="0" style="@(selectedCount > 0 ? null : "display:none;")">
+	<div class="modal-header">
+		<h3>I want to...</h3>
+	</div>
+	<div class="modal-body">
+		<div>There are <span class="selected-count">@selectedCount</span> selected items</div>
+        <ul>
+            @if (Model.CanDeleteTasks)
+            {
+                string delMessage = @"Are you sure you want to delete the selected task(s)? <br/>If any parent tasks are selected, then all child tasks associated with them will also be deleted and you will not be able to recover this information.";
+
+                <li class="li-delete">
+                    <a href="#" data-toggle="modal" class="group-delete" data-target="#DeleteModal"
+                       billing-trigger-single-message="@ConstantKeys.GroupBillingTriggerDeleteSingleMessage"
+                       billing-trigger-multi-message="@ConstantKeys.GroupBillingTriggerDeleteMultipleMessage"
+                       data-modal-title="Delete Task(s)" data-item-name="@delMessage" data-item-href="@Url.PageDeleteTaskGroup(Model.ContainerId)">Delete</a>
+                </li>
+            }
+            <li>
+                @{
+                    string completeMsg = @"Are you sure you want to update multiple tasks at once?";
+                    <a href="#" data-toggle="modal" id="link-taskCompleteModal" data-target="#TaskCompleteModal"
+                       billing-trigger-multi-message="@ConstantKeys.GroupBillingTriggerDeleteMultipleMessage"
+                       billing-trigger-single-message="@ConstantKeys.GroupBillingTriggerDeleteSingleMessage"
+                       data-modal-title="Completing Task(s)" data-item-name="@completeMsg"
+                       data-item-href="@Url.PageCompleteTaskGroup(Model.ContainerId)">Set to Complete</a>
+                }
+               
+            </li>
+            <li><a class="assign-multi-btn" href="@Url.PageAssignTaskGroup(Model.ContainerId)" data-toggle="modal">Assign</a></li>
+
+        </ul>
+	</div>
+</div>
+
+<fieldset class="search-body">
+	@if (Model.SearchResults.Results.Any())
+	{
+		Html.RenderPartial(viewType == TaskViewType.Grid.ToString() ? "_TaskEditableTreeGrid" : "_TaskList", Model.SearchResults);
+	}
+	else
+	{
+		Html.RenderPartial("_SearchNotFound", Model.SearchResults.SearchCriteria);
+	}
+</fieldset>
+
+<div id="TaskCompleteModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+		<h3 class="model-title">Update Tasks</h3>
+	</div>
+	<div class="modal-body" id="task-complete-modal-body">
+
+	</div>
+	<div class="modal-footer">
+		<button class="btn pull-right btn-primary" id="btnUpdateTask">Continue</button>
+		<button class="btn pull-left" data-dismiss="modal">Cancel</button>
+	</div>
+</div>
+
+@section scripts
+{
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('.group-delete').click(function () {
+				updateSelectedTasks($('#delete_modal_body'), 'delete');
+			});
+
+			$('table tr').find('i').click(function () {
+				var visible = $(this).hasClass("icon-minus");
+				var cssClass = 'table tr' + $(this).closest('tr').data('childSelector');
+
+				$(this).toggleClass('icon-minus icon-plus');
+				$(cssClass)[visible ? "hide" : "show"]();
+			});
+
+			//
+			// we use the hash to link directly to a tasks' edit modal by
+			// finding an element with that id, and 'clicking' on it
+			//
+			var action = UL.GetQueryStringHash()["action"];
+			if (action) {
+				$(action).click();
+			}
+
+			$('#link-taskCompleteModal').on("click", function () {
+				$('#task-complete-modal-body').html('').append('<p>Are you sure you want to update multiple tasks at once?</p>');
+				updateSelectedTasks($('#task-complete-modal-body'), 'complete');
+
+				$('button#btnUpdateTask').data($(this).data());
+				$('button#btnUpdateTask').on('click', UL.ModalDelete);
+
+			});
+
+
+			function updateSelectedTasks(elem, actionType) {
+				var billingTriggerMessage = "";
+				var list = $('<ul/>');
+				$('input[name=taskCheckbox]:checked').each(function () {
+					var data = $(this).data();
+					var li = $('<li></li>').append(data.itemName);
+
+					if (data.shouldTriggerBilling && data.shouldTriggerBilling.toLowerCase() === 'true') {
+						var span = $('<span> </span>').addClass('billing-trigger-label').append('(@ConstantKeys.BillingTriggerTask)');
+						li.append(span);
+
+						switch (actionType) {
+							case 'delete':
+								if (parseInt(data.billingTriggerTaskCount) > 1) {
+									billingTriggerMessage = '@ConstantKeys.GroupBillingTriggerDeleteMultipleMessage';
+								} else {
+									billingTriggerMessage = '@ConstantKeys.GroupBillingTriggerDeleteSingleMessage';
+								}
+
+								break;
+							case 'complete':
+								if (parseInt(data.billingTriggerTaskCount) > 1) {
+									billingTriggerMessage = '@ConstantKeys.GroupBillingTriggerDeleteMultipleMessage';
+								}
+								break;
+						}
+					}
+					list.append(li);
+				});
+				if (billingTriggerMessage.length > 0) {
+					var p = $('<p> </p>').addClass('bold-red').append(billingTriggerMessage);
+					elem.append(p);
+				}
+				elem.append(list);
+			}
+
+
+			if ($(".grid-parent")) {
+				$(".grid-parent").sessionManager({
+					idleWarningTimeout: UlAriaWebPortalConfig.IdleWarningTimeoutMinutes * 60000, //60,000 == 1 minute
+					serverCallInterval: UlAriaWebPortalConfig.ServerCallIntervalMinutes * 60000 //60,000 == 1 minute
+				});
+			}
+			function canDelete() {
+				if ($('input[data-can-delete="False"][name=taskCheckbox]:checked ').length > 0) {
+					$('#selectedItems').find('li.li-delete').hide();
+				}
+				else {
+					$('#selectedItems').find('li.li-delete').show();
+				}
+			}
+
+			$('input[name="taskCheckbox"]').on("click", function () {
+				canDelete();
+			});
+			canDelete();
+			$(".search-header").find("a[data-toggle=modal]").on("click", function (e) {
+				if (UL.MvcJqGrid.InEditMode) {
+					var warningMsg = "The task grid is currently in edit mode.  All changes will be lost if you leave the page.";
+					return confirm(warningMsg);
+				}
+			});
+
+		});
+	</script>
+}

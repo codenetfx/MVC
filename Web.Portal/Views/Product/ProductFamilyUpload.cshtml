@@ -1,0 +1,32 @@
+﻿@model UL.Aria.Web.Common.Models.Product.ProductFamilyUpload
+
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="SubmitConfirmModalLabel">Product Family Upload</h3>
+    </div>
+
+    @if (!Model.Success)
+    {
+        <div class="modal-body" id="utility_submit-body">
+          <i class="ul-icon-failure"></i><span>Please fix below errors</span>
+             <ul>
+                 @foreach (var item in Model.Errors)
+                 {
+                     <li>@item</li>
+                 }
+             </ul>
+         </div>
+        <div class="modal-footer error-footer">
+            <button class="btn btn-info pull-left" data-dismiss="modal" aria-hidden="true">Dismiss</button>
+         </div>
+    }
+    else
+    {
+        <div class="modal-body" id="utility_submit-body">
+             <i class="ul-icon-success"></i> <span>Product Family has been successfully uploaded.</span>
+         </div>
+        <div class="modal-footer error-footer">
+            <button class="btn btn-info pull-left" data-dismiss="modal" aria-hidden="true">Dismiss</button>
+         </div>
+    }

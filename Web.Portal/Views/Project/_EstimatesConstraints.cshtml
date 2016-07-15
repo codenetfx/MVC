@@ -1,0 +1,21 @@
+﻿@using UL.Aria.Web.Common.Models.Shared
+@model UL.Aria.Web.Common.Models.Shared.ProjectCreate
+
+
+<div class="form-horizontal control-group">
+
+    <div class="right-col" style="width: 300px;">
+        @Html.LabelFor(model => model.EstimatedTATDate, new { @class = "strong" })
+        <div class="controls">
+            @Html.EditorFor(model => model.EstimatedTATDate)
+        </div>
+    </div>
+</div>
+
+<div class="form-horizontal control-group">
+    @Html.LabelFor(model => model.Scope, new { @class = "strong" })
+    <div class="controls">
+        @Html.EditorFor(model => model.Scope)
+    </div>
+</div>
+

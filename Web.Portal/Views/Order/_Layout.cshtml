@@ -1,0 +1,50 @@
+﻿@using UL.Aria.Web.Common.Mvc
+@model UL.Aria.Web.Common.Models.Order.IOrderSection
+@{
+	Layout = "~/Views/Shared/_LayoutSection.cshtml";
+}
+
+
+@section controls {
+	<div class="clear-both section-summary order-summary">
+		<div class="profile-avitar-thumb">
+			<img src="~/Images/Default_Order.png" alt="Order Avitar" />
+		</div>
+		<h2>@string.Concat("Order #", Model.OrderNumber)</h2>
+		<em>@Model.Status</em>
+		<dl class="clear-both dl-horizontal">
+			<dt>@Html.DisplayNameFor(m => m.OrderDate):</dt>
+			<dd>@Html.DisplayFor(m => m.OrderDate)</dd>
+			
+			<dt>@Html.DisplayNameFor(m => m.BookedDate):</dt>
+			<dd>@Html.DisplayFor(m => m.BookedDate)</dd>
+		</dl>
+	</div>
+	@{
+		Html.RenderPartial("_PageActions", Model.PageLinks);
+		Html.RenderPartial("_UlApps", Model.UlApps);
+	}
+
+	@RenderSection("controls", required: false)
+}
+
+@section aside {
+
+	@{ Html.RenderPartial("_PageActionsRight", Model.PageActions); }
+
+	@Html.Partial("_Faq")
+	@Html.Partial("_Contact")
+	@RenderSection("aside", required: false)
+}
+
+
+@RenderBody()
+
+@section scripts {
+	@RenderSection("scripts", required: false)
+}
+
+
+@section styles {
+	@RenderSection("styles", required: false)	
+}

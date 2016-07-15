@@ -1,0 +1,96 @@
+﻿@using UL.Aria.Web.Common.Mvc
+@model UL.Aria.Web.Common.Models.Container.ContainerSearchResultSet
+
+@{
+	Layout = "~/Views/User/_Layout.cshtml";
+	ViewBag.ShowDefaultActions = true;
+	int rowIndex = 0;
+}
+
+@{Html.RenderPartial("_SearchForm", Model.SearchCriteria);}
+
+<fieldset class="search-body">
+	@if (Model.Results.Any())
+	{
+		<table>
+			<thead>
+				<tr>
+					<th class="primary-col">Name</th>
+					<th>Type</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in Model.Results)
+				{
+					<tr class="@Html.TableRowClass(rowIndex)">
+						<td class="primary-col">
+							<a href="@Url.PageAssetDetails(item.EntityType, item.AssetId)">@item.Name</a>
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.EntityType)
+						</td>
+						<td>
+							<a href="#edit" onclick=" $(this).parents('TR:first').next().toggleContainerDetails();return false; ">Edit</a>
+						</td>
+					</tr>
+					<tr class="@Html.TableRowClass(rowIndex) container-actions-chrome" style="display: none;" data-container-id="@item.Id">
+						<td colspan="3">
+							<div style="display: none;">
+								<img class="spinner" src="@Url.TransparentImage()"/>
+							</div>
+						</td>
+					</tr>
+					rowIndex++;
+				}
+			</tbody>
+		</table>
+	}
+	else
+	{
+		Html.RenderPartial("_SearchNotFound", Model.SearchCriteria);
+	}
+</fieldset>
+
+@{Html.RenderPartial("_SearchFormFooter", Model.SearchCriteria);}
+
+@section scripts {
+	<script type="text/javascript">
+		(function($) {
+			var url = @Html.Raw(Json.Encode(Url.PageUserContainerActions(Model.UserId)));
+
+			$.fn.toggleContainerDetails = function() {
+				var tr = this;
+				var id = tr.data("containerId");
+				var open = tr.is(":visible"), hole = tr.find("TD DIV");
+				var opts = {};
+
+				if (open)
+					opts.done = function() { tr.hide(); };
+				else
+					tr.show();
+
+				hole.slideToggle(opts);
+
+				if (!open) {
+					var args = {
+						containerId: id
+					};
+					$.ajax({
+						url: url,
+						data: args,
+						success: function(html) {
+							hole.html(html);
+						},
+						error: function(jqXhr, status, error) {
+							var message = UL.CreateErrorHtml(error);
+							hole.html(message);
+						},
+						cache: false
+					});
+				}
+			};
+
+		})(jQuery);
+	</script>
+}

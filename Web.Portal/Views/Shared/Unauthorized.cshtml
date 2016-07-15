@@ -1,0 +1,27 @@
+﻿@model ErrorModel
+@using UL.Aria.Web.Common.Models.Shared
+@{
+    if (!Request.IsAjaxRequest() && Model !=null && !String.IsNullOrEmpty(Model.UserCompanyName) )
+    {
+        Layout = "~/Views/Error/_Layout.cshtml";
+    }
+    
+	ViewBag.Title = "Unauthorized :: UL";
+	//Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+
+	var message = "You are not authorized to access the requested resource.";
+	if (Model != null && Model.Exception != null)
+	{
+		message = Model.Exception.GetBaseException().Message.TrimEnd('.') + ".";
+	}
+}
+
+<div class="error-header">
+	<div class="text-right text-huge">401</div>
+	<h1>We're sorry.</h1>
+</div>
+<div class="well well-clear text-larger">
+	<p>@message  Please check the address and try again or <a href="@Url.PageContactUs()">contact us</a> for further assistance.</p>
+	<hr />
+	<a href="@Url.PageHome()"><i class="icon-arrow-left"></i>Back to Home</a>
+</div>

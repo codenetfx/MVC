@@ -1,0 +1,34 @@
+﻿@model UL.Aria.Web.Common.Models.Container.ContainerModel
+
+@{
+	Layout = "~/Views/Container/_Layout.cshtml";
+	var modalId = "m-" + Model.Id;
+}
+
+@section aside {
+	<ul class="page-actions">
+		<li class="arrow">
+			<a id="upload" href="@Url.Action("Upload", new { id = Model.Id })" title="Add a Document" data-toggle="modal">Upload Document</a>
+		</li>
+	</ul>
+}
+
+<fieldset>
+	<legend>Details</legend>
+
+	<div class="display-label">
+		@Html.DisplayNameFor(model => model.Name)
+	</div>
+	<div class="display-field">
+		@Html.DisplayFor(model => model.Name)
+	</div>
+
+	<div class="display-label">
+		@Html.DisplayNameFor(model => model.CompanyId)
+	</div>
+	<div class="display-field">
+		@Html.DisplayFor(model => model.CompanyId)
+	</div>
+</fieldset>
+@{Html.RenderPartial("Types/" + Model.Type.ToString(), Model, new ViewDataDictionary());}
+

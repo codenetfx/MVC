@@ -1,0 +1,26 @@
+﻿@using UL.Enterprise.Foundation;
+@using UL.Aria.Web.Common.Models.Notification;
+@using UL.Aria.Web.Common.Models.Project;
+@using UL.Aria.Service.Contracts.Dto;
+@model UL.Aria.Web.Common.Models.Project.TaskDetail
+
+<div>
+    @Html.HiddenFor(x => x.TaskId)
+    @Html.HiddenFor(x => x.TaskNumber)
+    @Html.HiddenFor(x => x.ContainerId)
+
+
+    @{
+        Html.RenderPartial("~/Views/Shared/_Notifications.cshtml", new NotificationInitModel()
+            {
+                SectionKey = "taskNotifications",
+                EnableViewEntity = false,
+                Filters = new Dictionary<string, List<string>>(){
+                 {AssetFieldNames.AriaTaskId, new List<string>(){  Model.TaskId.ToString() }  },
+                 {AssetFieldNames.AriaTaskNumber, new List<string>(){  Model.TaskNumber.ToString() }  },
+                 {AssetFieldNames.AriaContainerId, new List<string>(){  Model.ContainerId.ToString() }  }
+                }
+            });
+    }
+
+</div>

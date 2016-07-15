@@ -1,0 +1,44 @@
+﻿@using UL.Aria.Web.Common.Models.Shared;
+@model IEnumerable<UL.Aria.Web.Common.Models.Profile.SearchFavorite>
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Favorite Name</th>
+                <th>Details</th>
+                <th>Date Created</th>
+              <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><a href="@item.PageUrl@item.QueryString">@item.Title</a></td>
+                    <td>@foreach (var fav in item.Filters)
+                        {
+                        <span><b>@fav.Key:</b> @fav.Value </span>
+                        }</td>
+                    <td>@item.CreatedDateTime.ToShortDateString()</td>
+                    <td>
+                        <div class="result-actions">
+                            <input type="checkbox" class="pull-right" style="margin: 2px 0 0 10px;" value="@item.Id"  data-group-name="@EntityType.Favorite" onclick="return UL.Result_OnChange(this);" @(item.IsSelected ? "checked='checked'" : null)  />
+                            <div class="dropdown pull-right">
+                                <a title="Open Menu" class="dropdown-toggle caret" data-toggle="dropdown" href="#"><i></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="@Url.PageEditFavoriteSearch(item.Id)"  data-toggle="modal">Edit Favorite</a></li>
+                                <li><a href="#" data-toggle="modal"  data-target="#DeleteModal" data-modal-title="Delete Favorite" data-item-name="Are you sure you want to delete favorite '<span>@item.Title</span>'?"  data-item-href ="@Url.PageDeleteFavoriteSearch(item.Id)">Delete Favorite</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+</div>
+
+
+

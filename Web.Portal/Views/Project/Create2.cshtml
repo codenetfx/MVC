@@ -1,0 +1,477 @@
+﻿@using UL.Aria.Web.Common
+@using UL.Aria.Web.Common.Models.Shared
+@model UL.Aria.Web.Common.Models.Shared.ProjectCreate
+@{
+	var id = "pc_" + Guid.NewGuid().ToString("N");
+	var success = ((bool?)ViewBag.Success).GetValueOrDefault(false);
+	var desc = ModelMetadata.FromLambdaExpression(x => x.ProjectTemplate, ViewData).Description;
+	bool isEditing = ((bool?)ViewBag.Editing).GetValueOrDefault(false);
+	bool orderNumberLocked = (isEditing && Model.OrderIsLocked) || (!isEditing && Model.IncomingOrderId != null);
+}
+
+<div class="ul-dialog">
+	<div id="createProject" data-form-id="@id">
+		@using (Html.BeginForm("Create", "Project", FormMethod.Post, new Dictionary<string, object>() { { "id", id }, { "class", "project-create-form" }, { "role", "form" } }))
+		{
+			@Html.HiddenFor(m => m.IncomingOrderId)
+			@Html.HiddenFor(m => m.ShouldIgnoreOrderLineSelectionValidation)
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 id="myModalLabel">Create a Project</h3>
+			</div>
+
+			if (!success)
+			{
+				<div class="modal-body">
+					<div class="form-horizontal control-group">
+						<div class="customer-legend-text">Note: Icon denotes customer-visible field<i class="star-icon-white"></i></div>
+					</div>
+					<div class="form-horizontal control-group" style="margin-bottom:15px;">
+						<div class="customer-field">
+							@Html.LabelFor(model => model.CompanyId, "Company Name", new { @class = "strong pull-left" })
+							<i class="star-icon-white pull-right"></i>
+						</div>
+						<div class="controls">
+							@if (!orderNumberLocked)
+							{
+
+								@Html.AutoCompleteFor(model => model.CompanyId,
+								r => r.CompanyName,
+								Url.PageCompanySearchAction(),
+								minSearchTermLength: 2,
+								maxScrollItems: 5,
+								htmlAttributes: new { style = "width:99%" });
+							}
+
+							else
+							{
+								@Html.TextBoxFor(model => model.CompanyName, true)
+								@Html.HiddenFor(model => model.CompanyId)
+							}
+						</div>
+						@Html.ValidationMessageFor(model => model.CompanyId, "Please select a Company Name", new { @data_valmsg_for = "CompanyId_display" })
+					</div>
+
+					<div class="form-horizontal control-group">
+						<div class="left-col" style="width:45%">
+							<div class="controls">
+								<div class="controls" style="margin-bottom:15px;">
+									<div>
+										@Html.Label(String.Format("{0}", ModelMetadata.FromLambdaExpression(m => m.ProjectTemplate, ViewData).DisplayName), new { @class = "pull-left" })
+										<label id="tCount" style="font-weight: bold"> (@Model.ProjectTemplates.Count())</label>
+									</div>
+									<div>
+										@Html.DropDownListFor(x => x.BusinessUnitCode, new SelectList(Model.BusinessUnits, "Id", "Code"), "Select Business Unit", new { @class = "fixed-width-dropdown", Data_Url = Url.SearchProjectTemplatesByBusinessUnit() })
+										<div class="model-description">
+											@ModelMetadata.FromLambdaExpression(x => x.BusinessUnitCode, ViewData).Description
+										</div>
+									</div>
+								</div>
+								<div class="controls">
+									<div>
+										@Html.DropDownListFor(model => Model.ProjectTemplate, new SelectList(Model.ProjectTemplates, "Id", "Name"), "Select Project Template", new { @class = "fixed-width-dropdown" })
+									</div>
+									<div class="model-description" id="ProjectDescription" style="height: 15px;">
+										@desc
+									</div>
+									<div id="override-auto-complete" style="display: none">
+										<span class="model-description red-text">This Project will Auto-Complete upon all Task closures</span>
+										<label for="OverrideAutoComplete" style="margin-top: 5px;">@Html.CheckBoxFor(x => x.OverrideAutoComplete, new { @class = "pull-left" }) <span>Override Auto-Complete of this project</span></label>			
+									</div>
+
+
+									<div id="ProjectDescDropdown" style="display: none">
+										@Html.DropDownListFor(model => Model.ProjectTemplate, new SelectList(Model.ProjectTemplates, "Id", "Description"), desc, new { @class = "fixed-width-dropdown" })
+										<datalist id="project-templates-json" data-json="@Model.ProjectTemplatesJson"></datalist>
+									</div>
+
+									
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+
+					<div class="form-horizontal control-group">
+						<div class="left-col" style="width:45%">
+							<div class="clearfix clear-both">
+
+								<div class="customer-field border-bottom">
+									@Html.LabelFor(m => m.ProjectHandlerAssigned, new { @class = "strong pull-left" })
+									<i class="star-icon-white pull-right"></i>
+								</div>
+
+								<div class="controls project-handler-group">
+
+									<div class="clearfix clear-both" style="margin-top: 10px;">
+
+										<label>@Html.RadioButtonFor(m => m.ProjectHandlerAssigned, false, new { @class = "toggle-control-on-change", Data_Target = "#ProjectHandler" }) <strong>Assign to Me</strong></label>
+										@Html.DescriptionFor(m => m.ProjectHandlerAssigned)
+
+									</div>
+
+									<div class="clearfix clear-both customer-input" style="margin-top: 20px;">
+										<label> @Html.RadioButtonFor(m => m.ProjectHandlerAssigned, true, new { @class = "toggle-control-on-change", Data_Target = "#ProjectHandler" }) <strong>Assign to Project Handler</strong> </label>
+
+										@Html.AutoCompleteFor(m => m.ProjectHandler, Url.PageSearchULUsers(), !Model.ProjectHandlerAssigned, minSearchTermLength: 2, htmlAttributes: new { @class = "trim-on-blur" })
+
+										@Html.ValidationMessageFor(model => model.ProjectHandler)
+
+									</div>
+
+									<div class="clearfix clear-both" style="margin-top: 10px;">
+										<span id="sIsEmailRequested" class="model-description">@Html.CheckBoxFor(m => m.IsEmailRequested)  Send project creation email</span>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+						<div class="right-col ">
+							<div class="clearfix clear-both">
+
+								<div class="customer-field border-bottom">
+									@Html.LabelFor(m => m.OrderOwnerAssigned, new { @class = "strong pull-left" })
+									<i class="star-icon-white pull-right"></i>
+								</div>
+
+								<div class="controls project-handler-group">
+
+									<div class="clearfix clear-both" style="margin-top: 10px;">
+										<label>@Html.RadioButtonFor(m => m.OrderOwnerAssigned, OrderOwnerAssigned.AssignedToMe, new { @class = "toggle-control-on-match", Data_Target = "#OrderOwner", Data_TargetValue = OrderOwnerAssigned.AssignedToOwner }) <strong>Assign to Me</strong></label>
+									</div>
+
+									<div class="clearfix clear-both">
+										<label>@Html.RadioButtonFor(m => m.OrderOwnerAssigned, OrderOwnerAssigned.NotApplicable, new { @class = "toggle-control-on-match", Data_Target = "#OrderOwner", Data_TargetValue = OrderOwnerAssigned.AssignedToOwner }) <strong>Not Applicable</strong></label>
+									</div>
+
+									<div class="clearfix clear-both customer-input">
+										<label> @Html.RadioButtonFor(m => m.OrderOwnerAssigned, OrderOwnerAssigned.AssignedToOwner, new { @class = "toggle-control-on-match", Data_Target = "#OrderOwner", Data_TargetValue = OrderOwnerAssigned.AssignedToOwner }) <strong>Assign to CEM/Order Owner</strong> </label>
+										@Html.AutoCompleteFor(m => m.OrderOwner, Url.PageSearchULUsers(), Model.OrderOwnerAssigned != OrderOwnerAssigned.AssignedToOwner, minSearchTermLength: 2, htmlAttributes: new { @class = "trim-on-blur" })
+										@Html.ValidationMessageFor(model => model.OrderOwner)
+									</div>
+
+									<div class="clearfix clear-both" style="margin-top: 10px;">
+										<span id="sIsEmailRequested" class="model-description">@Html.CheckBoxFor(m => m.IsOrderOwnerEmailRequested)  Send project creation email</span>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+
+					</div>
+					<div class="form-horizontal control-group">
+						<div class="left-col">
+							<div class="clearfix clear-both customer-field">
+								@Html.LabelFor(model => model.Name, new { @class = "strong pull-left" })
+								<i class="star-icon-white pull-right"></i>
+							</div>
+							<div class="controls  customer-input">
+								@Html.EditorFor(model => model.Name)
+								@Html.ValidationMessageFor(model => model.Name)
+							</div>
+						</div>
+						<div class="right-col ">
+							<div class="clearfix clear-both customer-field">
+								@Html.LabelFor(model => model.ProjectStatus, new { @class = "strong pull-left" })
+								<i class="star-icon-white pull-right"></i>
+							</div>
+							<div class="controls  customer-input">
+								@Html.DropDownListFor(model => model.ProjectStatus, Model.ProjectStatusSelect)
+							</div>
+							@Html.ValidationMessageFor(model => model.ProjectStatus, Model.ProjectStatusErrorMessage)
+						</div>
+					</div>
+					<div class="form-horizontal control-group">
+						<div>
+							<div>
+								@Html.LabelFor(x => x.Description, "Project Scope")
+							</div>
+							<div class="conrols">
+								@Html.TextAreaFor(x => x.Description, 3, 200, new { @class = "text-box multi-line" })
+							</div>
+							<div class="model-description">
+								1,000 characters max.
+							</div>
+						</div>
+					</div>
+
+
+					<div class="form-horizontal control-group">
+						<div style="width:45%;" class="left-col">
+							<div class="customer-field">
+								@Html.LabelFor(x => x.OrderNumber, new { @class = "string pull-left" })
+								<i class="star-icon-white pull-right"></i>
+							</div>
+							<div class="controls  customer-input">
+								@Html.TextBoxFor(x => x.OrderNumber, (orderNumberLocked) ? new { disabled = "disabled" } : null)
+								@if (orderNumberLocked)
+								{
+									@Html.HiddenFor(x => x.OrderNumber);
+								}
+							</div>
+						</div>
+
+						<div class="right-col">
+							<div class="clearfix clear-both">
+								@Html.LabelFor(model => model.QuoteNo, new { @class = "strong pull-left" })
+							</div>
+							<div class="controls">
+								@Html.TextBoxFor(x => x.QuoteNo, (orderNumberLocked) ? new { disabled = "disabled" } : null)
+								@if (orderNumberLocked)
+								{
+									@Html.HiddenFor(x => x.QuoteNo);
+								}
+							</div>
+						</div>
+					</div>
+
+
+					<div class="form-horizontal control-group" style="margin-bottom:15px;">
+						<div style="width:45%;" class="left-col">
+							<div class="clearfix clear-both">
+								@Html.LabelFor(model => model.IndustryCode, new { @class = "strong pull-left" })
+							</div>
+							<div class="controls">
+
+								@Html.AutoCompleteFor(model => model.IndustryCode,
+								r => r.Industry,
+								Url.PageTypeaheadSearchIndustryCodes(),
+								minSearchTermLength: 2,
+								maxScrollItems: 5,
+								htmlAttributes: new { style = "width:99%" })
+
+
+
+
+								@Html.ValidationMessageFor(model => model.IndustryCode, "Please select an Industry", new { @data_valmsg_for = "IndustryCode_display" })
+							</div>
+						</div>
+
+						<div class="right-col">
+							<div class="clearfix clear-both">
+								@Html.LabelFor(model => model.ServiceCode, "Service Line", new { @class = "strong pull-left" })
+							</div>
+							<div class="controls">
+
+								@Html.AutoCompleteFor(model => model.ServiceCode, r => r.ServiceDescription,
+								Url.PageTypeaheadSearchServiceLineCodes(),
+								minSearchTermLength: 2,
+								maxScrollItems: 5,
+								htmlAttributes: new { style = "width:99%" })
+
+
+
+								@Html.ValidationMessageFor(model => model.ServiceCode, "Please select a Service Line", new { @data_valmsg_for = "ServiceCode_display" })
+							</div>
+						</div>
+					</div>
+
+
+
+
+
+					<div class="form-horizontal control-group">
+						<div style="width:45%;" class="left-col">
+							<div>
+								@Html.LabelFor(x => x.FileNo)
+							</div>
+							<div class="controls">
+								@Html.TextBoxFor(x => x.FileNo)
+							</div>
+						</div>
+						<div style="width:45%;" class="right-col">
+							<div>
+								@Html.LabelFor(x => x.CCN)
+							</div>
+							<div class="controls">
+								@Html.TextBoxFor(x => x.CCN)
+							</div>
+						</div>
+					</div>
+
+					<div class="form-horizontal control-group">
+						<div style="width:45%;" class="left-col">
+							<div>
+								@Html.LabelFor(x => x.ServiceRequestNumber)
+							</div>
+							<div class="controls">
+								@Html.TextBoxFor(x => x.ServiceRequestNumber)
+							</div>
+						</div>
+						<div style="width:45%;" class="right-col">
+							<div>
+
+							</div>
+							<div class="controls">
+
+							</div>
+						</div>
+					</div>
+
+
+					<div class="form-horizontal control-group">
+						<div>
+							<div class="customer-field">
+								@Html.LabelFor(x => x.StatusNotes, new { @class = "string pull-left" })
+								<i class="star-icon-white pull-right"></i>
+							</div>
+							<div class="conrols  customer-input">
+								@Html.EditorFor(model => model.StatusNotes)
+							</div>
+						</div>
+					</div>
+					<div class="form-horizontal control-group" style="width:85%">
+						<div>
+							@Html.Label("Order Lines")
+						</div>
+						<table class="table table-hover service-items">
+							<thead>
+								<tr>
+									<th class="nowrap" width="15%">Line Number</th>
+									<th class="nowrap">Name</th>
+									<th class="nowrap">Price</th>
+									<th style="text-align:center; width:10%;"><input type="checkbox" class="toggle-check-all-on-click" data-group-selector=".chk-order-line-group" /></th>
+									<th class="nowrap display-none">Promise Date</th>
+								</tr>
+							</thead>
+							@for (int i = 0; i < Model.ServiceLines.Count(); i++)
+							{
+								<tr>
+									<td>@Model.ServiceLines.ElementAt(i).LineNumber</td>
+									<td>@Model.ServiceLines.ElementAt(i).Name</td>
+									<td>@Html.DisplayFor(x => @Model.ServiceLines.ElementAt(i).Price) @Html.DisplayFor(x => @Model.ServiceLines.ElementAt(i).Currency)</td>
+									<td>
+										@Html.CheckBoxFor(m => m.SelectedServiceLines[i].Selected, new { @class = "chk-order-line-group", style = "text-align:center;" })
+										@Html.HiddenFor(m => m.SelectedServiceLines[i].Value, new { value = Model.ServiceLines.ElementAt(i).LineNumber })
+									</td>
+									<td class="display-none">@Model.ServiceLines.ElementAt(i).PromiseDate.ToString("d")</td>
+								</tr>
+							}
+						</table>
+						<div>
+							Selected order line items are included in this project. To remove, deselect any order line. Removing an order line will post it
+							back in the Request list unless an order has been completed or cancelled.
+						</div>
+					</div>
+
+					@Html.ValidationSummary()
+
+				</div>
+				<div class="modal-footer create-project-footer">
+					@*Put the submit button first so ENTER will submit rather than cancel*@
+					<input type="submit" id="createAndViewProject" class="btn btn-primary" value="@Model.ShouldOpenDetails" name="shouldOpenDetailsGroup">
+					<input type="submit" id="createProject" class="btn btn-primary" value="Create Project" name="shouldOpenDetailsGroup" />
+					<button class="btn pull-left" id="project-create-modal-cancel" data-dismiss="modal" aria-hidden="true">Cancel</button>
+				</div>
+			}
+		}
+
+		@if (success)
+		{
+			<script type="text/javascript">
+				var modal = $('#@id').closest(".modal").modal("hide");
+				UL.Refresh();
+			</script>
+		}
+	</div>
+</div>
+
+<script type="text/javascript">
+
+	UL.BootstrapControls($(".ul-dialog"));
+
+
+
+	//idle session manager hook
+	$(".project-create-form").sessionManager({
+		idleWarningTimeout: UlAriaWebPortalConfig.IdleWarningTimeoutMinutes * 60000, //60,000 == 1 minute
+		serverCallInterval: UlAriaWebPortalConfig.ServerCallIntervalMinutes * 60000, //60,000 == 1 minute
+	});
+
+</script>
+
+<script type="text/javascript">
+
+	// Get array of description values from hidden identical dropdown
+	var objDesc = $('#ProjectDescDropdown option');
+	var arrayDesc = $.makeArray(objDesc);
+
+	// For editing, display the option description
+
+	optDesc = $('#ProjectDescDropdown').find(":selected").text();
+	$('#ProjectDescription').text(optDesc);
+
+
+	$(document).ready(function () {
+		if ($('#BusinessUnitCode').val()) {
+			$('#ProjectTemplate').enable();
+		} else {
+			$('#ProjectTemplate').disable();
+		}
+	});
+
+	$('#BusinessUnitCode').change(function () {
+		var self = $(this);
+		var projectTemplateDropdown = $('#ProjectTemplate');
+		if (self.val()) {
+			var url = self.data("url");;
+			url = url + '/' + $('#BusinessUnitCode').val();
+			var proxyOptions = new UL.ProxyOptions();
+			proxyOptions.blockedElement = $('div#createProject');
+			proxyOptions.method = 'GET';
+			var proxy = new UL.Proxy();
+			proxy.send(null,url, function (success, result, error) {
+				if (success && result && result.success) {
+					projectTemplateDropdown.html('');
+					projectTemplateDropdown.append('<option>Select Project Template</option>');
+						$.each(result.templates, function (index, item) {
+						var opt = $(document.createElement('option')).val(item.id).text(item.name);
+						projectTemplateDropdown.append(opt);
+						});
+						$('#tCount').text('(' + result.templates.length + ')');
+					}
+			}, proxyOptions);
+			projectTemplateDropdown.removeAttr('disabled');
+
+		} else {
+			projectTemplateDropdown.attr('disabled', 'disabled');
+		}
+
+	});
+
+	// Use index of identical array to match selected id with description and write to div
+	$('#ProjectTemplate').change(function () {
+		var optSelect = $("#ProjectTemplate option:selected").val();
+		$('#ProjectDescDropdown').val(optSelect);
+		var thisDesc = $("#ProjectTemplate option:selected").text();
+		$('#ProjectDescription').text(thisDesc);
+	});
+
+	$(document).ready(function () {
+		var enableServiceLinandIndustry = function () {
+			if ($('.chk-order-line-group:checked').length <= 0) {
+				$('input[name="ServiceDescription"]').removeAttr('disabled');
+				$('input[name="Industry"]').removeAttr('disabled');
+			} else {
+				$('input[name="ServiceDescription"]').val('');
+				$('input[name="Industry"]').val('');
+				$('input[name="ServiceDescription"]').attr('disabled', 'disabled');
+				$('input[name="Industry"]').attr('disabled', 'disabled');
+			}
+		}
+
+		enableServiceLinandIndustry();
+
+		$('.chk-order-line-group,.toggle-check-all-on-click ').click(function () {
+			enableServiceLinandIndustry();
+		});
+
+
+	});
+
+
+
+</script>

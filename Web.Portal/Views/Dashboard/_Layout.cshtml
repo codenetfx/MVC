@@ -1,0 +1,31 @@
+﻿@using UL.Aria.Web.Common.Models.Shared
+@using UL.Aria.Web.Common.Mvc
+@using UL.Aria.Web.Common.Models.Search
+@using UL.Enterprise.Foundation;
+@model INavigationModel
+@{
+	Layout = "~/Views/Shared/_LayoutSectionTwoColumn.cshtml";
+	ViewBag.Breadcrumbs = Model.Breadcrumbs;
+	var links = ViewBag.PageLinks as List<TaxonomyMenuItem>;
+}
+
+@section styles {
+	@RenderSection("styles", required: false)
+}
+
+
+@section controls {
+	@{Html.RenderPartial("_ProfileSummary");}
+	<br class="clearfix clear-both" />
+	@RenderSection("filters", false)
+	<datalist id="criteria" data-json="@((ViewBag.JsonCriteria as JsonSearchCriteria).ToJson())"></datalist>
+	<input type="hidden" id="defaultCriteria" data-json="@((ViewBag.JsonDefaultCriteria as JsonSearchCriteria).ToJson())" />
+	@Html.AccordionMenu("main_menu", links)
+	@RenderSection("controls", required: false)
+}
+
+@RenderBody()
+
+@section scripts {
+	@RenderSection("scripts", required: false)
+}

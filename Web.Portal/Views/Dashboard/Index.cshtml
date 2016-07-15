@@ -1,0 +1,68 @@
+﻿@using UL.Aria.Web.Common.Models.Dashboard
+@using UL.Aria.Web.Common.Models.Search
+@model UL.Aria.Web.Common.Models.Search.ISearchResultSet<dynamic>
+
+@{
+	Layout = "~/Views/Dashboard/_Layout.cshtml";
+}
+
+@section filters
+{
+	@{
+		Html.RenderPartial("_FilterBlock", Model);
+	}
+}
+
+@{ Html.RenderPartial("_SearchFormTopMenu", Model.SearchCriteria); }
+
+
+<div>
+
+	<fieldset class="search-header dashboard-grid-body">
+		<legend><h2>Projects</h2></legend>
+
+		<div class="row-container search-body dashboard-grid-body" style="width:95%;">
+			@Html.JQGridFor(new UL.Aria.Web.Common.Mvc.JqGrid.JgGridDefaultBuilder<DashboardProjectRowFacade>(),
+			"DashboardProjectGrid", "/Dashboard/GetProjectList",
+			height: "300",
+			width: "733",
+			autoWidth: true,
+            snapToParent: ".search-body",           
+			pageSize: 20,             
+			virtualScroll: true,
+			fillScreenHeight: true,
+			criteria: ViewBag.JsonProjectCriteria as JsonSearchCriteria)
+
+		</div>
+	</fieldset>
+
+
+	<fieldset class="search-header dashboard-grid-body">
+		<legend><h2>Tasks</h2></legend>
+
+        <div class="row-container search-body dashboard-grid-body" style="width:95%; ">
+            @Html.JQGridFor(new UL.Aria.Web.Common.Mvc.JqGrid.JgGridDefaultBuilder<DashboardTaskRowFacade>(),
+                        "DashboardTaskGrid", "/Dashboard/GetTaskList",
+            height: "300",
+            width: "733",
+            autoWidth: true,
+            snapToParent: ".search-body",
+            virtualScroll: true,
+            pageSize: 20,
+            fillScreenHeight: true,
+            criteria: ViewBag.JsonTaskCriteria as JsonSearchCriteria)
+        </div>
+
+
+	</fieldset>
+
+
+	@{ Html.RenderPartial("_SearchFormFooter", Model.SearchCriteria); }
+
+</div>
+
+@section scripts {
+
+}
+
+

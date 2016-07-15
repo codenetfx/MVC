@@ -1,0 +1,60 @@
+﻿@using UL.Aria.Web.Common.Mvc
+@model UL.Aria.Web.Common.Models.Company.CompanyUserSearchModel
+@{
+	Layout = "~/Views/Company/_Layout.cshtml";
+	int rowIndex = 0;
+}
+
+@{ Html.RenderPartial("_SearchForm", Model.SearchCriteria); }
+
+<fieldset class="search-body">
+	@if (Model.Users.Any())
+	{
+		<table>
+			<thead>
+				<tr>
+					<th class="primary-col">Name / Login Id</th>
+					<th>Admin?</th>
+					<th>Access?</th>
+					<th>Orders?</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var user in Model.Users)
+				{
+					<tr class="@Html.TableRowClass(rowIndex++)">
+						<td class="primary-col">
+							<div>@user.DisplayName</div>
+							@Html.DisplayFor(m => user.LoginId)
+						</td>
+						<td>@(user.IsCompanyAdmin ? "Yes" : "No")</td>
+						<td>@(user.HasCompanyAccess ? "Yes" : "No")</td>
+						<td>@(user.HasCompanyOrderAccess ? "Yes" : "No")</td>
+						<td class="nowrap">
+							<a href="@Url.PageUserDetails(user.UserId)">View</a> |
+							<a href="@Url.PageUserContainers(user.UserId)">Access</a>
+							@if (Model.CanEditUser)
+							{
+								<div>
+									<a href="@Url.PageCompanyUserEdit(user.UserId)">Edit</a> 
+									@if (Model.CanCreateUser)
+									{
+										<text>|</text>
+										<a href = "#" data-toggle = "modal" data-target="#DeleteModal" data-modal-title="Delete User" data-item-name="Are you sure you want to delete '<span>@(user.DisplayName)</span>'?" data-item-href="@Url.PageCompanyUserRemove(user.UserId, Model.CompanyId)">Remove</a>
+									}
+								</div>
+							}
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	}
+	else
+	{
+		Html.RenderPartial("_SearchNotFound", Model.SearchCriteria);
+	}
+</fieldset>
+
+@{ Html.RenderPartial("_SearchFormFooter", Model.SearchCriteria); }

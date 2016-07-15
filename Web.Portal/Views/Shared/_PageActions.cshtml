@@ -1,0 +1,75 @@
+﻿@using UL.Aria.Web.Common.Models.Shared
+@model IEnumerable<TaxonomyMenuItem>
+@{
+    ViewBag.MenuLevel = ViewBag.MenuLevel ?? 0;
+    int maxLevels = ViewBag.MaxMenuLevel ?? 99;
+    const int MaxRefiners = 10;
+}
+
+@functions {
+
+    private string GetCssClass(TaxonomyMenuItem item, int menuLevel, int maxLevels)
+    {
+        var isActive = Url.IsCurrentUrl(item.Url) || (item.Children.Count > 0 && menuLevel < maxLevels);
+		if (item.Url != null && item.Url.Contains("#"))
+		    isActive = false;
+        var css = isActive ? "active" : "inactive";
+        if (!item.IsRefinable)
+            css += " empty";
+        if (item.Selected)
+            css += " selected";
+
+        return string.Concat(css, " accordion-heading menuLevel", menuLevel);
+    }
+
+}
+
+@if (Model.Any())
+{
+    int i = 0;
+    <nav class="clearfix clear-both">
+        <ul class="section-menu clear-both accordion-group @ViewBag.MenuClass">
+            @foreach (var item in Model)
+            {
+                <li class='@GetCssClass(item, ViewBag.MenuLevel, maxLevels) @(i >= MaxRefiners ? "hide" : null)' >
+                    @if (item.Children.Count > 0 && ViewBag.MenuLevel < maxLevels)
+                    {
+                        if (Model.Count() != 1)
+                        {
+                        <a id="@item.Key" class="accordion-toggle @(((dynamic)item).Class)" href="@item.Url" data-toggle="collapse" href="#body_@item.Key">@item.Text</a>
+                        }
+
+                        <div id="body_@item.Key" class="accordion-body collapse in body-space">
+                            @{
+                        ViewBag.MenuLevel++;
+                        Html.RenderPartial("_PageActions", item.Children.Cast<TaxonomyMenuItem>());
+                        ViewBag.MenuLevel--;
+                            }
+                        </div>
+                    }
+					else if (item.Count.HasValue && item.RefinementValue == "#")
+                    {
+                        <a id="@item.Key" class="@(((dynamic)item).Class)" href="@item.Url">@string.Format("{0} ({1})", item.Text, item.Count)</a>
+                    }
+                    else if (item.RefinementValue != null || item.Text == "All")
+                    {
+                        <a class="@(((dynamic)item).Class)" href="#@item.Key" onclick="return UL.RefineSearch(this);" data-refiner-key="@item.Key" data-refiner-value="@item.RefinementValue">@string.Format("{0} ({1})", item.Text, item.Count)</a>
+                    }
+                    else if (item.Ajax)
+                    {
+                        <a data-ajax="true" data-ajax-mode="replace" data-ajax-update=".modal" id="@item.Key" class="@(((dynamic)item).Class)" href="@item.Url">@item.Text</a>
+                    }
+                    else
+                    {
+                        <a id="@item.Key" class="@(((dynamic)item).Class)" href="@item.Url">@item.Text</a>
+                    }
+                </li>
+                    i++;
+            }
+            @if (i > MaxRefiners)
+            {
+                <li class="more"><a href="#more" onclick=" $(this).closest('UL').toggleClass('show-more'); ">More...</a></li>
+            }
+        </ul>
+    </nav>
+}

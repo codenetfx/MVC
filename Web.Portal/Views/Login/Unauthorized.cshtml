@@ -1,0 +1,46 @@
+﻿@model UL.Aria.Web.Common.Models.Shared.EmailResponse
+@{
+	ViewBag.Title = "Unauthorized :: UL";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	var requestHasBeenSent = ViewBag.Success;
+}
+
+
+@using (Html.BeginForm())
+{
+	<fieldset class="unauthorized">
+		<h2>Your Account Is Not Yet Authorized</h2>
+		<p>
+			Your account is setup, but it is not yet active because permissions have not been granted. You
+			can request access by clicking the button below.
+		</p>
+		<p>
+			Please do not submit another request if you have already requested access. Our Customer
+			Service reps will review your previous request and get back to you as soon as possible.
+		</p>
+		@if (requestHasBeenSent)
+		{
+			<div class="alert alert-info">
+				Your request has been sent to Customer Support
+			</div>
+		}
+		@if (Model.Error)
+		{
+			<div class="alert alert-error">
+				<h4>An Error has Occured</h4>
+				@Model.Message
+			</div>
+		}
+		
+
+		<div class="editor-buttons">
+			<a href="@Url.PageSignOut()">Take me back.</a> | <a href="http://www.ul.com/" target="_blank">visit www.ul.com</a>
+			@if (!requestHasBeenSent)
+			{
+				<span style="text-align: right; float: right;">
+					<input type="submit" value="Request Access" name="requestAccess" class="btn btn-primary" />
+				</span>
+			}
+		</div>
+	</fieldset>
+}

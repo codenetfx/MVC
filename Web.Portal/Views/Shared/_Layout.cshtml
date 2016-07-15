@@ -1,0 +1,164 @@
+﻿@using System.Collections
+@using UL.Aria.Web.Common.Configuration
+@using UL.Aria.Web.Common.Models.Profile
+@using UL.Aria.Web.Common.Models.Shared
+@using UL.Aria.Web.Common.Mvc
+@using UL.Aria.Web.Portal.Controllers;
+@{
+    var userStash = ViewBag.SessionStash as ISessionStash;
+    var navigationModel = Model as INavigationModel;
+    var config = ViewBag.PortalConfiguration as PortalConfiguration;
+	bool isUlEmployee = ViewBag.IsUlEmployee?? false;
+    IEnumerable<Breadcrumb> crumbs = null;
+    if (navigationModel != null)
+    {
+        crumbs = navigationModel.Breadcrumbs;
+    }
+    if (crumbs == null || !crumbs.Any())
+    {
+        crumbs = ViewBag.Breadcrumbs ?? new Breadcrumb[0];
+    }
+
+    string pageTitle = ViewBag.SectionTitle ?? ViewBag.PageTitle;
+    var maxFavorites = config.MaxFavoritesToShow;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="The description of my page" />
+    @Styles.Render("~/content/css")
+	@Styles.Render("~/content/ulcss")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("styles", required: false)
+    @{ Html.RenderPartial("_Tracking"); }
+</head>
+<body>
+    <header id="header">
+        @{ Html.RenderPartial("_AccountLinks"); }
+        <div class="header_box">
+            <div class="content-wrapper header_block">
+                <div class="account_links">
+                    @if (userStash != null && userStash.IsAuthenticated)
+                    {
+                        <a href="#" class="profile pull-left" id="myHomeButton">@userStash.UserDisplayName</a>
+                        Html.RenderPartial("_Favorites", userStash);
+                        <text>&nbsp;</text>
+	                    <a href="@Url.PageProfileBasic()" class="preferences" title="Edit Profile"></a>
+						if (isUlEmployee)
+						{
+							<text>&nbsp;</text>
+							<a href="@Url.PageDashboard()" class="dashboards" title="Dashboards"></a>
+						}
+					}
+					else
+					{
+						using (Html.BeginForm("SignIn", "Login", new { ReturnUrl = Request.QueryString["ReturnUrl"] }))
+						{
+                            @Html.AntiForgeryToken()
+                            <a href="#signin" onclick=" $(this).parents('FORM').submit();event.preventDefault(); ">Log in</a>
+                        }
+                    }
+                    <a href="@Url.PageHelp()" class="help" title="Help"></a>
+                </div>
+                <div class="header_logo"><a href="@Url.PageHome()">UL</a></div>
+                @if (userStash != null && userStash.IsAuthenticated)
+                {
+                    <div id="header_search">
+                        @using (Html.BeginForm("Index", "Search", FormMethod.Get))
+                        {
+                            <div class="search-wrap">
+                                <div class="search-left"></div>
+                                <input placeholder="Search" id="searchTerms" name="query" class="text" type="text" />
+                                <input type="submit" name="submit" value="" class="submit" />
+                            </div>
+                        }
+                    </div>
+                }
+                @RenderSection("header", required: false)
+            </div>
+        </div>
+        <div class="header_shadow"></div>
+    </header>
+    <div id="body">
+        <section class="content-wrapper body-content">
+            @if (!string.IsNullOrEmpty(pageTitle))
+            {
+                <header class="section-header">
+                    <h1>@(pageTitle)</h1>
+                    @if (crumbs.Any())
+                    {
+                        int crumbCount = 0;
+                        int totalCrumbs = crumbs.Count();
+                        
+                        <ul class="section-crumbs">
+                            @foreach (Breadcrumb crumb in crumbs)
+                            {
+                                
+                                crumbCount++;
+
+                                <li class="@(crumbCount == totalCrumbs ? "current" : null)">
+
+
+                                    <a href="@crumb.Url" class="breadcrumb-style ellipsis-add" data-max-chars="60" title="@crumb.Text">@crumb.Text</a>
+
+                                    <span class="divider">&gt;</span>
+                                </li>
+
+                            }
+                        </ul>
+                    }
+                </header>
+            }
+            @RenderBody()
+        </section>
+    </div>
+    <footer>
+        @{ Html.RenderPartial("_Footer"); }
+    </footer>
+
+    <div id="DeleteModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h3 id="DeleteConfirmModalLabel">Delete</h3>
+        </div>
+        <div class="modal-body" id="delete_modal_body">
+            <p></p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn pull-left" data-dismiss="modal">Cancel</button>
+            <button id="submitDelete" class="btn btn-primary">Delete</button>
+        </div>
+    </div>
+
+    <div id="blackHole" style="display: none;"></div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/signalR/hubs")
+    @Scripts.Render("~/bundles/ul") 
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            UL._siteRoot = @Html.Raw(Json.Encode(Url.Content("~/")));
+            $('input, textarea').placeholder();
+        });
+
+
+    </script>
+
+    @{ Html.RenderPartial("_PageMessages", (object)TempData[BaseController.PageMessagesKey], new ViewDataDictionary()); }
+
+    @RenderSection("scripts", required: false)
+
+    @this.RenderStartupScripts(
+    @<script type="text/javascript">
+        $(document).ready(function() {
+            @item
+        });
+    </script>)
+</body>
+</html>

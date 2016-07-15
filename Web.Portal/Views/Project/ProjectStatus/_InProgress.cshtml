@@ -1,0 +1,31 @@
+﻿@using System.ComponentModel.DataAnnotations;
+@using UL.Aria.Service.Contracts.Dto
+@using UL.Aria.Web.Common.Models.Shared
+@using UL.Enterprise.Foundation;
+@using UL.Aria.Web.Common.Models.Project
+@model UL.Aria.Web.Common.Models.Project.IProjectSummary
+
+<div>
+    @if (!@Model.EndDate.HasValue || @Model.EndDate > DateTime.Now)
+    {
+        <div class="profile-avitar-thumb">
+            <img src="@Url.ProjectDetailIcon()" alt="In Progress" />
+        </div>
+
+    <h2 class="project-name-left-pane ellipsis-add" data-max-chars="25" title="@Model.Name">@Model.Name</h2>
+
+        <em>In Progress</em>
+    }
+
+    else
+    {
+        <div class="profile-avitar-thumb">
+            <img src="@Url.ProjectDetailIcon()" alt="Slipping">
+        </div>
+
+    <h2 class="project-name-left-pane ellipsis-add" data-max-chars="25" title="@Model.Name">@Model.Name</h2>
+
+        <em>Slipping</em>
+    }
+
+</div>

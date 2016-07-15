@@ -1,0 +1,39 @@
+﻿@using UL.Aria.Web.Common.Mvc
+@model UL.Aria.Web.Common.Models.Shared.IHomeSectionModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutSection.cshtml";
+    ViewBag.Breadcrumbs = Model.Breadcrumbs;
+}
+
+
+@section controls {
+
+    @{Html.RenderPartial("_ProfileSummary");}
+    @{Html.RenderPartial("_PageActions", Model.PageLinks);}
+    @RenderSection("controls", false)
+}
+
+
+
+@RenderBody()
+
+
+
+@section aside {
+
+	@{Html.RenderPartial("_PageActionsRight", Model.PageActions);}
+	@RenderSection("aside", false)
+	@{
+		Html.RenderPartial("_Faq");
+		Html.RenderPartial("_Contact");
+	}
+}
+
+@section scripts {
+   
+    <script type="text/javascript">
+        $(document).ready(UL.hookCancelButtons);
+    </script>
+    @RenderSection("scripts", required: false)
+}

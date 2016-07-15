@@ -1,0 +1,116 @@
+﻿@using UL.Aria.Web.Common.Models.Shared
+@using UL.Aria.Web.Common.Mvc
+@using UL.Aria.Common.Authorization;
+@model UL.Aria.Web.Common.Models.Search.ProjectSearchResult
+@{
+    var linkDisplay = string.Empty;
+    var claimsContext = this.User as System.Security.Claims.ClaimsPrincipal;
+    var isUlEmployee = claimsContext.HasClaim(SecuredClaims.UlEmployee, SecuredActions.Role);
+}
+<div class="search-result project-result clearfix">
+    <div class="result-icon-container">
+        <div class="result-icon">
+            <a href="@Url.PageProjectDetails(Model.ProjectId)">
+                <img src="@Url.TransparentImage()" alt="@Model.ProjectName" />
+            </a>
+        </div>
+        @if (Model.ProjectExpedited)
+        {
+            <div class="result-icon-expedited clear-both">
+                <label class="result-icon-expedited-label">EXPEDITED</label>
+            </div>
+        }
+    </div>
+    <div class="result-actions">
+        @if (ViewBag.PopUpActions != null)
+        {
+            <input type="checkbox" class="pull-right" style="margin: 2px 0 0 10px;" value="@Model.ProjectId" data-group-name="@Model.EntityType.ToString()" onclick=" return UL.Result_OnChange(this); " @(Model.IsSelected ? "checked='checked'" : null) />
+        }
+        <div class="dropdown pull-right">
+            <a title="Open Menu" class="dropdown-toggle caret" data-toggle="dropdown" href="#"><i></i></a>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="@Url.PageProjectOverview(Model.ProjectId)">View</a></li>
+                @if (Model.CanBeModified)
+                {
+                    <li><a data-toggle="modal" data-modal-class="modal-two-col" href="@Url.PageProjectEdit(Model.ProjectId)">Edit Project Information</a></li>
+                    <li><a data-toggle="modal" data-modal-class="modal-two-col" href="@Url.PageProjectEdit(Model.ProjectId)?tab=project-order">Add/Edit Order Line Items</a></li>
+                   
+                }
+                @if (Model.CanUploadDocuments)
+                {
+                    <li><a data-toggle="modal" href="@Url.UploadMultipleDocuments(Model.ProjectId, EntityType.Project, Model.ContainerId)" data-width="@TaxonomyMenuItem.UploadModalWidth">Upload Documents</a></li>
+                }
+                @if (isUlEmployee)
+                {
+                    <li><a href="@Url.ProjectDownload(Model.ProjectId)">Export to Excel</a></li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="result-detail">
+        <div class="result-item-header">
+            <div class="display-status">
+                @Html.DisplayFor(model => model.Status)
+            </div>
+        </div>
+        <div class="result-item-title ellipsis-ctrl" data-ellipsis-width="400" data-ellipsis-height="auto">
+            <a href="@Url.PageProjectOverview(Model.ProjectId)" title="@Model.ProjectName">@Model.ProjectName</a>
+        </div>
+        <div class="display-row">
+            <div class="display-label">@Html.DisplayNameFor(model => model.CompanyName):</div>
+            <div class="display-field">@Html.DisplayFor(model => model.CompanyName)</div>
+        </div>
+
+        <div class="display-row">
+            <div class="display-label">@Html.DisplayNameFor(model => model.ProjectHandler):</div>
+            <div class="display-field">@Html.DisplayFor(model => model.ProjectHandler)</div>
+        </div>
+		<div class="display-row">
+			<div class="display-label">@Html.DisplayNameFor(model => model.OrderNumber):</div>
+			<div class="display-field">@Html.DisplayFor(model => model.OrderNumber)</div>
+		</div>
+	    <div class="display-row">
+		    <div class="display-label">@Html.DisplayNameFor(model => model.CustomerProjectName):</div>
+		    <div class="display-field ellipsis-ctrl" data-ellipsis-width="250" data-ellipsis-height="22" title="@Html.DisplayFor(model => model.CustomerProjectName)">@Html.DisplayFor(model => model.CustomerProjectName)</div>
+	    </div>
+		
+	    <div class="display-row">
+		    <div class="display-label">@Html.DisplayNameFor(model => model.QuoteNo):</div>
+		    <div class="display-field">@Html.DisplayFor(model => model.QuoteNo)</div>
+	    </div>
+
+	    <div class="display-row muted row-horizontal">
+		    <div class="display-label">@Html.DisplayNameFor(model => model.ChangeDate):</div>
+		    <div class="display-field">@Html.DisplayFor(model => model.ChangeDate)</div>
+		    <div class="divider">|</div>
+		    <div class="display-label">@Html.DisplayNameFor(model => model.EndDate):</div>
+	        <div class="display-field">@Html.DisplayFor(model => model.EndDate)</div>
+
+	        @* Temporarily disabled. We will enable it later. Don't delete it.
+
+
+               @if (isUlEmployee)
+                {
+                    if (!Model.HideFromCustomer)
+                    {
+                        linkDisplay = "hide";
+                        <div class="display-label">Visible to Customer </div>
+                    }
+                    else
+                    {
+                        linkDisplay = "unhide";
+                        <div class="display-label">Hidden from Customer </div>
+                    }
+
+                    <div class="display-field">(<a class="project-visiblity-link" href="@Url.Action("ToggleProjectVisibility", "Project", new { id=Model.ProjectId })">@linkDisplay</a>)</div>
+                }*@
+	    </div>
+        @if (Model.CompletionDate != default(DateTime))
+        {
+            <div class="display-row muted">
+                <div class="display-label">@Html.DisplayNameFor(model => model.CompletionDate):</div>
+                <div class="display-field">@Html.DisplayFor(model => model.CompletionDate)</div>
+            </div>
+        }
+        </div>
+</div>

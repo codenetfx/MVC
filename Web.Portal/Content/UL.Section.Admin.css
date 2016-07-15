@@ -1,0 +1,33 @@
+﻿table TR.container-actions-chrome td, table TR:hover.container-actions-chrome td {
+	padding: 0;
+	border-top: none;
+	border-bottom: none;
+}
+TR.container-actions-chrome .spinner {
+	background-image: url('img/spinner-32.gif');
+	background-repeat: no-repeat;
+	background-position: center center;
+	height: 32px;
+	width: 32px;
+	display: block;
+	margin: 5px auto;
+}
+TR.container-actions-chrome .alert {
+	margin: 10px;
+}
+.container-actions {
+	padding: 10px;
+}
+.container-actions UL.check-list {
+	float: left;
+}
+.container-actions .editor-buttons {
+	margin: 0;
+	padding: 0;
+	border: none;
+	background-color: transparent;
+	float: right;
+}
+.container-actions .editor-buttons input {
+	margin: 0;
+}

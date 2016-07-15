@@ -1,0 +1,51 @@
+﻿@model UL.Aria.Web.Common.Models.TaskType.TaskTypeEditable
+<div>
+    <div class="control-group">
+        @Html.Label("Send Task Completion Notifications")
+        <div class="controls">
+            <div class="task-notifications">
+                <table class="table table-condensed ">
+                    <tbody>
+                    @if (Model.Notifications != null)
+                    {
+                        for (int x = 0; x < Model.Notifications.Count(); x++)
+                        {
+                            var name = String.Format("Notifications[{0}].Email", x);
+                            <tr>
+                                <td>
+                                    @Html.AutoComplete(name, Model.Notifications[x].Email, Url.PageSearchULUsers(), minSearchTermLength: 2)
+                                    @Html.ValidationMessage(name)
+                                </td>
+                                <td>
+                                    <button type="button" class="notification-remove">Remove Email</button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-horizontal control-group">
+        <button class="notification-add" type="button">Add Another Email</button>
+    </div>
+</div>
+
+<div style="display: none">
+    <table id="newTaskTypeNotificationRow" style="display: none;">
+        <tbody>
+            <tr>
+                <td>
+                    @Html.AutoComplete("Notifications[newTaskTypeNotificationRow].Email", String.Empty, Url.PageSearchULUsers(), minSearchTermLength: 2)
+                    @Html.ValidationMessage("Notifications[newTaskTypeNotificationRow].Email")
+                </td>
+                <td>
+                    <button type="button" class="notification-remove">Remove Email</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+

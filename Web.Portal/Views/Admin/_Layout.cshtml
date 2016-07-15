@@ -1,0 +1,36 @@
+﻿@using UL.Aria.Web.Common.Models.Shared
+@using UL.Aria.Web.Common.Mvc
+
+@model INavigationModel
+@{
+    Layout = "~/Views/Shared/_LayoutSection.cshtml";
+}
+
+
+
+@section controls {
+
+    @{
+        var links = new List<TaxonomyMenuItem>(Model.PageLinks);
+        links.Insert(0, new TaxonomyMenuItem()
+        {
+            Text = "Home",
+            Url = Url.PageHome(),
+            IsRefinable = false
+        });
+    }
+    @{Html.RenderPartial("_PageActions", links);}
+}
+
+@section aside {
+    @RenderSection("aside", required: false)
+}
+
+@RenderBody()
+
+@section scripts {   
+    <script type="text/javascript">
+        $(document).ready(UL.hookCancelButtons);
+    </script>
+    @RenderSection("scripts", required: false)
+}

@@ -1,0 +1,32 @@
+﻿@model UL.Aria.Web.Common.Models.Shared.CompanyInfo
+@{
+	Layout = "~/Views/Company/_Layout.cshtml";
+}
+
+
+@if (null != Model)
+{
+	<fieldset class="display company-detail">
+	    <legend><h2>Basic Information</h2></legend>
+
+		<div class="display-row">
+			<div class="display-label">@Html.DisplayNameFor(model => model.ExternalId):</div>
+			<div class="display-field">@Html.DisplayFor(model => model.ExternalId)</div>
+		</div>
+		
+		<div class="display-row">
+			<div class="display-label">@Html.DisplayNameFor(model => model.Name):</div>
+			<div class="display-field">@Html.DisplayFor(model => model.Name)</div>
+		</div>
+		
+		<div class="display-row">
+			<div class="display-label">@Html.DisplayNameFor(model => model.Description):</div>
+			<div class="display-field">@Html.DisplayFor(model => model.Description)</div>
+		</div>
+		
+		<div class="display-row">
+			<div class="display-label">@Html.DisplayNameFor(model => model.Id):</div>
+			<div class="display-field">@Html.DisplayFor(model => model.Id)</div>
+        </div>
+	</fieldset>
+}

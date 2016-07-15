@@ -1,0 +1,128 @@
+﻿@model UL.Aria.Web.Common.Models.Shared.ProjectCreate
+@{
+    var id = "pc_" + Guid.NewGuid().ToString("N");
+    var success = ((bool?)ViewBag.Success).GetValueOrDefault(false);
+}
+@using (Html.BeginForm("Create", "Project", FormMethod.Post, new Dictionary<string, object>() { { "id", id }, { "class", "project-create-form" } }))
+{
+    @Html.HiddenFor(m => m.IncomingOrderId)
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Create a Project</h3>
+    </div>
+    
+    if (!success)
+    {
+        <div class="modal-body">
+		    @Helpers.ModalSubmitFix()
+		    @{
+            Html.RenderPartial("_Info");
+            Html.RenderPartial("_Template");
+            Html.RenderPartial("_Handler");
+            }
+            @if (Model.ServiceLines != null && Model.ServiceLines.Any())
+            {
+            <div class="form-horizontal control-group customer-flag">
+                <div>
+                    <h5>Select Order Items</h5>
+                </div>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Select</th>
+                                <th class="nowrap cyan-flag">Name</th>
+                                <th width="100%" class="cyan-flag">Line Number</th>
+                                <th class="nowrap display-none">Promise Date</th>
+                            </tr>
+                        </thead>
+                        @for (int i = 0; i < Model.ServiceLines.Count(); i++)
+                        {
+                        <tr>
+                            <td>
+                                @Html.CheckBoxFor(m => m.SelectedServiceLines[i].Selected)
+                            @Html.HiddenFor(m => m.SelectedServiceLines[i].Value, new { value = Model.ServiceLines.ElementAt(i).LineNumber })
+                            </td>
+                            <td>@Model.ServiceLines.ElementAt(i).Name</td>
+                            <td>@Model.ServiceLines.ElementAt(i).LineNumber</td>
+                            <td class="display-none">@Model.ServiceLines.ElementAt(i).PromiseDate.ToString("d")</td>
+                        </tr>
+                        }
+                    </table>
+            </div>
+            }
+
+            <p>Once created, you can edit the project settings to add additional information.</p>
+
+            <p>@Html.CheckBoxFor(m => m.IsEmailRequested)  Send project creation email to Project Handler</p>
+                        
+            @Html.ValidationSummary()
+
+        </div>
+        <div class="modal-footer create-project-footer">
+		    @*Put the submit button first so ENTER will submit rather than cancel*@
+            <input type="submit" id="createAndViewProject" class="btn btn-primary" value="@Model.ShouldOpenDetails" name="shouldOpenDetailsGroup">
+            <input type="submit" id="createProject" class="btn btn-primary" value="Create Project" name="shouldOpenDetailsGroup" />        
+            <button class="btn pull-left" id="project-create-modal-cancel" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        </div>
+    }
+}
+
+@if (success)
+{
+    <script type="text/javascript">
+        var modal = $('#@id').closest(".modal").modal("hide");
+        UL.Refresh();
+    </script>
+}
+
+<script type="text/javascript">
+
+    $("#@id").ajaxForm({
+        target: $("#@id").parent(),
+        beforeSubmit: $.proxy(UL.ValidateModal, $("#@id")),
+        cache: false,
+        success: function (data, status, jqXHR) {
+            if (jqXHR.getResponseHeader("location") != undefined) {
+                window.location = jqXHR.getResponseHeader("location");
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            var title = textStatus || "Error";
+            var body = errorThrown || "An unexpected error has occurred.";
+
+            try {
+                var errorPage = $(jqXHR.responseText.trim());
+                title = errorPage.find("h1").text() || title;
+                body = errorPage.find(".body-content").html() || errorPage.find("h2").text() || body;
+
+            } catch (ex) { }
+
+            $("#@id").closest(".modal").modal("loading");
+            $("#@id .modal-body").html(body);
+            $("#@id").closest(".modal").modal('removeLoading');
+    	    $.unblockUI();
+    	}
+    });
+
+    // Added to remove problem with duplicate DOM elements klling remove spaces script below
+    $("button#project-create-modal-cancel").click(function () {
+        $('#ProjectHandler').detach();
+    });
+
+    // Takes current value of text inside of #ProjectHandler input field
+    // and removes spaces from before and after string (not in string itself) when focus leaves field.
+    $("#ProjectHandler").blur(function () {
+
+        var handlerText = $("#ProjectHandler").val();
+        handlerText = handlerText.replace(/^\s+|\s+$/gm,'');
+        $("#ProjectHandler").val(handlerText);
+    });
+
+    //idle session manager hook
+    $(".project-create-form").sessionManager({
+        idleWarningTimeout: UlAriaWebPortalConfig.IdleWarningTimeoutMinutes * 60000, //60,000 == 1 minute
+        serverCallInterval: UlAriaWebPortalConfig.ServerCallIntervalMinutes * 60000, //60,000 == 1 minute
+    });
+
+</script>
+

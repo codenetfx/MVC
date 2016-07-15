@@ -1,0 +1,193 @@
+﻿@using UL.Aria.Web.Common
+@model UL.Aria.Web.Common.Models.Project.TaskInfo
+
+@{
+	Layout = "_TaskDetailLayout.cshtml";
+}
+
+
+<fieldset>
+	<legend>Tasks</legend>
+	@if (Model.Task != null)
+	{
+		<div class="display-row">
+			<div class="@Model.Task.TaskStatusCssClass section-summary">
+				<img src="~/images/clear.gif" alt="" class="result-icon" />
+				<h2>@Model.Task.TaskName</h2>
+				<em> @Html.DisplayFor(m => m.Task.Progress)</em>
+				@if (Model.Task.ShouldTriggerBilling)
+				{
+					<div class="billing-trigger-label">@ConstantKeys.BillingTriggerTask</div>
+				}
+			</div>
+		</div>
+		<div class="row-container">
+			<div class="div-task-attribute">
+				<div class="display-label-row three-column">
+					@Html.DisplayNameFor(model => model.Task.Description)
+				</div>
+				<div class="display-field-row">
+					@Html.DisplayFor(model => model.Task.Description)
+				</div>
+			</div>
+			<div class="div-task-attribute">
+				<div class="display-label-row three-column">
+					@Html.DisplayNameFor(model => model.Task.TaskOwner)
+				</div>
+				<div class="display-field-row">
+					@Html.DisplayFor(model => model.Task.TaskOwner)
+				</div>
+			</div>
+			<div class="div-task-attribute">
+				<div class="display-label-row three-column">
+					@Html.DisplayNameFor(model => model.Task.StartDate)
+				</div>
+				<div class="display-field-row">
+					@Html.DisplayFor(model => model.Task.StartDate)
+				</div>
+			</div>
+		</div>
+		<div class="row-container">
+			<div class="div-task-attribute">
+				<div class="display-label-row three-column">
+					@Html.DisplayNameFor(model => model.Task.EndDate)
+				</div>
+				<div class="display-field-row">
+					@Html.DisplayFor(model => model.Task.EndDate)
+				</div>
+			</div>
+			<div class="div-task-attribute">
+				<div class="display-label-row three-column">
+					@Html.DisplayNameFor(model => model.Task.EstimatedDuration)
+				</div>
+				<div class="display-field-row">
+					@Html.DisplayFor(model => model.Task.EstimatedDuration)
+				</div>
+			</div>
+			<div class="div-task-attribute">
+				<div class="display-label-row three-column">
+					@Html.DisplayNameFor(model => model.Task.ActualDuration)
+				</div>
+				<div class="display-field-row">
+					@Html.DisplayFor(model => model.Task.ActualDuration)
+				</div>
+			</div>
+		</div>
+		<div class="row-container">
+			<div class="div-task-attribute">
+				<div class="display-label-row three-column">
+					@Html.DisplayNameFor(model => model.Task.PercentComplete)
+				</div>
+				<div class="display-field-row">
+					@Html.DisplayFor(model => model.Task.PercentComplete)%
+				</div>
+			</div>
+			<div class="div-task-attribute">
+				<div class="display-label-row three-column">
+					@Html.DisplayNameFor(model => model.Task.Phase)
+				</div>
+				<div class="display-field-row">
+					@Html.DisplayFor(model => model.Task.Phase)
+					<div class="@Model.Task.TaskPhaseCssClass">
+						<img src="~/images/clear.gif" alt="">
+					</div>
+				</div>
+			</div>
+			<div class="div-task-attribute">
+				<div class="display-label-row three-column">
+					@Html.DisplayNameFor(model => model.Task.Progress)
+				</div>
+				<div class="display-field-row">
+					@Html.DisplayFor(model => model.Task.Progress)
+				</div>
+			</div>
+		</div>
+		<div class="row-container">
+			<div class="div-task-attribute">
+				<div class="display-label-row three-column">
+					Reminder Date
+				</div>
+				<div class="display-field-row">
+					@Html.DisplayFor(model => model.Task.ReminderDate)
+				</div>
+			</div>
+			<div class="div-task-attribute">
+				<div class="display-label-row three-column">
+					@Html.DisplayNameFor(model => model.Task.CompletedDate)
+				</div>
+				<div class="display-field-row">
+					@Html.DisplayFor(model => model.Task.CompletedDate)
+				</div>
+			</div>
+			@if (Model.CertificationManagementRequests.Any())
+			{
+				<div class="div-task-attribute">
+					<div class="display-label-row three-column">
+						@Html.DisplayNameFor(model => model.CertificationManagementRequests)
+					</div>
+
+					<dl style="margin: 0">
+						@foreach (var item in Model.CertificationManagementRequests.Select(x => x.CreatedDateTime.ToShortDateString()))
+						{
+							<dd style="margin: 0">@(item)</dd>
+						}
+					</dl>
+				</div>
+			}
+		</div>
+
+	    <div class="display-row">
+	        @{ Html.RenderPartial("_DocumentTemplates", Model); }
+	    </div>
+        
+        if (Model.TaskType.Id == Model.FreeformTaskTypeId)
+        {
+            <div class="display-row">
+                @{ Html.RenderPartial("_TaskNotificationList", Model.Notifications); }
+            </div>
+        }
+        else
+        {
+            <div class="display-row">
+                @{ Html.RenderPartial("_TaskTypeNotificationList", Model.TaskType.Notifications); }
+            </div>
+        }
+
+		<div class="display-row">
+			@{ Html.RenderPartial("_Documents", Model.Documents); }
+		</div>
+
+		<div class="display-row">
+
+			@{ Html.RenderPartial("_Comments", Model.Task.Comments); }
+		</div>
+
+		<div class="display-row">
+			<table class="table-condensed">
+				<thead>
+					<tr>
+						<th colspan="2" style="padding-left: 5px;">Task Relationship</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							Parent
+						</td>
+						<td class="primary-col">
+							@Model.Task.ParentTaskNumber
+						</td>
+					</tr>
+					<tr>
+						<td>Child</td>
+						<td>@Model.Task.ChildTaskNumber</td>
+					</tr>
+					<tr>
+						<td>Predecessor</td>
+						<td>@Model.Task.PredecessorTask</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	}
+</fieldset>

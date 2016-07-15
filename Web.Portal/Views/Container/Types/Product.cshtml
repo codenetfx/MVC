@@ -1,0 +1,12 @@
+﻿@model UL.Aria.Web.Common.Models.Container.ContainerModel
+
+@{
+	ViewBag.Title = Model.Name + " :: Products";
+	ViewBag.SectionTitle = "Product";
+}
+
+<fieldset>
+	<legend>Product Information</legend>
+
+	@Html.DisplayForModel()
+</fieldset>

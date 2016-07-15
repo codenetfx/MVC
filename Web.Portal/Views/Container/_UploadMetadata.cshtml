@@ -1,0 +1,56 @@
+﻿@using UL.Aria.Web.Common.Mvc
+@model UL.Aria.Web.Common.Models.Shared.DocumentMetadataUpload
+
+<fieldset class="form-horizontal">
+    @*<form method="POST" action="@Url.Content("~/upload/")" enctype="multipart/form-data">*@
+    @*<div class="legend">Add a Document</div>*@
+
+    <div class="control-group">
+        @Html.LabelFor(model => model.DocumentTypeId)
+        <div class="controls">
+            @Html.DropDownListFor(model => model.DocumentTypeId, Model.DocumentTypes)
+            @Html.ValidationMessageFor(model => model.DocumentTypeId)
+        </div>
+    </div>
+
+    <div class="control-group">
+        @Html.LabelFor(model => model.Title)
+        <div class="controls">
+            @Html.EditorFor(model => model.Title)
+            @Html.ValidationMessageFor(model => model.Title)
+        </div>
+    </div>
+
+    <div class="control-group">
+        @Html.LabelFor(model => model.Description)
+        <div class="controls">
+            @Html.EditorFor(model => model.Description)
+            @Html.ValidationMessageFor(model => model.Description)
+        </div>
+    </div>
+
+    @if (Model.Permissions != null)
+    {
+        <div class="control-group radio-group inline">
+            @Html.LabelFor(model => model.Permission)
+            <div class="controls">
+                @Html.RadioButtonListFor(m => m.Permission, Model.Permissions, new { @class = "inline" })
+                @Html.ValidationMessageFor(m => m.Permission)
+            </div>
+        </div>
+    }
+
+    <div class="control-group">
+        <div class="controls">
+            @Html.LabelFor(model => model.AssetId)
+            @Html.DisplayFor(model => model.AssetId)
+        </div>
+    </div>
+
+
+
+</fieldset>
+
+
+
+

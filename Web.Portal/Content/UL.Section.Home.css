@@ -1,0 +1,279 @@
+﻿.profile-avitar, .profile-avitar IMG {
+	height: 230px;
+	width: 230px;
+	overflow: hidden;
+}
+.profile-avitar-thumb, .profile-avitar-thumb IMG {
+	height: 48px;
+	width: 48px;
+	overflow: hidden;
+}
+.section-summary .actions-list {
+	float: right;
+	list-style: none;
+	margin: 0;
+	padding: 0;	
+}
+.section-summary .profile-avitar-thumb {
+	float: left;
+	padding: 0 10px 5px 0;
+}
+.section-summary h2 {
+	margin: 0;
+}
+.section-summary em {
+	display: block;
+	font-weight: bold;
+	font-style: normal;
+	margin: 0.5em 0 0.5em 58px;
+	line-height: 1.4em;
+}
+.section-apps { margin-top: 30px;}
+.section-apps h6 { padding-top: 5px;}
+.section-apps ul {
+	list-style: none;
+	margin: 0 -10px 0 0;
+	padding: 0;
+	overflow: auto;
+}
+.section-apps ul li {
+	margin-right: 10px;
+    width:70px;
+	float: left;
+}
+.section-apps ul li span {
+	display: block;
+	text-align: center;
+	padding: 0.5em 0;
+	line-height: 1.2em;
+}
+.section-apps ul li img {
+	height: 68px;
+	width: 68px;
+    border:1px solid #ebebeb;
+	background-image: url('img/icons/apps.png');
+	background-repeat: no-repeat;
+}
+.section-apps ul li a, .section-apps ul li a:link {
+	color: #666;
+}
+.section-apps ul li a:hover {
+	text-decoration: none;
+	color: #b10820;
+}
+.section-apps ul li a:hover img {
+    border-color:#b10820;
+}
+.section-apps ul li a.app-capa img {
+	background-position: 0 0;
+}
+.section-apps ul li a:hover.app-capa img {
+	background-position: 0 -70px;
+}
+.section-apps ul li a.app-buy img {
+	background-position: -70px 0;
+}
+.section-apps ul li a:hover.app-buy img {
+	background-position: -70px -70px;
+}
+.section-apps ul li a.app-pay img {
+	background-position: -140px 0;
+}
+.section-apps ul li a:hover.app-pay img {
+	background-position: -140px -70px;
+}
+
+.live-tile-holder {
+	padding: 15px 0;
+}
+.live-tile-holder .live-tile,
+.live-tile-holder .list-tile,
+.live-tile-holder .copy-tile,
+.live-tile-holder .tile-strip .flip-list > li {
+  height: 170px;
+  margin: 0 10px 10px 0;
+  width: 170px;
+}
+
+.live-tile-holder /*.tile-alt*/ {
+  margin-right:0;
+}
+
+
+.live-tile .tile-count {
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-size: 1.8em;
+	font-weight: bold;
+	padding: 10px 10px 0 0;
+}
+.live-tile .tile-details {
+	background-color: #000;
+	color: #fff;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+	filter: alpha(opacity=70);
+	-moz-opacity:0.7;
+	-khtml-opacity: 0.7;
+	opacity: 0.7;
+}
+.live-tile .tile-details div {
+	font-size: 1.4em;
+	font-weight: bold;
+	text-align: center;
+	padding: 0.9em;
+}
+.live-tile .tile-details .tile-title {
+	font-size: 1.4em;
+	font-weight: bold;
+	padding: 0.5em;
+}
+
+.live-tile-holder .live-tile,
+.live-tile-holder .list-tile,
+.live-tile-holder .copy-tile {
+  color: #666;
+}
+
+.tile-icon {
+	height: 170px;
+	width: 170px;
+	background-image: url('img/icons/dashboard.png');
+	background-repeat: no-repeat;
+}
+.tile-Order .tile-icon {
+	background-position: -170px 0;
+}
+.tile-InboundOrder .tile-icon {
+	background-position: -1020px 0;
+}
+.tile-Project .tile-icon {
+	background-position: -340px 0;
+}
+
+.tile-ProjectTemplate .tile-icon {
+	background-position: -340px 0;
+}
+
+.tile-TaskTemplate .tile-icon {
+	background-position: -340px 0;
+}
+.tile-DocumentTemplate .tile-icon {
+	background-position: -340px 0;
+}
+
+.tile-Product .tile-icon {
+	background-position: 0 0;
+}
+.tile-Task .tile-icon {
+	background-position: -1190px 0;
+}
+
+.tile-TaskType .tile-icon {
+	background-position: -1190px 0;
+}
+
+.tile-BusinessUnit .tile-icon, .tile-document .tile-icon, .tile-Document .tile-icon {
+	background-position: -850px 0;
+}
+.tile-Company .tile-icon, .tile-Dashboard .tile-icon {
+	background-position: -680px 0;
+}
+.tile-members .tile-icon {
+	background-position: -510px 0;
+}
+.tile-orderServices .tile-icon {
+	background-position: -1360px 0;
+}
+/* tile hover styles */
+.live-tile:hover .tile-details {
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+	filter:  alpha(opacity=80);
+	-moz-opacity:0.8;
+	-khtml-opacity: 0.8;
+	opacity: 0.8;
+	background-color: #b10820;
+}
+
+.live-tile p.short-line {
+    line-height: .3em;
+}
+
+.section-summary h2 {
+    font-size: 1.4em;
+    line-height: 1.1em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.section-summary em {
+    font-size: 1.1em;
+    font-weight:normal;
+    line-height: 1.0em;
+}
+.section-summary {
+    margin-bottom: 20px;
+    font-size: 1.0em;
+}
+.section-summary dl.dl-horizontal {
+	margin: 0.5em 0 20px 0;
+}
+.section-summary .dl-horizontal dt {
+	width: auto;
+	font-weight: normal;
+	text-align: left;
+	margin-right: 0.5em;
+    min-height: 20px;
+    line-height: 1.5;
+}
+.section-summary .dl-horizontal dd {
+	margin-left: 0.5em;
+	min-height: 20px; /* incase there is no contents, still take up space */
+	overflow: hidden;
+	text-overflow: ellipsis;
+    line-height: 1.5;
+}
+.project-summary em {
+	text-transform: uppercase;
+}
+
+
+
+table tbody tr td.task-status-notstarted {
+	background-color:#f8b491;
+}
+
+table tbody tr td.task-status-onhold, table tbody tr td.task-progress-slipping  {
+	background-color: #f7d586;
+}
+
+table tbody tr td.task-status-completed, table tbody tr td.task-progress-completed  {
+	background-color: #89cd8d;
+}
+table tbody tr td.task-status-canceled, table tbody tr td.task-progress-waiting  {
+	background-color: #e8e8e8;
+}
+
+table tbody tr td.task-progress-introbule {
+	background-color: #ed9191;
+} 
+
+table tbody tr td.grayWithWhiteBg, table tbody tr td.task-progress-canceled  {
+	color: #a29e9e;
+}
+.editDocumentOnline { cursor: pointer;}
+.billing-trigger-label {
+	color: #b10820;
+	font-size: 0.9em;
+	line-height: 0.9em;
+	padding: 0px;
+	margin-top: 0px;
+}
+
+.bold-red {
+	color: #b10820;
+	font-weight: bold;
+}
+.ul-modal-dialog{ cursor: pointer;}
+.auto-complete-message {
+	margin: 0!important; font-style: italic; color: #a29e9e;
+}

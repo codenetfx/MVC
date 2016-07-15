@@ -1,0 +1,36 @@
+﻿@using UL.Aria.Web.Common.Models.Shared
+@using UL.Aria.Web.Common.Mvc
+@{
+	Layout = "~/Views/Shared/_LayoutSection.cshtml";
+	ViewBag.Title = ViewBag.Title + " :: UL";
+	ViewBag.Breadcrumbs = new Breadcrumb[] {
+		new Breadcrumb { Text = "Home", Url = Url.PageHome() },
+		new Breadcrumb { Text = "Container", Url = "#" },
+		new Breadcrumb { Text = ViewBag.SectionTitle ?? ViewBag.PageTitle, Url = Url.Action(null) }
+	};
+}
+
+@helper SectionLink(string url, string text)
+{
+	bool isActive = Url.IsCurrentUrl(url);
+	string className = isActive ? "active" : "inactive";
+	<li class="@className"><a href="@url">@text</a></li>
+}
+
+@section controls {
+	<h1>@ViewBag.InstanceName</h1>
+	<ul class="section-menu flat-menu">
+		@SectionLink(Url.PageContainerDetails((Guid)Model.Id), "Basic Information")
+		@SectionLink(Url.PageContainerUsers((Guid)Model.Id), "Members")
+	</ul>
+}
+
+@section aside {
+	@RenderSection("aside", required: false)	
+}
+
+@RenderBody()
+
+@section scripts {
+	@RenderSection("scripts", required: false)
+}

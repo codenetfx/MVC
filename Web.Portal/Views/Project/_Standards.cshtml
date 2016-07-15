@@ -1,0 +1,9 @@
+﻿@using UL.Aria.Web.Common.Models.Shared
+@model UL.Aria.Web.Common.Models.Shared.ProjectCreate
+
+<div class="form-horizontal control-group">
+    @Html.LabelFor(model => model.Standards, new { @class = "strong" })
+    <div class="controls">
+        @Html.EditorFor(model => model.Standards)
+    </div>
+</div>

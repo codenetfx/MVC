@@ -1,0 +1,95 @@
+﻿@model UL.Aria.Web.Common.Models.Product.ProductSubmit
+
+@{ var id = "form_" + Guid.NewGuid().ToString("N");}
+
+@using (Html.BeginForm("Submit", "Product", FormMethod.Post, new Dictionary<string, object>() { { "id", id } }))
+{
+    
+    <input type="hidden" id="overRide" name="overRide" value="true" />
+    foreach (var guid in Model.Id)
+    {
+    <input type="hidden" name="id" value="@guid"/>
+    }
+   
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="SubmitConfirmModalLabel">Submit Product</h3>
+    </div>
+
+    if (!Model.Success)
+    {
+    <div class="modal-body" id="utility_submit-body">
+
+        @if (!string.IsNullOrEmpty(Model.ExceptionMessage))
+        {
+            <div>
+                <i class="ul-icon-failure"></i>
+                <span>@Model.ExceptionMessage</span>
+            </div>
+        }
+
+        @if (Model.Errors.Count > 0)
+        {
+            <i class="ul-icon-failure"></i>
+            <span>Please fix below errors</span>
+            <ul>
+                @foreach (var item in Model.Errors)
+                {
+                    if (!string.IsNullOrEmpty(item.Key))
+                    {
+                    <li>
+                        @item.Key
+                        <ul>
+                            @foreach (var error in item.Value)
+                            {
+                                <li>@error</li>
+                            }
+                        </ul>
+                    </li>
+                    }
+                    else
+                    {
+                    <li>@string.Join("<br/>", item.Value.ToArray()) </li>
+                    }
+                }
+
+            </ul>
+        }
+
+    </div>
+    <div class="modal-footer error-footer">
+        <button class="btn btn-info pull-left" data-dismiss="modal" aria-hidden="true">Dismiss</button>
+
+        @if (Model.CanOverRide)
+        {
+            <button id="btnOverrideSubmitproduct" class="btn btn-primary">Override & Submit</button>
+        }
+
+    </div>
+    }
+    else
+    {
+    <script type="text/javascript">
+        var modal = $('#@id').closest(".modal").modal("hide");
+        UL.Refresh();
+    </script>  
+  
+    }
+}
+
+<script type="text/javascript">
+
+    $('button[data-dismiss="modal"]').on("click", function () {
+        setTimeout(UL.Refresh, 500);
+    });
+
+
+    $("#@id").ajaxForm({
+        target: $("#@id").parent(),
+        success: function (result) {
+            $(this).closest(".modal").html(result);
+        },
+        cache: false
+    });
+
+</script>

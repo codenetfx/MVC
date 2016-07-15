@@ -1,0 +1,38 @@
+﻿@using UL.Aria.Service.Contracts.Dto
+@using UL.Aria.Web.Common.Models.Product
+@model UL.Aria.Web.Common.Models.Product.ProductDetail
+@{
+	Layout = "~/Views/Product/_Layout.cshtml";
+}
+
+@helper AttributeSection(IEnumerable<ProductAttribute> attributes, string sectionName)
+{
+	if (attributes.Any())
+	{
+		<fieldset class="display">
+			<legend>
+				<h2>@sectionName</h2>
+			</legend>
+			@foreach (var attribute in attributes.OrderBy(x => x.SortOrder).ThenBy(x => x.Name))
+			{
+				<div class="div-product-attribute">
+					<div class="display-label-row" title="@attribute.FamilyCharacteristicId.ToString("N")">
+						@attribute.Name
+					</div>
+					<div class="display-field-row">
+						@Html.DisplayFor(m => attribute)
+					</div>
+				</div>
+			}
+		</fieldset>
+	}
+}
+
+<div>
+	@AttributeSection(Model.DescriptiveAttributes, SqlFieldNames.ProductAttributeGroupDescriptive)
+	@foreach (var group in Model.OtherAttributes.GroupBy(x => x.GroupName).OrderBy(x => x.Key))
+	{
+		@AttributeSection(group, group.Key)
+	}
+	@AttributeSection(Model.AdditionalAttributes, SqlFieldNames.ProductAttributeGroupAdditional)
+</div>

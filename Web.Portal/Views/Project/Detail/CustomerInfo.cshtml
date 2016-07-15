@@ -1,0 +1,105 @@
+﻿@model UL.Aria.Web.Common.Models.Project.ProjectDetail
+
+@{
+    Layout = "_DetailsLayout.cshtml";
+    ViewBag.MenuClass = "flat-menu";
+}
+
+<!-- PROJECT CREATED FROM BNP ORDER  -->
+
+<fieldset class="display" id="project-from-bnp">
+
+    <legend>
+        <h2>
+            Customer Information
+            <div class="customer-flag customer-text right">Note: Icon denotes customer-visible field</div>
+        </h2>
+    </legend>
+
+    <div class="row-container row-spacer-bottom"> 
+        <div class="div-product-attribute">
+            <div class="display-label-row row-border-bottom row-spacer-right">
+                @Html.DisplayNameFor(model => model.CompanyName)
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.CompanyName))
+            {
+                <div class="display-field-row">
+                    @Html.DisplayFor(model => model.CompanyName)
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(Model.Address))
+            {
+                <div class="display-field-keep-wrap customer-info-nudge">
+                    @Html.DisplayFor(model => model.Address)
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(Model.CityStateProvincePostalCode) || !string.IsNullOrEmpty(Model.Country))
+            {
+                <div class="display-field-row">
+                    <div style="clear: both">
+                        @Html.DisplayFor(x => x.CityStateProvincePostalCode)
+                    </div>
+                    <div style="clear: both">
+                        @Html.DisplayFor(model => model.Country)
+                    </div>
+                </div>
+            }
+
+        </div>
+
+        <div class="div-product-attribute">
+            <div class="display-label-row row-border-bottom">Customer Company Contact</div>
+
+            @if (!string.IsNullOrEmpty(Model.ContactName))
+            {
+                <div class="display-field-row">
+                    @Html.DisplayFor(model => model.ContactName)
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(Model.ContactTitle))
+            {
+                <div class="display-field-row">
+                    Title: @Html.DisplayFor(model => model.ContactTitle)
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(Model.Email))
+            {
+                <div class="display-field-row">
+                    Email: @Html.DisplayFor(model => model.Email)
+                </div>
+            }
+            @if (!string.IsNullOrEmpty(Model.ContactPhoneNo))
+            {
+                <div class="display-field-row">
+                    Phone: @Html.DisplayFor(model => model.ContactPhoneNo)
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="row-container">
+        <div class="div-product-attribute">
+            <div class="display-label-row row-border-bottom">
+                Customer @Html.DisplayNameFor(model => model.PartySiteNumber)
+            </div>
+            <div class="display-field-row">
+                @Html.DisplayFor(model => model.PartySiteNumber)
+            </div>
+        </div>
+
+        <div class="div-product-attribute">
+            <div class="display-label-row row-border-bottom">
+                @Html.DisplayNameFor(model => model.IncomingOrderCustomerExternalId)
+            </div>
+            <div class="display-field-row">
+                @Html.DisplayFor(model => model.IncomingOrderCustomerExternalId)
+            </div>
+        </div>
+    </div>
+
+</fieldset>

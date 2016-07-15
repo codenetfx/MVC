@@ -1,0 +1,33 @@
+﻿@using UL.Aria.Web.Common.Models.Shared
+@model UL.Aria.Web.Common.Models.Shared.ProjectCreate
+@*<div id="section-controls">
+    <ul class="page-actions">
+
+    </ul>
+</div>*@
+@Helpers.ActionLink(new TaxonomyMenuItem
+                {
+                    Key = "synchronizeContacts",
+                    Text = "Synchronize Order Contacts",
+                    DataUrl = Url.PostUpdateOrderContacts(Model.OrderNumber),
+                    Url = "#",
+                    Target = "synchronizeContactsConfirmModal",
+                    ModalTitle = "Synchronize Order Contacts",
+                    ModalText = string.Format("Are you sure you want to synchronize contacts for all projects/requests for Order Number {0}?", Model.OrderNumber),
+                    Modal = true,
+                    
+                    CssClass = "btn",
+                    ModalCssClass = "modal-two-col"
+                })
+<div id="synchronizeContactsConfirmModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 id="synchronizeContactsConfirmModalLabel">Synchronize Order Contacts</h3>
+    </div>
+    <div class="modal-body" id="utility_submit-body">
+    </div>
+    <div class="modal-footer submit-footer">
+        <button class="btn pull-left" data-dismiss="modal">No</button>
+        <button id="btnSynchronizeContacts" class="btn btn-primary">Yes</button>
+    </div>
+</div>

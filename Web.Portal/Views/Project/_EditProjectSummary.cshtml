@@ -1,0 +1,247 @@
+﻿@using UL.Aria.Web.Common.Models.Shared
+@model UL.Aria.Web.Common.Models.Shared.ProjectCreate
+@{
+	var desc = ModelMetadata.FromLambdaExpression(x => x.ProjectTemplate, ViewData).Description;
+    var isProjectHandlerCurrentUser = string.Equals(Model.ProjectHandler, Model.CurrentUser, StringComparison.OrdinalIgnoreCase);
+}
+@Html.Hidden("BusinessUnitCode", Model.BusinessUnits.First().Id)
+@Html.HiddenFor(x => x.ProjectTemplate)
+<div class="form-horizontal control-group">
+	<div class="left-col">
+		<div class="customer-field">
+			@Html.LabelFor(model => model.Name, new { @class = "strong pull-left" })
+			<i class="star-icon-white pull-right"></i>
+		</div>
+
+		<div class="controls customer-input" title="@Html.DisplayFor(model => model.Name)">
+			@Html.EditorFor(model => model.Name)
+			@Html.DescriptionFor(model => model.Name)
+			@Html.ValidationMessageFor(model => model.Name)
+		</div>
+
+		<div style="margin-top: 10px;">
+			@Html.LabelFor(model => model.Description, new { @class = "ul-field" })
+			<i></i>
+		</div>
+
+		<div class="controls">
+			@Html.EditorFor(model => model.Description)
+			@Html.DescriptionFor(model => model.Description)
+			@Html.ValidationMessageFor(model => model.Description)
+		</div>
+
+
+	</div>
+	<div class="right-col">
+		<div class="controls">
+			<div class="controls" style="margin-bottom:15px;">
+				<div>
+					@Html.Label(String.Format("{0}", ModelMetadata.FromLambdaExpression(m => m.ProjectTemplate, ViewData).DisplayName), new { @class = "pull-left" })
+					<label id="tCount" style="font-weight: bold"> (@Model.ProjectTemplates.Count())</label>
+				</div>
+				<div>
+					@Html.DropDownList("AdditionalBusinessUnitCode", new SelectList(Model.BusinessUnits, "Id", "Code"), "Select Business Unit", new { @class = "fixed-width-dropdown", Data_Url = Url.SearchProjectTemplatesByBusinessUnit() })
+					<div class="model-description">
+						@ModelMetadata.FromLambdaExpression(x => x.BusinessUnitCode, ViewData).Description
+					</div>
+				</div>
+			</div>
+			<div class="controls">
+				<div>
+					@Html.DropDownListFor(x => x.AdditionalProjectTemplateId, new SelectList(Model.ProjectTemplates, "Id", "Name"), "Select Project Template", new { @class = "fixed-width-dropdown" })
+				</div>
+				<div class="model-description" id="ProjectDescription">
+					@desc
+				</div>
+				<div id="ProjectDescDropdown" style="display: none">
+					@Html.DropDownListFor(x => x.AdditionalProjectTemplateId, new SelectList(Model.ProjectTemplates, "Id", "Description"), desc, new { @class = "fixed-width-dropdown" })
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="form-horizontal control-group">
+	<div class="left-col">
+		<div class="clearfix clear-both">
+
+			<div class="customer-field border-bottom">
+				@Html.LabelFor(m => m.ProjectHandlerAssigned, new { @class = "strong pull-left" })
+				<i class="star-icon-white pull-right"></i>
+			</div>
+
+			<div class="controls project-handler-group">
+
+				<div class="clearfix clear-both" style="margin-top: 10px;">
+
+					<label>@Html.RadioButtonFor(m => m.ProjectHandlerAssigned, false) <strong class="customer-field">Assign to Me</strong></label>
+					@Html.DescriptionFor(m => m.ProjectHandlerAssigned)
+
+				</div>
+
+				<div class="clearfix clear-both customer-input" style="margin-top: 20px;">
+					<label> @Html.RadioButtonFor(m => m.ProjectHandlerAssigned, true) <strong class="customer-field">Assign to Project Handler</strong> </label>
+
+					@Html.AutoCompleteFor(m => m.ProjectHandler, Url.PageSearchULUsers(), !Model.ProjectHandlerAssigned, minSearchTermLength: 2)
+
+					@Html.ValidationMessageFor(model => model.ProjectHandler)
+
+				</div>
+
+				<div class="clearfix clear-both customer-field  " style="margin-top: 10px; padding-bottom: 10px;">
+					<span id="sIsEmailRequested" class="model-description">@Html.CheckBoxFor(m => m.IsEmailRequested)  Send project reassignment emails to original and new Project Handler</span>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="right-col">
+
+		<div class="clearfix clear-both">
+
+			<div class="customer-field border-bottom">
+				@Html.LabelFor(m => m.OrderOwnerAssigned, new { @class = "strong pull-left" })
+				<i class="star-icon-white pull-right"></i>
+			</div>
+
+			<div class="controls project-handler-group">
+
+				<div class="clearfix clear-both" style="margin-top: 5px;">
+					<label>@Html.RadioButtonFor(m => m.OrderOwnerAssigned, OrderOwnerAssigned.AssignedToMe, new { @class = "toggle-control-on-match", Data_Target = "#OrderOwner", Data_TargetValue = OrderOwnerAssigned.AssignedToOwner }) <strong class="customer-field">Assign to Me</strong></label>
+					@Html.DescriptionFor(m => m.ProjectHandlerAssigned)
+				</div>
+
+				<div class="clearfix clear-both">
+					<label>@Html.RadioButtonFor(m => m.OrderOwnerAssigned, OrderOwnerAssigned.NotApplicable, new { @class = "toggle-control-on-match", Data_Target = "#OrderOwner", Data_TargetValue = OrderOwnerAssigned.AssignedToOwner }) <strong class="customer-field">Not Applicable</strong></label>
+				</div>
+
+				<div class="clearfix clear-both customer-input">
+					<label> @Html.RadioButtonFor(m => m.OrderOwnerAssigned, OrderOwnerAssigned.AssignedToOwner, new { @class = "toggle-control-on-match", Data_Target = "#OrderOwner", Data_TargetValue = OrderOwnerAssigned.AssignedToOwner }) <strong class="customer-field">Assign to CEM/Order Owner</strong> </label>
+					@Html.AutoCompleteFor(m => m.OrderOwner, Url.PageSearchULUsers(), Model.OrderOwnerAssigned != OrderOwnerAssigned.AssignedToOwner, minSearchTermLength: 2)
+					@Html.ValidationMessageFor(model => model.OrderOwner)
+				</div>
+
+				<div class="clearfix clear-both customer-field  " style="margin-top: 10px; padding-bottom: 10px;">
+					<span id="sIsEmailRequested" class="model-description">@Html.CheckBoxFor(m => m.IsOrderOwnerEmailRequested)  Send owner reassignment emails to original and new Order Owner</span>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</div>
+
+<div class="form-horizontal control-group">
+	<div class="left-col">
+		<div class="clearfix clear-both">
+			<div class="customer-field">
+				@Html.LabelFor(model => model.ProjectStatus, new { @class = "strong pull-left" })
+				<i class="star-icon-white pull-right"></i>
+			</div>
+
+			<div class="controls customer-input">
+				@Html.DropDownListFor(model => model.ProjectStatus, Model.ProjectStatusSelect)
+			</div>
+			@Html.ValidationMessageFor(model => model.ProjectStatus, Model.ProjectStatusErrorMessage)
+		</div>
+	</div>
+	<div class="right-col">
+		<div class="clearfix clear-both">
+			<div class="customer-field">
+				@Html.LabelFor(model => model.EndDate, new { @class = "strong pull-left" })
+				<i class="star-icon-white pull-right"></i>
+			</div>
+
+			<div class=" clearfix clear-both controls customer-input">
+				@Html.EditorFor(model => model.EndDate)
+				@Html.ValidationMessageFor(model => model.EndDate)
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="form-horizontal control-group">
+	<div class="left-col">
+		<div class="clearfix clear-both">
+			@Html.LabelFor(model => model.Expedited, new { @class = "ul-field" })
+			<div class="controls">
+				@Html.RadioButtonFor(x => x.Expedited, true) Yes
+				@Html.RadioButtonFor(x => x.Expedited, false) No
+			</div>
+		</div>
+		<div class="clearfix clear-both" style="margin-top: 10px;">
+			@Html.LabelFor(model => model.ServiceRequestNumber, new { @class = "ul-field" })
+			<div class="controls">
+				@Html.TextBoxFor(x => x.ServiceRequestNumber)
+			</div>
+		</div>
+	</div>
+    <div class="right-col">
+        
+        @if (Model.HasAutoComplete && isProjectHandlerCurrentUser)
+        {
+            <div class="clearfix clear-both">
+                <span class="model-description red-text">This Project will Auto-Complete upon all Task closures</span>
+                <label for="OverrideAutoComplete" style="margin-top: 5px;">@Html.CheckBoxFor(x => x.OverrideAutoComplete, new {@class = "pull-left"}) <span>Override Auto-Complete of this project</span></label>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="form-horizontal control-group">
+	<div>
+		<div class="customer-field">
+			@Html.LabelFor(model => model.StatusNotes, new { @class = "strong pull-left" })
+			<i class="star-icon-white pull-right"></i>
+		</div>
+
+		<div class="controls customer-input">
+			@Html.EditorFor(model => model.StatusNotes)
+		</div>
+	</div>
+</div>
+
+<div class="form-horizontal control-group">
+	<div>
+		<div>
+			@Html.LabelFor(model => model.AdditionalCriteria, new { @class = "ul-field" })
+		</div>
+
+		<div class="controls">
+			@Html.EditorFor(model => model.AdditionalCriteria)
+		</div>
+	</div>
+</div>
+
+@*
+	This is comments as per US 35405. Release 10 Iteration 3. We can delete if don't need it future.
+		<div class="form-horizontal control-group">
+		<div>
+			<span class="model-description">The selected project template is shown below.  The template cannot be edited.</span>
+			<span><strong>@Model.SelectedProjectTemplate </strong> </span>
+			<span class="model-description"> @Model.SelectedProjectTemplateDesc</span>
+		</div>
+	</div>
+*@
+
+<script type="text/javascript">
+
+
+	$('input:radio[name=ProjectHandlerAssigned]').change(function () {
+		var handler = $(this).closest(".project-handler-group").find("INPUT[name=ProjectHandler]");
+		handler.prop('disabled', $(this).val() != "True");
+	});
+
+
+	// Added to remove problem with duplicate DOM elements killing remove spaces script below
+	$("button#project-edit-modal-cancel").click(function () {
+		$('#ProjectHandler').detach();
+	});
+
+	// Takes current value of text inside of #ProjectHandler input field
+	// and removes spaces from before and after string (not in string itself) when focus leaves field.
+	$("#ProjectHandler").blur(function () {
+		$(this).val($(this).val().trim());
+	});
+
+</script>

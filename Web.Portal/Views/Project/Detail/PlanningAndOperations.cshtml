@@ -1,0 +1,208 @@
+﻿@using System.ComponentModel
+@using dotless.Core.Loggers
+@using UL.Enterprise.Foundation
+@model UL.Aria.Web.Common.Models.Project.ProjectDetail
+
+@{
+    Layout = "_DetailsLayout.cshtml";
+    ViewBag.MenuClass = "flat-menu";
+    var currDate = DateTime.Now;
+
+    var altText = "Only populated for manually created projects";
+
+    // For Service Line items
+    var lineItemsExist = Model.ServiceLineItems;
+    var lineItemsExistVal = lineItemsExist.FirstOrDefault();
+
+    var startDate = Model.StartDate.GetValueOrDefault();
+    TimeSpan startToCurrDate = currDate.Date.Subtract(startDate.Date);
+    var daysElapsed = (startToCurrDate.Days <= 0) ? 0 : startToCurrDate.Days;
+
+    var endDate = Model.EndDate.GetValueOrDefault();
+    TimeSpan currToEndDate = endDate.Date.Subtract(currDate.Date);
+    var daysUntilDue = (currToEndDate.Days <= 0) ? 0 : currToEndDate.Days;
+}
+
+<!-- PROJECT CREATED FROM BNP ORDER  -->
+
+<fieldset class="display" id="project-from-bnp">
+
+    <legend>
+        <h2>
+            Planning & Operations
+            <div class="customer-flag customer-text right">Note: Icon denotes customer-visible field</div>
+        </h2>
+    </legend>
+
+    <div class="row-container">
+        <div class="div-product-attribute">
+            <div class="display-label-row">
+                @Html.DisplayNameFor(model => model.StartDate)
+            </div>
+            <div class="display-field-row">
+                @Html.DisplayFor(model => model.StartDate)
+            </div>
+        </div>
+        <div class="div-product-attribute">
+            <div class="display-label-row">
+                @Html.DisplayNameFor(model => model.EndDate)
+            </div>
+            <div class="display-field-row">
+                @Html.DisplayFor(model => model.EndDate)
+            </div>
+        </div>
+    </div>
+
+    <div class="row-container">
+        <div class="div-product-attribute">
+            <div class="display-label-row">
+                Days Elapsed Since Start
+            </div>
+            <div class="display-field-row">
+                @daysElapsed                      
+            </div>
+        </div>
+        <div class="div-product-attribute">
+            <div class="display-label-row">
+                Days Until Due
+            </div>
+            <div class="display-field-row">
+                @daysUntilDue
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row-container">
+        <div class="div-product-attribute">
+            <div class="display-label-row">
+                @Html.DisplayNameFor(model => model.Standards)
+            </div>
+            <div class="display-field-row">
+                @Html.DisplayFor(model => model.Standards)
+            </div>
+        </div>
+
+        <div class="div-product-attribute">
+            <div class="display-label-row">
+                @Html.DisplayNameFor(model => model.IndustryCode)
+            </div>
+            @if (lineItemsExistVal == null)
+            {
+                <div class="display-field-row">
+                    @Html.DisplayFor(model => model.Industry)
+                </div>
+            }
+            @if (lineItemsExistVal != null)
+            {
+                <div class="display-field-row-alt">
+                    @altText
+                </div>
+            }
+        </div>
+    </div>
+
+
+    <div class="row-container">
+
+        <div class="div-product-attribute">
+            <div class="display-label-row">
+                @Html.DisplayNameFor(model => model.Location)
+            </div>
+
+            @if (lineItemsExistVal == null)
+            {
+                <div class="display-field-row">
+                    @Html.DisplayFor(model => model.Location)
+                </div>
+            }
+            @if (lineItemsExistVal != null)
+            {
+                <div class="display-field-row-alt">
+                    @altText
+                </div>
+            }
+
+        </div>
+
+        <div class="div-product-attribute">
+            <div class="display-label-row">
+                @Html.DisplayNameFor(model => model.ServiceCode)
+            </div>
+            @if (lineItemsExistVal == null)
+            {
+                <div class="display-field-row">
+                    @Html.DisplayFor(model => model.ServiceDescription)
+                </div>
+            }
+            @if (lineItemsExistVal != null)
+            {
+                <div class="display-field-row-alt">
+                    @altText
+                </div>
+            }
+        </div>
+    </div>
+ 
+
+
+    <div class="row-container">
+        <div class="div-product-attribute">
+            <div class="display-label-row">
+                @Html.DisplayNameFor(model => model.CompletionDate)
+            </div>
+            <div class="display-field-row">
+                @Html.DisplayFor(model => model.CompletionDate)
+            </div>
+        </div>
+        <div class="div-product-attribute">
+            <div class="display-label-row">
+                @Html.DisplayNameFor(model => model.EstimatedTATDate)
+            </div>
+            <div class="display-field-row">
+                @Html.DisplayFor(model => model.EstimatedTATDate)
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row-container">
+        <div class="div-product-attribute">
+            <div class="display-label-row">
+                @Html.DisplayNameFor(model => model.CCN)
+            </div>
+            <div class="display-field-row">
+                @Html.DisplayFor(model => model.CCN)
+            </div>
+        </div>
+        <div class="div-product-attribute">
+            <div class="display-label-row">
+                @Html.DisplayNameFor(model => model.FileNo)
+            </div>
+            <div class="display-field-row">
+                @Html.DisplayFor(model => model.FileNo)
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row-container">
+        <div class="div-product-attribute">
+            <div class="display-label-row">
+                @Html.DisplayNameFor(model => model.NumberOfSamples)
+            </div>
+            <div class="display-field-row">
+                @Html.DisplayFor(model => model.NumberOfSamples)
+            </div>
+        </div>
+        <div class="div-product-attribute">
+            <div class="display-label-row">
+                @Html.DisplayNameFor(model => model.SampleReferenceNumbers)
+            </div>
+            <div class="display-field-row">
+                @Html.DisplayFor(model => model.SampleReferenceNumbers)
+            </div>
+        </div>
+    </div>
+
+</fieldset>

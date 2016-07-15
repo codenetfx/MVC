@@ -1,0 +1,16 @@
+﻿@if (Model == null && ViewData.ModelMetadata.NullDisplayText != null)
+{
+	@ViewData.ModelMetadata.NullDisplayText
+}
+else if(Model == null)
+{
+	<text>&nbsp;</text>
+}
+else if (ViewData.ModelMetadata.ModelType.IsEnum)
+{
+	@UL.Enterprise.Foundation.EnumUtility.GetDisplayName(Model)
+}
+else
+{
+	@ViewData.TemplateInfo.FormattedModelValue
+}

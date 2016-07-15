@@ -1,0 +1,41 @@
+﻿@model UL.Aria.Web.Common.Models.Help.TermsAndConditionsModel
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+	function printTerms() {
+		window.print();
+		return false;
+	}
+</script>
+
+@using (Html.BeginForm())
+{
+	<fieldset class="legal-terms">
+		@Html.HiddenFor(x => x.Version)
+		@Html.HiddenFor(x => x.Type)
+		<h3 class="hidden-print">Review & Accept Terms of Use</h3>
+		<p class="hidden-print">Please review and accept the terms of use for your account.</p>
+		<div class="hidden-print">
+			@Html.ValidationSummary()
+		</div>
+
+		<div class="control-group check-group form-inline hidden-print">
+			<div class="controls">
+				@Html.CheckBoxFor(x => x.IsAcknoledged)
+				@Html.LabelFor(x => x.IsAcknoledged, "I acknowledge that I have read, understand and agree with the Terms of Use") | <a href="javascript:window.print();">Print Terms </a>
+			</div>
+		</div>
+		<div class="terms">
+			@Html.Raw(Model.LegalText)
+		</div>
+
+		<div class="editor-buttons hidden-print">
+			<a href="@Url.PageDeclineTerms(Model.Id.Value)">Take me back, I do not accept the terms of use.</a> | <a href="http://www.ul.com/" target="_blank">visit www.ul.com</a>
+			<span style="text-align: right; float: right;">
+				<input type="submit" value="Accept & Continue" class="btn btn-primary" />
+			</span>
+		</div>
+	</fieldset>
+}

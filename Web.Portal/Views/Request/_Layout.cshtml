@@ -1,0 +1,42 @@
+﻿@using UL.Aria.Web.Common.Models.Shared
+@using UL.Aria.Web.Common.Mvc
+@using UL.Aria.Web.Common.Models.Search
+@using UL.Enterprise.Foundation
+@model UL.Aria.Web.Common.Models.Shared.IHomeSectionModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.PageLinks = Model.PageLinks;
+}
+
+@section styles {
+    @RenderSection("styles", required: false)
+}
+
+
+
+<aside class="section-controls">
+    @{Html.RenderPartial("_ProfileSummary");}
+    <br class="clearfix clear-both" />
+    @RenderSection("filters", false)
+    <datalist id="criteria" data-json="@((ViewBag.JsonCriteria as JsonSearchCriteria).ToJson())"></datalist>
+    <input type="hidden" id="defaultCriteria" data-json="@((ViewBag.JsonDefaultCriteria as JsonSearchCriteria).ToJson())" />
+    @Html.AccordionMenu("main_menu", ViewBag.PageLinks as List<TaxonomyMenuItem>)
+    @{Html.RenderPartial("_UlApps", ViewBag.UlApps as object);}
+    @RenderSection("controls", false)
+</aside>
+
+<aside class="section-aside">
+    @RenderSection("aside", false)
+    @{
+        Html.RenderPartial("_PageActionsRight", Model.PageActions);
+        Html.RenderPartial("_Faq");
+        Html.RenderPartial("_Contact");
+    }
+</aside>
+<div class="section-page">
+	<div id="gritternotifications"></div>
+	@RenderBody()
+</div>
+@section scripts {
+    @RenderSection("scripts", required: false)
+}

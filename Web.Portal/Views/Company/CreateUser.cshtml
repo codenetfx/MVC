@@ -1,0 +1,58 @@
+﻿@using UL.Aria.Web.Common.Mvc
+@model UL.Aria.Web.Common.Models.Company.CompanyUserModel
+@{
+	Layout = "~/Views/Company/_Layout.cshtml";
+	ViewBag.IsEditing = true;
+}
+
+@using (Html.BeginForm())
+{
+	<fieldset class="profile-form">
+		<legend>Create User</legend>
+		<div class="control-group">
+			@Html.LabelFor(m => m.CompanyExternalId)
+			<div class="controls">
+				@Html.EditorFor(model => model.CompanyExternalId)
+				@Html.ValidationMessageFor(model => model.CompanyExternalId)
+			</div>
+		</div>
+
+		<div class="control-group">
+			@Html.LabelFor(model => model.LoginId)
+			<div class="controls">
+				@Html.EditorFor(model => model.LoginId)
+				@Html.ValidationMessageFor(model => model.LoginId)
+			</div>
+		</div>
+
+	    <div class="control-group">
+	        @Html.LabelFor(model => model.DisplayName)
+	        <div class="controls">
+	            @Html.EditorFor(model => model.DisplayName)
+	            @Html.ValidationMessageFor(model => model.DisplayName)
+	        </div>
+	    </div>
+       
+        <div class="control-group">
+            @Html.LabelFor(model => model.EmployeeId)
+            <div class="controls">
+                @Html.EditorFor(model => model.EmployeeId)
+                @Html.ValidationMessageFor(model => model.EmployeeId)
+            </div>
+        </div>
+
+	    @Html.HiddenFor(m => m.CompanyId)
+
+		<p class="control-buttons">
+			<input type="button" value="Cancel" class="btn" data-redirect="@Url.PageCompanyDetails(Model.CompanyId)" />
+			<input type="submit" value="Create" class="btn btn-primary pull-right" />
+		</p>
+	</fieldset>
+}
+
+@section scripts {
+	
+	<script type="text/javascript">
+		$(document).ready(UL.hookCancelButtons);
+	</script>
+}

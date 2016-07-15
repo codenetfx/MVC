@@ -1,0 +1,39 @@
+﻿@using UL.Aria.Common
+@using UL.Aria.Web.Common.Models.Project
+@model UL.Aria.Web.Common.Models.Project.TaskDetail
+
+<div>
+    @Html.HiddenFor(x => x.TaskId)
+    @Html.HiddenFor(x => x.TaskNumber)
+    @Html.HiddenFor(x => x.ContainerId)
+
+
+    <div class="form-horizontal control-group">
+        @Html.LabelFor(x => x.Comment)
+        <div class="controls">
+            @Html.TextAreaFor(model => model.Comment, new
+           {
+               rows = "5",
+               @class = "task-comment-box"
+           })
+        </div>
+    </div>
+
+
+    @if (Model.Comments.Any())
+    {
+        <div class="form-horizontal control-group">
+            @Html.LabelFor(x => x.Comments)
+            <div class="controls">
+                <div class="comments">
+                    @foreach (TaskComment comment in Model.Comments)
+                    {
+                        <text>@comment.CreatedBy -  @comment.CreatedDate.ToString()</text>
+                        <p style="font-weight: normal !important;">@Helpers.TruncatedText(@comment.Comment, 255)</p>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+
+</div>

@@ -1,0 +1,14 @@
+﻿@using UL.Enterprise.Foundation
+@model UL.Aria.Web.Common.Models.Search.SearchCriteria
+@{
+	string messageFormat = ViewBag.NoResultsMessage ?? "There are no {0} to display.";
+	string resultName = Model.EntityType == null ? "results" : Model.EntityType.GetDisplayName().ToLower().Pluralize();
+	string resultClass = Model.EntityType == null ? "default-result" : Model.EntityType.ToString().ToLower() + "-result";
+}
+
+<div class="well search-not-found @resultClass">
+	<img src="@Url.TransparentImage()"/>
+	<p>
+		@string.Format(messageFormat, resultName)
+	</p>
+</div>

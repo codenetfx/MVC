@@ -1,0 +1,45 @@
+﻿@using UL.Aria.Web.Common.Models.Order
+@model UL.Aria.Web.Common.Models.Order.OrderDetail
+
+@{
+    Layout = "~/Views/Order/_Layout.cshtml";
+}
+
+
+<fieldset class="display">
+    <legend><h2>Customer Information</h2></legend>
+    <div class="display-row">
+        <div class="display-label">@Html.DisplayNameFor(m => Model.Customer.CompanyName)</div>
+        <div class="display-field">@Html.DisplayFor(m => Model.Customer.CompanyName)</div>
+    </div>
+    <div class="display-row">
+        <div class="display-label">@Html.DisplayNameFor(m => Model.Customer.PrimaryContact)</div>
+        <div class="display-field">@Html.DisplayFor(m => Model.Customer.PrimaryContact)</div>
+    </div>
+    <div class="display-row">
+        <div class="display-label">@Html.DisplayNameFor(m => Model.Customer.UlContact)</div>
+        @if (String.IsNullOrEmpty(Model.Customer.UlContactEmail))
+        {
+        <div class="display-field">@Html.DisplayFor(m => Model.Customer.UlContact)</div>
+        }
+        else
+        {
+        <div class="display-field">@Html.DisplayFor(m => Model.Customer.UlContactEmail)</div>
+        }
+    </div>
+    <div class="display-row">
+        <div class="display-label">@Html.DisplayNameFor(m => Model.Customer.AccountNumber)</div>
+        <div class="display-field">@Html.DisplayFor(m => Model.Customer.AccountNumber)</div>
+    </div>
+</fieldset>
+<fieldset class="display">
+    <legend><h2>Billing Information</h2></legend>
+    <div class="display-row">
+        <div class="display-label">@Html.DisplayNameFor(m => Model.Customer.BillTo)</div>
+        <div class="display-field">@Html.DisplayFor(m => Model.Customer.BillTo)</div>
+    </div>
+    <div class="display-row">
+        <div class="display-label">@Html.DisplayNameFor(m => Model.Customer.PoNumber)</div>
+        <div class="display-field">@Html.DisplayFor(m => Model.Customer.PoNumber)</div>
+    </div>
+</fieldset>

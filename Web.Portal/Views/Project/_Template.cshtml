@@ -1,0 +1,97 @@
+﻿@model UL.Aria.Web.Common.Models.Shared.ProjectCreate
+@{
+    bool editing = ViewBag.Editing ?? false;
+}
+
+@if (Model.ProjectTemplates != null)
+{
+    var desc = ModelMetadata.FromLambdaExpression(x => x.ProjectTemplate, ViewData).Description;
+
+    <div class="control-group">
+        @if (editing)
+        {
+            <strong>The selected project type is shown below.  The project type cannot be edited.</strong>
+            @Html.DropDownListFor(model => Model.ProjectTemplate, new SelectList(Model.ProjectTemplates, "Id", "Name"), "Select Project Template", new { disabled = "disabled" })
+        }
+        else
+        {
+            <div class="clearfix">
+                @Html.Label(String.Format("{0}", ModelMetadata.FromLambdaExpression(m => m.ProjectTemplate, ViewData).DisplayName), new{@class="pull-left"})
+                <span id="tCount" style="font-weight: bold">(@Model.ProjectTemplates.Count())</span>
+            </div>
+            <div style="margin-bottom: 5px;" class="clearfix" >
+                @Html.DropDownListFor(x => x.BusinessUnitCode, new SelectList(Model.BusinessUnits, "Id", "Code"), "Select Business Unit")
+                <div class="model-description">
+                    @ModelMetadata.FromLambdaExpression(x => x.BusinessUnitCode, ViewData).Description
+                </div>
+            </div>
+            @Html.DropDownListFor(model => Model.ProjectTemplate, new SelectList(Model.ProjectTemplates, "Id", "Name"), "Select Project Template")
+        }
+        <div class="model-description" id="ProjectDescription">
+            @desc
+        </div>
+        <div id="ProjectDescDropdown" style="display: none">
+            @Html.DropDownListFor(model => Model.ProjectTemplate, new SelectList(Model.ProjectTemplates, "Id", "Description"), desc)
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+
+    // Get array of description values from hidden identical dropdown
+    var objDesc = $('#ProjectDescDropdown option');
+    var arrayDesc = $.makeArray(objDesc);
+
+    // For editing, display the option description
+    @if (editing)
+    {
+        @:optDesc = $('#ProjectDescDropdown').find(":selected").text();
+        @:$('#ProjectDescription').text(optDesc);
+    }
+
+    $(document).ready(function() {
+        if ($('#BusinessUnitCode').val()) {
+            $('#ProjectTemplate').removeAttr('disabled');
+        } else {
+            $('#ProjectTemplate').attr('disabled', 'disabled');
+        }
+    });
+
+    $('#BusinessUnitCode').change(function() {
+        if ($(this).val()) {
+            $('#ProjectTemplate').removeAttr('disabled');
+            var url = '@Url.SearchProjectTemplatesByBusinessUnit()';
+            url = url + '/' + $('#BusinessUnitCode').val();
+            $.ajax({
+                type: 'Get',
+                url: url,
+                success: function (result) {
+                    if (result.success) {
+                        $("#ProjectTemplate option").remove();
+                        $("#ProjectTemplate").append($("<option></option>").text("Select Project Template"));
+                        $.each(result.templates, function (index, item) {
+                            $('#ProjectTemplate').append($("<option></option>").attr("value", item.id).text(item.name));
+                        });
+                        $('#tCount').text('(' + result.templates.length +')');
+                    }
+                },
+                cache: false
+            });
+
+
+
+        } else {
+            $('#ProjectTemplate').attr('disabled', 'disabled');
+        }
+
+    });
+
+    // Use index of identical array to match selected id with description and write to div
+    $('#ProjectTemplate').change(function () {
+        var optSelect = $("#ProjectTemplate option:selected").val();
+        $('#ProjectDescDropdown').val(optSelect);
+        var thisDesc = $("#ProjectTemplate option:selected").text();
+        $('#ProjectDescription').text(thisDesc);
+    });
+
+</script>

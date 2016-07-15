@@ -1,0 +1,38 @@
+﻿@using UL.Aria.Service.Contracts.Dto
+@model UL.Aria.Web.Common.Models.Search.SearchCriteria
+
+
+@{
+	var controller = ViewContext.Controller.ValueProvider.GetValue("controller").RawValue;
+	var action = ViewContext.Controller.ValueProvider.GetValue("action").RawValue;
+
+	var url = Url.Action(action.ToString(), controller.ToString());
+	var index = 0;
+}
+
+@Html.HiddenFor(x => x.EntityType)
+
+@foreach (var sort in Model.Sorts)
+{
+	<input type="hidden" name="Sorts[@index].FieldName" value="@sort.FieldName"/>
+	<input type="hidden" name="Sorts[@index].Order" value="@sort.Order"/>
+	index = index + 1;
+}
+
+@*@foreach (var refine in Model.Refiners)
+{
+	@Html.Hidden("Refiners", refine)
+}*@
+
+@foreach (var refiner in Model.Filters)
+{
+	if (refiner.Key != AssetFieldNames.AriaContainerId)
+	{
+		foreach (var filter in refiner.Value)
+		{
+			<input type="hidden" name="Filters.@refiner.Key" value="@filter"/>
+		}
+	}
+}
+
+@Html.Hidden("location", url)

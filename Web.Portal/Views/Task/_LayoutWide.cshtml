@@ -1,0 +1,27 @@
+﻿@using UL.Aria.Web.Common.Models.Shared
+@using UL.Aria.Web.Common.Mvc
+@model UL.Aria.Web.Common.Models.Project.IProjectSection
+@{
+    Layout = "~/Views/Shared/_LayoutSectionTwoColumn.cshtml";
+    ViewBag.Breadcrumbs = Model.Breadcrumbs;
+}
+
+@section styles {
+    @RenderSection("styles", required: false)	
+}
+
+
+@section controls {
+    @{
+	    Html.RenderPartial("Detail/_ProjectSummaryHeader");
+	   Html.RenderPartial("_PageActions", Model.PageLinks);
+	}
+    @RenderSection("controls", required: false)
+}
+
+@RenderBody()
+
+@section scripts {
+    @RenderSection("scripts", required: false)
+}
+

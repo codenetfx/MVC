@@ -1,0 +1,59 @@
+﻿@using UL.Aria.Web.Common.Models.UserTeam
+@model UL.Aria.Web.Common.Models.UserTeam.UserTeamInfo
+@{
+    var success = ((bool?)ViewBag.Success).GetValueOrDefault(false);
+    var id = "form_" + Guid.NewGuid().ToString();
+    ViewBag.ModalTitle = String.Format("Manage {0}", Model.Name);
+}
+
+<div class="edit-wrapper">
+    <div id="editUserTeamDialog" data-add-button="#add">
+        @using (Html.BeginForm("Edit", "UserTeam", FormMethod.Post, new Dictionary<string, object>() {{"id", id}, {"class", "user-team-edit-form"}}))
+        {
+            @Html.HiddenFor(x => x.Id)
+            if (success)
+            {
+                <div class="modal-success-create">
+                    <div class="modal-body">
+                        <i class="ul-icon-success"></i><span>My Team has been successfully updated.</span>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-info" data-dismiss="modal" aria-hidden="true" onclick=" UL.Refresh(); ">Dismiss</button>
+                    </div>
+                </div>
+            }
+            else
+            {
+                Html.RenderPartial("_UserTeam", Model);
+            }
+        }
+    </div>
+</div>
+
+<div style="display: none;">
+    <table id="idnewrow" style="display: none;">
+        <tbody>
+            @Html.ManageMyTeamNewEmployeeHtmlString(x => x.TeamMembers)
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+    //hook ajax form submissions
+    $("#@id").ajaxForm({
+        target: $("#@id").parent(),
+        beforeSubmit: $.proxy(UL.ValidateModal, $("#@id")),
+        cache: false
+    });
+
+    $(document).ready(function () {
+    	$('#@id').closest(".modal").modal({ backdrop: 'static', keyboard: false });
+    	var successmsg = $('#@id .modal-success-create');
+    	if (successmsg.length > 0) {
+    		$('#@id').closest(".modal").modal("hide");
+    	    window.location.reload();
+	    }
+    });
+
+    UL.BootstrapControls($(".edit-wrapper"));
+</script>

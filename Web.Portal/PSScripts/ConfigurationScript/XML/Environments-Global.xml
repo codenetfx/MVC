@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="1.0">
+<!-- Global - Contains configuration parameters that are common to all environments" -->
+<Global>
+	<!-- The root directory where install binaries live -->
+	<rootSrcPath>C:\CIArtifacts\Aria</rootSrcPath>
+	<!-- Installed binaries are placed here on each server -->
+	<rootDestPath>C:\Data\Application</rootDestPath>              
+	<!-- Powershell Transcripts from each deploy live here -->
+	<DeployLogsDir>C:\DeploymentLogs</DeployLogsDir>
+	<!-- Location of tools used by DBDeploy & MSBuild -->
+	<ToolsPath>C:\Apps\Dist\Tools</ToolsPath>
+	<GlobalConfigurationDirectoryPath>C:\Apps\XML</GlobalConfigurationDirectoryPath>
+
+	<StagingDirectory>C:\Apps\Dist\Staging</StagingDirectory>
+	<ConfigurationScriptsDirectory>C:\Apps\Dist\</ConfigurationScriptsDirectory>
+
+	<SoftwareDirectory>C:\Software</SoftwareDirectory>
+	
+	<!-- Enterprise Logging MSMQ Distributor -->
+	<EntLibLoggingDirectory>C:\Aria\Logging</EntLibLoggingDirectory>
+	
+	<!-- Deployment scripts are located here (i.e. deploy.ps1) -->
+	<DeplomentsScriptsDirectory>c:\DeploymentsScripts</DeplomentsScriptsDirectory>
+	<!-- Directory where the deployment scripts will place transcript files -->
+	<DeploymentLogsDirectory>c:\DeploymentLogs</DeploymentLogsDirectory>
+	<EmailTmpDirectory>c:\tmp\email</EmailTmpDirectory>
+	<EntLibLoggingInstallDirectory>C:\Aria\Logging\</EntLibLoggingInstallDirectory>
+	<UtilsDirectory>C:\Utils</UtilsDirectory>
+	
+	<!-- IIS Sites: Portal and Services tiers -->
+	<DotNetRunTimeVersion>v4.0</DotNetRunTimeVersion>
+	<IISLogDirectory>C:\Data\Logging</IISLogDirectory> <!-- %SystemDrive%\inetpub\logs\LogFiles -->
+	<IISWebSiteRootDirectory>C:\Data\Application</IISWebSiteRootDirectory>
+
+	<!-- Certificates -->
+	<CertificatesDirectory>..\Certificates\</CertificatesDirectory>
+	
+	<!-- Enterprise Library Logging -->
+	<QueueName>.\Private$\arialogging</QueueName>
+	<Transactional>false</Transactional>
+	<Permission>all</Permission>
+	
+	<!-- Azure Blob Storage - AzCopy -->
+	<AzureBlobStorageUrl>http://ulsoftware.blob.core.windows.net/</AzureBlobStorageUrl>
+	<AzureBlobStorageSourceKey>agWrOeHuEHfVl73ogq6VQw6T+hLTdpWBck8ABc/LPWwqe6z0fT+zf4CAFyeL/QOXhKsp38mzPTkeF/k0R7rWYg==</AzureBlobStorageSourceKey>
+	<AzureBlobStorageDestKey>agWrOeHuEHfVl73ogq6VQw6T+hLTdpWBck8ABc/LPWwqe6z0fT+zf4CAFyeL/QOXhKsp38mzPTkeF/k0R7rWYg==</AzureBlobStorageDestKey>
+	<!-- 
+	Environment Specific Configuration Files:
+	The build generates environment specific configuration files and places them in the Config directory
+	During deployment, these config files need to be copied to the correct locations
+	To Each <ConfigFile> represents an environment specific configuration file.
+	<EnvironmentConfigFileName> - The name of the Environment specific configuration file created during the build
+	<Name> - The name of the file when it's copied to its destination.
+	<DestPath> - The relative name of the destination directory where the file will be copied to.
+	-->
+	<ConfigFiles> 
+			<!-- Portal -->
+			<ConfigFile>
+				<EnvironmentConfigFileName>UL.Aria.Web.Portal.web.config</EnvironmentConfigFileName>
+				<DestPath>\Bin\UL.Aria.Web.Portal</DestPath>  
+				<Name>web.config</Name>
+		       	</ConfigFile>
+			<ConfigFile>
+				<EnvironmentConfigFileName>TEST-ONLY-STS.UL.Aria.Web.Portal.web.config</EnvironmentConfigFileName>
+				<DestPath>\Bin\UL.Aria.Web.Portal</DestPath>  
+				<Name>web.config.sts</Name> 
+			</ConfigFile>
+			<ConfigFile> 
+				<EnvironmentConfigFileName>UL.Aria.Web.STS.web.config</EnvironmentConfigFileName>
+				<DestPath>\Bin\UL.Aria.Web.STS</DestPath>  
+				<Name>web.config</Name>
+			</ConfigFile>
+			<ConfigFile> 
+				<EnvironmentConfigFileName>UL.Aria.Service.Update.config</EnvironmentConfigFileName>
+				<DestPath>\Bin\UL.Aria.Service.Update</DestPath>  
+				<Name>UL.Aria.Service.Update.exe.config</Name>
+			</ConfigFile>			
+
+			<!-- Services Tier -->
+			<ConfigFile>
+				<EnvironmentConfigFileName>UL.Aria.Service.Host.web.config</EnvironmentConfigFileName>
+				<DestPath>\Bin\UL.Aria.Service.Host</DestPath>  
+				<Name>web.config</Name> 
+			</ConfigFile>
+			<ConfigFile> 
+				<EnvironmentConfigFileName>UL.Aria.Service.Message.Host.web.config</EnvironmentConfigFileName>
+				<DestPath>\Bin\UL.Aria.Service.Message.Host</DestPath>  
+				<Name>web.config</Name> 
+			</ConfigFile>
+			
+			<!-- On Prem Services Tier -->
+			<ConfigFile> 
+				<EnvironmentConfigFileName>UL.Aria.External.Service.Host.web.config</EnvironmentConfigFileName>
+				<DestPath>\Bin\UL.Aria.External.Service.Host</DestPath>  
+				<Name>web.config</Name>
+			</ConfigFile>
+			
+			<!-- Combined Portal / Services Tier -->
+			<ConfigFile> 
+				<EnvironmentConfigFileName>MsmqDistributor.exe.config</EnvironmentConfigFileName>
+				<DestPath>\Logging</DestPath>  <!-- C:\Aria\Logging -->
+				<Name>MsmqDistributor.exe.config</Name>
+			</ConfigFile>			
+
+			<!--  SharePoint Tier -->
+			<ConfigFile> 
+				<EnvironmentConfigFileName>DeploySharePointSolution.xml</EnvironmentConfigFileName> 
+				<DestPath>\SharePoint\DeploymentScripts</DestPath> 
+				<Name>DeploySharePointSolution.xml</Name>
+			</ConfigFile>
+
+			<!--  Azure hosted Services -->
+			<ConfigFile> 
+				<EnvironmentConfigFileName>UL.Aria.Service.OutboundMessage.Host.config</EnvironmentConfigFileName>
+				<DestPath>\Bin\UL.Aria.Service.OutboundMessage.Host</DestPath>  
+				<Name>UL.Aria.Service.OutboundMessage.Host.exe.config</Name> 
+			</ConfigFile>
+			<ConfigFile> 
+				<EnvironmentConfigFileName>UL.Aria.Service.InboundOrderProcessing.Host.config</EnvironmentConfigFileName>
+				<DestPath>\Bin\UL.Aria.Service.InboundOrderProcessing.Host</DestPath> 
+				<Name>UL.Aria.Service.InboundOrderProcessing.Host.exe.config</Name> 
+			</ConfigFile>
+			<ConfigFile> 
+				<EnvironmentConfigFileName>UL.Aria.Service.ProductProcessing.Host.config</EnvironmentConfigFileName>
+				<DestPath>\Bin\UL.Aria.Service.ProductProcessing.Host</DestPath>  
+				<Name>UL.Aria.Service.ProductProcessing.Host.exe.config</Name> 
+			</ConfigFile>
+			<ConfigFile> 
+				<EnvironmentConfigFileName>UL.Aria.Service.Relay.Host.config</EnvironmentConfigFileName>
+				<DestPath>\Bin\UL.Aria.Service.Relay.Host</DestPath>  
+				<Name>UL.Aria.Service.Relay.Host.exe.config</Name> 	
+			</ConfigFile>
+			
+			<!-- OnPrem Services -->
+			<ConfigFile> 
+				<EnvironmentConfigFileName>UL.Aria.External.Relay.Host.App.config</EnvironmentConfigFileName>
+				<DestPath>\Bin\UL.Aria.External.Relay.Host</DestPath>  
+				<Name>UL.Aria.External.Relay.Host.exe.config</Name> 	
+			</ConfigFile>
+			<ConfigFile> 
+				<EnvironmentConfigFileName>UL.Aria.External.Service.Enterprise.Host.App.config</EnvironmentConfigFileName>
+				<DestPath>\Bin\UL.Aria.External.Service.Enterprise.Host</DestPath>  
+				<Name>UL.Aria.External.Service.Enterprise.Host.exe.config</Name> 	
+			</ConfigFile>
+			<ConfigFile> 
+				<EnvironmentConfigFileName>UL.Aria.External.JMS.Host.config</EnvironmentConfigFileName>
+				<DestPath>\Bin\UL.Aria.External.JMS.Host</DestPath>  
+				<Name>UL.Aria.External.JMS.Host.exe.config</Name> 	
+			</ConfigFile>
+
+			<!--  TestHarness -->
+			<ConfigFile> 
+				<EnvironmentConfigFileName>UL.Aria.SharePoint.Service.TestHarness.App.config</EnvironmentConfigFileName>
+				<DestPath>\SharePoint\TestHarness</DestPath>  
+				<Name>UL.Aria.SharePoint.Service.TestHarness.exe.config</Name> 
+			</ConfigFile>
+			<ConfigFile> 
+				<EnvironmentConfigFileName>UL.Aria.SharePoint.HighTrustApp.TestHarness.App.config</EnvironmentConfigFileName>
+				<DestPath>\SharePoint\TestHarness</DestPath>  
+				<Name>UL.Aria.SharePoint.HighTrustApp.TestHarness.exe.config</Name> 
+			</ConfigFile>
+	</ConfigFiles>
+</Global>
+<!-- 
+	 Environments - 
+	 Contains an Environment tag for each environment that we deploy to. 
+     Points to files that contain information that can vary by environment.
+	 
+	 <Name> tag needs to be unique.  The name is specified as a parameter to the deploy script.
+	 it's used to determine which sent of environment configuration paramters to use.
+	 <FileName> tag points to the actual file containing the unique settings.
+-->
+	<Environments>
+		<Environment><Name>DevInt</Name><FileName>Environment-DevInt.xml</FileName></Environment>
+		<Environment><Name>DevInt.D15</Name><FileName>Environment-DevInt.D15.xml</FileName></Environment>
+		<Environment><Name>UAT9</Name><FileName>Environment-UAT9.xml</FileName></Environment>
+		<Environment><Name>Training</Name><FileName>Environment-Training.xml</FileName></Environment>
+		<Environment><Name>Production</Name><FileName>Environment-Production.xml</FileName></Environment>
+		<Environment><Name>ProductionUAT</Name><FileName>Environment-ProductionUAT.xml</FileName></Environment>
+
+	</Environments>
+</Configuration>

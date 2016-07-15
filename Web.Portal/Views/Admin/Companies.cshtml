@@ -1,0 +1,55 @@
+﻿@using UL.Aria.Service.Contracts.Dto
+@using UL.Aria.Web.Common.Models.Search
+@using UL.Aria.Web.Common.Mvc
+@model UL.Aria.Web.Common.Models.Company.CompanySearchModel
+
+@{
+    Layout = "~/Views/Home/_Layout.cshtml";
+    int rowIndex = 0;
+}
+
+@section aside{
+    <ul class="page-actions">
+        <li class="arrow">
+            <a href="@Url.PageAdminCompanyCreate()">Create Company</a>
+        </li>
+    </ul>
+}
+@{ Html.RenderPartial("_SearchForm", Model.SearchCriteria); }
+
+<fieldset class="search-body">
+	@if (Model.Results.Any())
+	{
+		<table class="table">
+			<thead>
+				<tr>
+					<th class="nowrap">@Helpers.SortColumnHeader("ID", SqlFieldNames.CompanyExternalId, Model.SearchCriteria)</th>
+					<th class="nowrap">@Helpers.SortColumnHeader("Name", SqlFieldNames.CompanyName, Model.SearchCriteria)</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in Model.Results)
+				{
+					<tr class="@Html.TableRowClass(rowIndex++)">
+						<td>
+							@Html.DisplayFor(modelItem => item.ExternalId)
+						</td>
+						<td>
+							<a href="@Url.PageCompanyDetails(item.Id.Value)">@Html.DisplayFor(modelItem => item.Name)</a>
+						</td>
+						<td>
+							<a href="#" data-toggle="modal"  data-target="#DeleteModal" data-modal-title ="Delete Company" data-item-name="Are you sure you want to delete '<span> @Html.DisplayFor(modelItem => item.Name) </span>'?"  data-item-href="@Url.PageCompanyRemove(item.Id.Value)">Delete</a>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	}
+	else
+	{
+		Html.RenderPartial("_SearchNotFound", Model.SearchCriteria);
+	}
+</fieldset>
+
+@{ Html.RenderPartial("_SearchFormFooter", Model.SearchCriteria); }

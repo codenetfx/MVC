@@ -1,0 +1,103 @@
+﻿@using UL.Aria.Web.Common.Models.Project
+@model UL.Aria.Web.Common.Models.Project.IncomingOrderSearchResult
+
+
+<div class="search-result request-result clearfix">
+	<div class="result-icon">
+		<a href="@Url.PageIncomingOrderDetails(Model.IncomingOrder.Id)">
+			<img src="@Url.Content("~/Images/clear.gif")" alt="@Model.Title" />
+		</a>
+	</div>
+
+	<div class="result-actions">
+		<input type="checkbox" class="pull-right" style="margin: 2px 0 0 10px;" value="@Model.Id" data-group-name="@Model.EntityType.ToString()" onclick="return UL.Result_OnChange(this);" @(Model.IsSelected ? "checked='checked'" : null) />
+		<div class="dropdown pull-right">
+			<a title="Open Menu" class="dropdown-toggle caret" data-toggle="dropdown" href="#"><i></i></a>
+			<ul class="dropdown-menu" role="menu">
+				<li>
+					<a class="CreateProject" href="@Url.PageOrderCreate(Model.IncomingOrder.Id)" data-toggle="modal">Create Project...</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="result-detail">
+		<div class="result-item-title">
+			<a href="@Url.PageIncomingOrderDetails(Model.IncomingOrder.Id)" title="Customer Name: @Model.IncomingOrder.IncomingOrderCustomer.Name">@Html.DisplayFor(m => m.IncomingOrder.CompanyName)</a>
+		</div>
+
+		<div class="display-row">
+			<div class="display-label">@Html.DisplayNameFor(m => Model.IncomingOrder.CustomerLocation):</div>
+			<div class="display-field">@Html.DisplayFor(m => Model.IncomingOrder.CustomerLocation)</div>
+		</div>
+
+		<div class="display-row">
+			<div class="display-label">@Html.DisplayNameFor(m => Model.IncomingOrder.IncomingOrderCustomer.ProjectName):</div>
+			<div class="display-field ellipsis-ctrl" data-ellipsis-width="250" data-ellipsis-height="22" title="@Html.DisplayFor(m => Model.IncomingOrder.IncomingOrderCustomer.ProjectName)">@Html.DisplayFor(m => Model.IncomingOrder.IncomingOrderCustomer.ProjectName)</div>
+		</div>
+
+		<div class="display-row">
+			<div class="display-label">@Html.DisplayNameFor(m => Model.IncomingOrder.OrderNumber):</div>
+			<div class="display-field">
+				<a href="@string.Format("{0}&Filters.ariaOrderNumber={1}", Url.PageSearchOrders(false), Model.IncomingOrder.OrderNumber)"> <span>@Model.IncomingOrder.OrderNumber</span></a>
+			</div>
+		</div>
+
+		<div class="display-row">
+			<div class="display-label">@Html.DisplayNameFor(m => Model.IncomingOrder.Status):</div>
+			<div class="display-field">@Html.DisplayFor(m => Model.IncomingOrder.Status)</div>
+		</div>
+
+		<div class="display-row">
+			<div class="display-label">@Html.DisplayNameFor(m => Model.IncomingOrder.DateBooked):</div>
+			<div class="display-field">@Html.DisplayFor(m => Model.IncomingOrder.DateBooked)</div>
+		</div>
+
+		<div class="display-row">
+			<div class="display-label">@Html.DisplayNameFor(m => Model.IncomingOrder.QuoteNo):</div>
+			<div class="display-field">@Html.DisplayFor(m => Model.IncomingOrder.QuoteNo)</div>
+		</div>
+
+		
+			<div class="display-row">
+				<div class="display-label">@Html.DisplayNameFor(m => Model.IncomingOrder.TotalOrderPrice):</div>
+				<div class="display-field"> @Html.DisplayFor(m => Model.IncomingOrder.TotalOrderPrice) @Html.DisplayFor(x => Model.IncomingOrder.Currency) </div>
+			</div>
+		
+
+
+		<div id="viewOrders" class="clear-both">
+			@if (Model.IncomingOrder.ServiceLines != null && Model.IncomingOrder.ServiceLines.Any())
+			{
+				<a href="#">View @Html.DisplayNameFor(m => m.IncomingOrder.ServiceLines)</a>
+
+				<div class="div-order-line" style="display: none;">
+					<table class="service-line-table">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th class="nowrap">Line Number</th>
+								<th class="nowrap" style="width: 100px;">Price</th>
+								<th class="primary-col display-none">Fulfillment Method</th>
+								<th class="nowrap display-none">Promise Date</th>
+							</tr>
+						</thead>
+
+						@foreach (IncomingOrderServiceLine item1 in Model.IncomingOrder.ServiceLines)
+						{
+							<tr>
+								<td>@item1.Name</td>
+								<td>@item1.LineNumber</td>
+								<td>@Html.DisplayFor(x => item1.Price) @Html.DisplayFor(x => item1.Currency)</td>
+								<td class="display-none">@item1.FulfillmentMethodCode</td>
+								<td class="display-none">@item1.PromiseDate.ToShortDateString()</td>
+							</tr>
+						}
+					</table>
+				</div>
+			}
+		</div>
+
+	</div>
+
+</div>

@@ -1,0 +1,104 @@
+﻿@using System.Web.UI.WebControls
+@using UL.Aria.Service.Contracts.Dto
+@using System.Linq
+@using UL.Aria.Web.Common.Models.Search
+@using UL.Aria.Web.Common.Models.Shared
+@model UL.Aria.Web.Common.Models.Search.SearchCriteria
+@{
+    string searchTitle = ViewBag.SearchTitle ?? ViewBag.PageTitle;
+    var currentSort = Model.Sorts.Count > 0 ? Model.Sorts[0] : new Sort();
+    bool hideSearchText = ViewBag.HideSearchText ?? false;
+    var isUlEmployee = ViewBag.isUlEmployee ?? false;
+    
+}
+
+@helper SortItem(Sort sort, bool active)
+{
+    if (active)
+    {
+    <li class="disabled"><a onclick=" return false; " href="#@sort.FieldName">@sort.DisplayName</a></li>
+    }
+    else
+    {
+    <li><a class="filter-sort-btn"  href="#@sort.FieldName" data-sort-field="@sort.FieldName" data-sort-order="@sort.Order">@sort.DisplayName</a></li>
+    }
+}
+
+@helper RefinmentFilter(UL.Aria.Web.Common.Models.Shared.TaxonomyMenuItem filter)
+{
+    <li><a class="primary-refiner-a @(((dynamic)filter).Class)" href="#@filter.Key" data-refiner-text="@filter.Text" data-refiner-category="@SearchCriteria.FormatRefinerDisplayName(filter.Key)" data-refiner-key="@filter.Key" data-refiner-value="@filter.RefinementValue">@filter.Text</a></li>
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Get, new Dictionary<string, object> { { "class", "form-inline" }, { "id", "frmSearchTop" }, { "defaultbutton", "btnHomeSearch" } }))
+{
+	<fieldset class="search-header">
+		<legend>
+			<h2>@searchTitle</h2>
+			@if (Model.PrimaryRefiner != null && Model.PrimaryRefiner.Children.Count > 0)
+			{
+				<ul class="refine-list">
+					@foreach (UL.Aria.Web.Common.Models.Shared.TaxonomyMenuItem filter in Model.PrimaryRefiner.Children)
+					{
+						@RefinmentFilter(filter)
+					}
+				</ul>
+			}
+			<ul class="actions-list">
+				<li class="result-actions">
+					<div class="dropdown pull-right">
+						<a class="dropdown-toggle action-toggle" title="Open Menu" href="#" data-toggle="dropdown"></a>
+						<ul class="dropdown-menu search-menu" role="menu">
+							<li class="disabled"><a href="#">List View</a></li>
+							@if (isUlEmployee)
+							{
+								if (ViewBag.TableViewLink == null)
+								{
+									<li class="disabled"><a href="#">Table View</a></li>
+								}
+								else
+								{
+									<li><a href="@ViewBag.TableViewLink">Table View</a></li>
+								}
+							}
+							else
+							{
+								<li class="disabled"><a href="#">Table View</a></li>
+							}
+                            
+							@if (Model.SortingOptions.Any())
+							{
+								<li class="dropdown-submenu">
+									<a tabindex="-1" href="#">Sort by:</a>
+									<ul class="dropdown-menu" role="menu">
+										@foreach (var sort in Model.SortingOptions)
+										{
+											var active = (currentSort.FieldName == sort.FieldName && currentSort.Order == sort.Order);
+											@SortItem(sort, active)
+										}
+									</ul>
+								</li>
+							}
+                            
+							@{Html.RenderPartial("_AuxiliaryFilter", Model);}
+						</ul>
+					</div>
+				</li>
+			</ul>
+		</legend>
+		@if (!hideSearchText)
+		{
+			<div id="search-bar" class="search-bar">
+				<div class="input-append focus">
+					@Html.TextBoxFor(m => m.Query, new { placeholder = string.Concat("Search within ", searchTitle, "..."), @class = "text-box single-line" })
+					<input type="button" value="Search" class="search-btn btn" id="btnHomeSearch" />
+				</div>
+			</div>
+		}
+        
+	</fieldset>
+	<div>
+		@{ Html.RenderPartial("_Paging", Model.Paging); }
+		@{ Html.RenderPartial("_SearchCriteriaHidden", Model); }
+	</div>
+  
+}

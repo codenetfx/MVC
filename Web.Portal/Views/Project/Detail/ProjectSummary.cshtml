@@ -1,0 +1,164 @@
+﻿@model UL.Aria.Web.Common.Models.Project.ProjectDetail
+
+@{
+	Layout = "_DetailsLayout.cshtml";
+	ViewBag.MenuClass = "flat-menu";
+}
+
+<fieldset class="display">
+
+	<legend>
+		<h2>
+			Project Summary
+			<div class="customer-flag customer-text right">Note: Icon denotes customer-visible field</div>
+		</h2>
+	</legend>
+
+	<div class="row-container">
+		<div class="div-product-attribute">
+			<div class="display-label-row customer-flag">
+				@Html.DisplayNameFor(model => model.Name)
+			</div>
+			<div class="display-field-row ellipsis-ctrl" data-ellipsis-width="240" data-ellipsis-height="90" title="@Html.DisplayFor(model => model.Name)">
+				@Html.DisplayFor(model => model.Name)
+			</div>
+		</div>
+		<div class="div-product-attribute">
+			<div class="display-label-row">
+				@Html.DisplayNameFor(model => model.Description)
+			</div>
+			<div class="display-field-row">
+				@Html.DisplayFor(model => model.Description)
+			</div>
+		</div>
+	</div>
+
+
+	<div class="row-container">
+		<div class="div-product-attribute">
+			<div class="display-label-row customer-flag">
+				@Html.DisplayNameFor(model => model.ProjectStatus)
+			</div>
+			<div class="display-field-row  no-rule">
+				@Html.DisplayFor(model => model.ProjectStatus)
+			</div>
+		</div>
+
+		<div class="div-product-attribute">
+			<div class="display-label-row customer-flag">
+				@Html.DisplayNameFor(model => model.ProjectHandler)
+			</div>
+			<div class="display-field-row">
+				@Html.DisplayFor(model => model.ProjectHandler)
+			</div>
+		</div>
+	</div>
+
+	<div class="row-container">
+		<div class="div-product-attribute">
+			<div class="display-label-row">
+				@Html.DisplayNameFor(model => model.UpdatedDateTime)
+			</div>
+			<div class="display-field-row">
+				@Html.DisplayFor(model => model.UpdatedDateTime)
+			</div>
+		</div>
+		<div class="div-product-attribute">
+			<div class="display-label-row customer-flag">
+				@Html.DisplayNameFor(model => model.OrderOwner)
+			</div>
+			<div class="display-field-row">
+				@Html.DisplayFor(model => model.OrderOwner)
+			</div>
+		</div>
+	</div>
+
+
+	<div class="row-container">
+		<div class="div-product-attribute">
+			<div class="display-label-row">
+				@Html.DisplayNameFor(model => model.CompanyName)
+			</div>
+			<div class="display-field-row">
+				@Html.DisplayFor(model => model.CompanyName)
+			</div>
+		</div>
+		<div class="div-product-attribute">
+			<div class="display-label-row customer-flag">
+				@Html.DisplayNameFor(model => model.EndDate)
+			</div>
+			<div class="display-field-row">
+				@Html.DisplayFor(model => model.EndDate)
+			</div>
+		</div>
+
+
+	</div>
+
+
+	<div class="row-container">
+		<div class="div-product-attribute">
+			<div class="display-label-row customer-flag">
+				@Html.DisplayNameFor(model => model.StatusNotes)
+			</div>
+			<div class="display-field-row">
+				@Html.DisplayFor(model => model.StatusNotes)
+			</div>
+		</div>
+
+		<div class="div-product-attribute">
+			<div class="display-label-row">
+				@Html.DisplayNameFor(model => model.Expedited)
+			</div>
+			<div class="display-field-row">
+				@Html.DisplayFor(model => model.Expedited)
+			</div>
+		</div>
+	</div>
+
+	<div class="row-container">
+		@*
+			This is comments as per US 35405. Release 10 Iteration 3. We can delete if don't need it future.
+				<div class="div-product-attribute">
+				<div class="display-label-row">
+					@Html.DisplayNameFor(model => model.ProjectTemplateName)
+				</div>
+				<div class="display-field-row">
+					@Html.DisplayFor(model => model.ProjectTemplateName)
+				</div>
+			</div>
+		*@
+
+		<div class="div-product-attribute">
+			<div class="display-label-row">
+				@Html.DisplayNameFor(model => model.ServiceRequestNumber)
+			</div>
+			<div class="display-field-row">
+				@Html.DisplayFor(model => model.ServiceRequestNumber)
+			</div>
+		</div>
+
+		<div class="div-product-attribute">
+			<div class="display-label-row">
+				@Html.DisplayNameFor(model => model.AdditionalCriteria)
+			</div>
+			<div class="display-field-row">
+				@Html.DisplayFor(model => model.AdditionalCriteria)
+			</div>
+		</div>
+
+	</div>
+
+	<div class="row-container">
+		<div class="div-product-attribute">
+			<div class="display-label-row">
+				@Html.DisplayNameFor(model => model.CustomerProjectName)
+			</div>
+			<div class="display-field-row">
+				@Html.DisplayFor(model => model.CustomerProjectName)
+			</div>
+		</div>
+
+	</div>
+</fieldset>
+

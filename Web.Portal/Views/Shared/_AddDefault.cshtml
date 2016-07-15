@@ -1,0 +1,50 @@
+﻿@model UL.Aria.Web.Common.Models.Profile.SearchFavorite
+<div>
+    <div>Name your default:</div>
+        @using (Html.BeginForm("CreateDefaultSearch", "Profile", new { id = "setNewDefaultForm" }, FormMethod.Post ,new { id = "setNewDefaultForm" }))
+{
+    <div class="new-default  min-height">
+        @Html.TextBoxFor(x => x.Title, new Dictionary<string, object> { { "style", "clear:none" }, { "class", "pull-left" } })
+         <a id="saveLink" name="saveLink" class="pull-right save-textbox-button" href="#"></a>
+        @Html.ValidationMessageFor(x => x.Title)
+        <noscript>
+            <input type="submit" value="Save" />
+        </noscript>
+    </div>
+
+            @Html.HiddenFor(m => m.Criteria.Query)
+            @Html.HiddenFor(x => Model.PageUrl)
+            @Html.HiddenFor(x => x.Criteria.SortField)
+            @Html.HiddenFor(x => x.Criteria.SortOrder)
+            @Html.HiddenFor(x => x.Criteria.EntityType)
+            if (Model.Criteria.Sorts != null)
+            {
+                var index = 0;
+                <div>
+                    @foreach (var sort in Model.Criteria.Sorts)
+                    {
+                        <div>
+                            <input type="hidden" name="Criteria.Sorts[@index].FieldName" value="@sort.FieldName" />
+                            <input type="hidden" name="Criteria.Sorts[@index].DisplayName" value="@sort.DisplayName" />
+                            <input type="hidden" name="Criteria.Sorts[@index].Order" value="@sort.Order" />
+                        </div>
+
+                        index = index + 1;
+                    }
+                </div>
+            }
+            foreach (var refine in Model.Criteria.Refiners)
+            {
+                <div>
+                    @Html.Hidden("Criteria.Refiners", refine)
+                </div>
+            }
+            foreach (var refiner in Model.Criteria.Filters)
+            {
+                foreach (var filter in refiner.Value)
+                {
+                    <input type="hidden" name="Criteria.Filters.@refiner.Key" value="@filter" />
+                }
+            }
+        }
+</div>

@@ -1,0 +1,98 @@
+﻿@model UL.Aria.Web.Common.Models.Project.CertificationManagement
+@{
+    var id = "id-" + Guid.NewGuid();
+}
+<div class="ul-dialog">
+    <div id="certificationRequest" class="init-ajax-form" data-form-id="@id">
+        @using (Html.BeginForm("CertificationRequest", "Task", FormMethod.Post, new Dictionary<string, object>() { { "id", id }, { "class", "task-edit-form" } }))
+        {
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">Manage CO Request</h3>
+            </div>
+            @Html.HiddenFor(model => model.TaskId)
+            @Html.HiddenFor(model => model.ProjectId)
+            @Html.HiddenFor(model => model.ContainerId)
+            if (Model.Success)
+            {
+                <div class="modal-success-only">
+                    <div class="modal-body">
+                        <i class="ul-icon-success"></i><span>The CO Request has been submitted.</span>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-info" data-dismiss="modal" aria-hidden="true" onclick=" UL.Refresh(); ">Dismiss</button>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="modal-body">
+                    <div class="form-horizontal control-group">
+
+                        @Html.LabelFor(m => m.CcnDescription, new { @class = "strong" })
+                        <div class="controls">
+                            @Html.TextAreaFor(model => model.CcnDescription, new { rows = "5", @class = "task-comment-box" })
+                            @Html.ValidationMessageFor(model => model.CcnDescription)
+                        </div>
+                    </div>
+
+                    <div class="form-horizontal control-group">
+                        <div class="left-col">
+                            @Html.LabelFor(m => m.CcnIndustry, new { @class = "strong" })
+                            @Html.TextBoxFor(model => model.CcnIndustry)
+                            @Html.ValidationMessageFor(model => model.CcnIndustry)
+                        </div>
+                        <div class="right-col">
+                            @Html.LabelFor(m => m.IsOutsideLab, new { @class = "strong" })
+                            @Html.DropDownListFor(model => model.IsOutsideLab, new SelectList(Model.DapProjectList, "Value", "Text"))
+                            @Html.ValidationMessageFor(model => model.IsOutsideLab)
+                        </div>
+                    </div>
+                    <div class="form-horizontal control-group">
+                        @Html.LabelFor(m => m.ScopeOfRequest, new { @class = "strong" })
+                        <div class="controls">
+                            @Html.TextAreaFor(model => model.ScopeOfRequest, new { rows = "5", @class = "task-comment-box" })
+                            @Html.ValidationMessageFor(model => model.ScopeOfRequest)
+                        </div>
+                    </div>
+                    <div class="form-horizontal control-group">
+                        <div class="left-col">
+                            @Html.LabelFor(m => m.HandlerLocation, new { @class = "strong" })
+                            @Html.TextBoxFor(model => model.HandlerLocation)
+                            @Html.ValidationMessageFor(model => model.HandlerLocation)
+                        </div>
+                        <div class="right-col">
+                            @Html.LabelFor(m => m.DepartmentCode, new { @class = "strong" })
+                            @Html.DropDownListFor(model => model.DepartmentCode, new SelectList(Model.DepartmentList, "Value", "Text"), "-- Select --")
+                            @Html.ValidationMessageFor(model => model.DepartmentCode)
+                        </div>
+                    </div>
+                    <div class="form-horizontal control-group">
+
+                        @Html.LabelFor(m => m.StandardsAndEditions, new { @class = "strong" })
+                        <div class="controls">
+                            @Html.TextAreaFor(model => model.StandardsAndEditions, new { rows = "5", @class = "task-comment-box" })
+                            @Html.ValidationMessageFor(model => model.StandardsAndEditions)
+                        </div>
+                    </div>
+                    <div class="form-horizontal control-group">
+                        @Html.LabelFor(m => m.Comments, new { @class = "strong" })
+                        <div class="controls">
+                            @Html.TextAreaFor(model => model.Comments, new { rows = "5", @class = "task-comment-box" })
+                            @Html.ValidationMessageFor(model => model.Comments)
+                        </div>
+                    </div>
+
+                    @Html.ValidationSummary()
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" id="btnUpdateTask" class="btn pull-right btn-primary" value="Update Task" />
+                    <button class="btn pull-left" id="task-modal" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                </div>
+            }
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    UL.BootstrapControls($(".ul-dialog"));
+</script>

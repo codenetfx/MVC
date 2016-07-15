@@ -1,0 +1,292 @@
+﻿@using UL.Aria.Web.Common
+@using UL.Aria.Web.Common.Models.Project
+@model TaskDetail
+@{
+	var id = "id-" + Guid.NewGuid().ToString();
+}
+<div class="ul-dialog">
+    <div id="editTask" class="edit-task-dialog" data-form-id="@id" data-mode="edit" data-project-handler="@Model.ProjectHandler" data-current-user="@Model.CurrentUser" data-is-billing-trigger-task="@Model.ShouldTriggerBilling" data-billing-trigger-cancel-message="@Model.BillingTriggerCancelMessage" data-billing-trigger-complete-message="@Model.BillingTriggerCompleteMessage" data-has-active-predecessor="@Model.HasActivePredecessor" data-is-reactive-request="@Model.IsReactivateRequest">
+		@using (Html.BeginForm("Edit", "Task", FormMethod.Post, new Dictionary<string, object>() { { "id", id }, { "class", "task-edit-form" } }))
+		{
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 id="myModalLabel">Edit Task</h3>
+			</div>
+
+			if (Model.Success)
+			{
+				<div class="modal-success-only">
+					<div class="modal-body">
+						<i class="ul-icon-success"></i><span>Task has been successfully updated.</span>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-info" data-dismiss="modal" aria-hidden="true" onclick=" UL.Refresh(); ">Dismiss</button>
+					</div>
+				</div>
+
+			}
+			else if (!Model.Success && !string.IsNullOrEmpty(Model.ErrorMessage))
+			{
+				<div class="modal-body">
+					<i class="ul-icon-failure"></i><span>@Model.ErrorMessage</span>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-info" data-dismiss="modal" aria-hidden="true">Dismiss</button>
+				</div>
+			}
+			else
+			{
+				<div class="modal-body edit-task">
+					<div class="modal-center-pane edit-project">
+						<div class="modal-task-view" id="modal-task-details-view">
+							@Helpers.ModalSubmitFix()
+							@Html.Partial("_TaskDetails", Model) <!-- Was "_Task" -->
+							@Html.ValidationSummary()
+						</div>
+						@*
+							<!--
+							  <div class="modal-task-view" id="modal-task-notifications-view">
+								  <div class="strong">@Html.Partial("_TaskNotifications", Model)</div>
+							  </div>
+							-->
+						*@
+						<div class="modal-task-view" id="modal-task-documents-view">
+							<div class="strong">@Html.Partial("_TaskDocuments", Model)</div>
+						</div>
+
+						<div class="modal-task-view" id="modal-task-comments-view">
+							<div class="strong">@Html.Partial("_TaskComments", Model)</div>
+						</div>
+
+                        @if (Model.TaskTypeId == Model.FreeformTaskTypeId)
+                        {
+						<div class="modal-task-view" id="modal-task-notifications-view">
+							<div class="strong">@Html.Partial("_TaskNotifications", Model)</div>
+						</div>
+                        }
+					</div>
+
+					<div class="modal-controls">
+						<div class="project-summary section-summary">
+							<div class="@Model.TaskStatusCssClass">
+								<div class="profile-avitar-thumb">
+									<img src="~/images/clear.gif" alt="" class="result-icon" />
+								</div>
+
+								<h2 class="task-name-left-pane ellipsis-add" id="modal-task-name" data-max-chars="25" title="@Model.TaskName">@Model.TaskName</h2>
+
+								<em>@Html.DisplayFor(m => m.Progress)</em>
+								@if (Model.ShouldTriggerBilling)
+								{
+									<div class="billing-trigger-label">@ConstantKeys.BillingTriggerTask</div>
+								}
+								@Html.HiddenFor(x => x.Progress)
+							</div>
+							@*<em>@(Model.StatusHistories ? "In Progress" : "Slipping")</em>*@
+
+							<dl class="clear-both dl-horizontal">
+								@if (Model.ProjectName != null)
+								{
+									// @Model.ContainerId
+									<dt>@Html.DisplayNameFor(m => m.ProjectName):</dt>
+									<dd class="ellipsis-add modal-task-project-name" data-max-chars="20" title="@Model.ProjectName">@Model.ProjectName</dd>
+								}
+
+								@if (Model.TaskOwner != null)
+								{
+									<dt>@Html.DisplayNameFor(m => m.TaskOwnerAssigned):</dt>
+									<dd>@Model.TaskOwner</dd>
+								}
+
+								@if (Model.EndDate != null && Model.EndDate != default(DateTime))
+								{
+									<dt>ECD:</dt>
+									<dd>@Html.DisplayFor(x => x.EndDate)</dd>
+								}
+							</dl>
+						</div>
+
+						<ul class="section-menu clear-both accordion-group flat-menu">
+							<li class="active empty accordion-heading menuLevel0">
+								<!-- add .active class to add bgcolor -->
+								<a class="accordion-toggle" data-tab-selector="#modal-task-details-view" id="modal-task-details" href="#">Task Details</a>
+							</li>
+							<!--
+								<li class="inactive empty accordion-heading menuLevel0">
+									<a class="accordion-toggle" id="modal-task-notifications" href="#">Notifications</a>
+								</li>
+								-->
+							<li class="inactive empty accordion-heading menuLevel0">
+								<a class="accordion-toggle" data-tab-selector="#modal-task-documents-view" id="modal-task-documents" href="#">Documents</a>
+							</li>
+							<li class="inactive empty accordion-heading menuLevel0">
+								<a class="accordion-toggle" data-tab-selector="#modal-task-comments-view" id="modal-task-comments" href="#">Comments</a>
+							</li>
+							@if (Model.TaskTypeId == Model.FreeformTaskTypeId)
+							{
+							<li class="inactive empty accordion-heading menuLevel0">
+								<a class="accordion-toggle" data-tab-selector="#modal-task-notifications-view" id="modal-task-notifications" href="#">Notifications</a>
+							</li>
+							}
+						</ul>
+
+
+					</div>
+					<datalist id ="read-only-fields" data-json ="@Model.ReadonlyFieldsJson" ></datalist>
+				</div>
+
+				<div class="modal-footer">
+					<input type="submit" id="btnUpdateTask" class="btn pull-right btn-primary task-submit" value="Update Task" />
+					<button class="btn pull-left" id="task-modal" data-dismiss="modal" aria-hidden="true">Cancel</button>
+				</div>
+			}
+		}
+
+		<div style="display: none">
+			<table id="newTaskNotificationRow" style="display: none;">
+				<tbody>
+					@Html.TaskNotificationNewHtmlString(x => x.Notifications)
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+
+	var str = window.location.href;
+	str = str.substr(str.lastIndexOf("/") + 1);
+	if (str === "") {
+		$('div.modal').one('show', function () {
+
+			var modal = this;
+			window.location.href += '#EditTask';
+			setTimeout(function () {
+				window.onhashchange = function () {
+					if (!location.hash) {
+						$(modal).modal('hide');
+					}
+				}
+			}, 1000);
+		});
+
+		$('div.modal').on('hidden', function () {
+			UL.Refresh();
+		});
+	}
+
+	// ---
+
+	@{
+    var tabkey = "";
+    if (this.Context.Request.Params.AllKeys.Contains("tab"))
+    {
+        tabkey = this.Context.Request.Params["tab"];
+    }
+}
+	var initTabKey = '@tabkey';
+
+	$(document).ready(function () {
+		$('.edit-task').closest('.modal').addClass('modal-two-col');
+
+		$('.modal-task-view').hide();
+		var tabExists = $("#" + initTabKey).length > 0;
+
+		$('a.accordion-toggle').click(function (e) {
+			e.preventDefault();
+			var key = $(this).prop("id");
+			changeTab(key);
+		});
+
+		function changeTab(tabKey) {
+			$('.accordion-heading').removeClass('active');
+			var link = $("#" + tabKey);
+			link.parent('.accordion-heading').addClass('active');
+			$('.modal-task-view').hide();
+			$(link.data("tabSelector")).show();
+		}
+
+		if (tabExists) {
+			$("#" + initTabKey).trigger("click");
+		}
+		else changeTab("modal-task-details");
+
+		//idle session manager hook
+		$(".task-edit-form").sessionManager({
+			idleWarningTimeout: UlAriaWebPortalConfig.IdleWarningTimeoutMinutes * 60000, //60,000 == 1 minute
+			serverCallInterval: UlAriaWebPortalConfig.ServerCallIntervalMinutes * 60000, //60,000 == 1 minute
+		});
+	});
+
+
+
+
+
+	$('input:radio[name=TaskOwnerAssigned]').change(function () {
+		if ($(this).val() == "AssignToHandler") {
+			$('input[name=TaskOwner]').prop('disabled', false);
+		} else {
+			$('input[name=TaskOwner]').val('');
+			$('input[name=TaskOwner]').prop('disabled', true);
+		}
+	});
+
+	$('select[name=RelationshipId]').change(function () {
+		if ($(this).val() == "No Relationship") {
+			$('input[name=RelatedTaskNumber]').val('');
+			$('input[name=RelatedTaskNumber]').prop('disabled', true);
+
+		} else {
+			$('input[name=RelatedTaskNumber]').prop('disabled', false);
+		}
+	});
+
+
+	$("button#task-modal").click(function () {
+		$('#TaskOwner').detach();
+	});
+
+	$("#TaskOwner").blur(function () {
+		var taskOwnerText = $("#TaskOwner").val();
+		taskOwnerText = taskOwnerText.replace(/^\s+|\s+$/gm, '');
+		$("#TaskOwner").val(taskOwnerText);
+	});
+
+	function renderIt(section, data) {
+		var table = $(section);
+		var results = data.DocumentSearchResults.Results;
+		for (var i = 0; i < results.length; ++i) {
+			table.append(' <tr id="nItem_' + results[i].Id +
+				'class="item-template">' +
+				'<td>' + results[i].Name + '</td>' +
+				'<td><span class="date">' + results[i].ChangeDate + '</span></td>' +
+				'<td ><input type="checkbox" id="checkbox_' + results[i].Id + '"/></td>' + '</tr>');
+		}
+	}
+	function renderProjectDocumentsTable(data) {
+		renderIt('#projectDocumentsTable', data);
+	}
+	function renderTaskDocumentsTable(data) {
+		renderIt('#associatedDocumentsTable', data);
+	}
+
+	$(document).ready(function () {
+		var isExits = $('.modal-success-only');
+		if (isExits.length > 0) {
+			var modal = $('#@id').closest(".modal").modal("hide");
+			//UL.Refresh();
+
+			//This is close to modal when task edited from email sent to user
+			var isEditTask = $.getQueryString('action');
+			if (isEditTask) {
+				alert();
+				UL.RefreshNoQueryString();
+			} else {
+				window.location.reload();
+			}
+
+		}
+	});
+
+	UL.BootstrapControls($(".ul-dialog"));
+
+</script>

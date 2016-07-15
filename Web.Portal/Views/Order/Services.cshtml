@@ -1,0 +1,64 @@
+﻿@model UL.Aria.Web.Common.Models.Order.OrderServices
+
+@{
+    Layout = "~/Views/Order/_Layout.cshtml";
+    ViewBag.HideSearchText = true;
+}
+
+
+@section controls
+{
+
+}
+@section aside {
+
+}
+
+@{Html.RenderPartial("_SearchForm", Model.OrderServicesSearchResult.SearchCriteria);}
+
+<fieldset class="search-body">
+    @if (Model.OrderServicesSearchResult.Results.Any())
+    {
+        foreach (var item in Model.OrderServicesSearchResult.Results)
+        {
+        @Html.DisplayFor(m => item)
+        }
+    }
+    else
+    {
+        Html.RenderPartial("_SearchNotFound", Model.OrderServicesSearchResult.SearchCriteria);
+    }
+</fieldset>
+
+@{Html.RenderPartial("_SearchFormFooter", Model.OrderServicesSearchResult.SearchCriteria);}
+
+@section scripts
+{
+    <script type="text/javascript">
+	    $(function() {
+		    $('.view-samples>a').click(function() {
+			    $(this).toggleClass("order-sample-down-arrow").toggleClass("order-sample-up-arrow");
+			    $(this).parent().find('.div-sample-lines').slideToggle();
+			    return false;
+		    });
+
+			//block things that cant toggle
+		    $(".view-samples .toggle-nothing").click(function(event) {
+		    	event.preventDefault();
+			    event.preventBubble();
+		    });
+
+		    $('.order-samples a').click(function() {
+			    $(this).toggleClass("toggle-open toggle-close");
+			    $(this).parents(':eq(2)').find('.order-samples-result').slideToggle();
+			    return false;
+		    });
+
+		    $('.order-tests a').click(function() {
+			    $(this).toggleClass("toggle-open toggle-close");
+			    $(this).parents(':eq(2)').find('.order-tests-result').slideToggle();
+			    return false;
+		    });
+	    });
+    </script>
+}

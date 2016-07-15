@@ -1,0 +1,2 @@
+TargetFrameWorkVersion=v4.0
+EntryPoint=UL.Aria.Web.Portal.dll

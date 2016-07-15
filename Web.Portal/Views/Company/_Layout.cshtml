@@ -1,0 +1,58 @@
+﻿@using UL.Aria.Web.Common.Models.Shared
+@using UL.Aria.Web.Common.Mvc
+@model UL.Aria.Web.Common.Models.Shared.INavigationModel
+@{
+	Layout = "~/Views/Shared/_LayoutSection.cshtml";
+    var MaxAboutMeCharacters = 200;
+    var companyId = Guid.Empty;
+    var info = Model as ICompanyInfo;
+    if (info != null)
+    {
+        companyId = info.CompanyId;
+    }
+}
+
+@section controls {
+    <div class="section-summary company-summary">
+        @if (companyId != Guid.Empty)
+        {
+            <div class="result-actions">
+            
+                <div class="dropdown pull-right">
+                    <a title="Open Menu" class="dropdown-toggle caret" data-toggle="dropdown" href="#"></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href="@Url.PageCompanyUserCreate(companyId)">Add Member</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        }
+        
+        <div class="profile-avitar-thumb">
+            <img src="~/Images/Default_Company.png" alt="Company Avitar" />
+        </div>
+        <h2>@(ViewBag.InstanceName ?? MvcHtmlString.Create("&nbsp;"))</h2>
+        @if (ViewBag.InstanceDescription != null)
+        {
+            <div class="clear-both">@Helpers.TruncatedText(ViewBag.InstanceDescription, MaxAboutMeCharacters)</div>
+        }
+    </div>
+	@{ Html.RenderPartial("_PageActions", ViewBag.PageLinks as object); }
+}
+
+@section aside {
+	@Html.ValidationSummary(true)
+	@{ Html.RenderPartial("_PageActionsRight", ViewBag.PageActions as object); }
+	@RenderSection("aside", required: false)
+}
+
+@RenderBody()
+
+@section scripts {
+	
+	<script type="text/javascript">
+		$(document).ready(UL.hookCancelButtons);
+	</script>
+	@RenderSection("scripts", required: false)
+}

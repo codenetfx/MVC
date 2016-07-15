@@ -1,0 +1,46 @@
+﻿@model UL.Aria.Web.Common.Models.UserTeam.UserTeamInfo
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">@ViewBag.ModalTitle</h3>
+</div>
+<div class="modal-body">
+    <fieldset class="file-pane">
+        <div class="manage-my-team">
+            @Html.Label("Search for Employee", new {@class = "strong"})
+            <div class="control-group">
+                @Html.AutoComplete("employeeLoginId", String.Empty, Url.PageSearchULUsers(), false, 2, 5, "Id", "Display", "Description", null)
+                <button id="add" type="button">Add</button>
+                @*<input type="button" value="Add" class="search-btn btn" id="add" />*@
+                <label class="include-their-team-label">
+                    <input type="checkbox" id="include-their-team"> Include Their Team
+                </label>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <div id="myTeam" class="manage-my-team">
+                    <table class="table table-condensed team-members">
+                        <thead>
+                        <tr>
+                            <th class="manage-my-team-name">Name</th>
+                            <th class="manage-my-team-include">Include Team</th>
+                            <th class="manage-my-team-remove">Remove</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            @Html.ManageMyTeamEmployeeHtmlString(x => x.TeamMembers, Model.TeamMembers)
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        @Html.ValidationSummary()
+    </fieldset>
+</div>
+
+<div class="modal-footer browse-pane">
+    <button id="btnSave" type="submit" class="btn pull-right btn-primary">Save</button>
+    <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Cancel</button>
+</div>

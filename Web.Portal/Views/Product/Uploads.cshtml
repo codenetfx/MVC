@@ -1,0 +1,46 @@
+﻿@using UL.Aria.Web.Common.Models.Search
+@using UL.Aria.Web.Common.Models.Product
+@model ISearchResultSet<ProductUploadSearchResult>
+
+@{
+	Layout = "~/Views/Home/_Layout.cshtml";
+	var modalId = "ProductUploadModal";
+    ViewBag.HideSearchText = true;
+}
+
+@section controls {}
+
+@section aside {
+	<ul class="page-actions">
+		<li class="primary arrow">
+			<a id="@modalId" href="@Url.PageCreateProducts()" data-toggle="modal">Add/Edit Products</a>
+		</li>
+	</ul>
+	@{Html.RenderPartial("_ProductFamily");}
+}
+
+@{
+	Html.RenderPartial("_SearchForm", Model.SearchCriteria);
+}
+
+<fieldset class="search-body">
+	@if (Model.Results.Any())
+	{
+		foreach (var item in Model.Results)
+		{
+			@Html.DisplayFor(m => item)
+		}
+	}
+	else
+	{
+		Html.RenderPartial("_SearchNotFound", Model.SearchCriteria);
+	}
+</fieldset>
+
+@{ Html.RenderPartial("_SearchFormFooter", Model.SearchCriteria); }
+
+@section scripts {
+
+   
+}
+

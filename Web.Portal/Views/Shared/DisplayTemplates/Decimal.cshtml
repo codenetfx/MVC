@@ -1,0 +1,19 @@
+﻿@using System.Globalization
+@model decimal?
+
+@if (Model == null && ViewData.ModelMetadata.NullDisplayText != null)
+{
+	@ViewData.ModelMetadata.NullDisplayText
+}
+else if(Model == null)
+{
+	<text>&nbsp;</text>
+}
+else if (ViewData.TemplateInfo.FormattedModelValue == ViewData.ModelMetadata.Model)
+{
+	@Html.Encode(string.Format(CultureInfo.CurrentCulture, "{0:0.00}", ViewData.ModelMetadata.Model))
+}
+else 
+{
+	@ViewData.TemplateInfo.FormattedModelValue
+}

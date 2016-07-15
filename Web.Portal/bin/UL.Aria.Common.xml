@@ -1,0 +1,877 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UL.Aria.Common</name>
+    </assembly>
+    <members>
+        <member name="T:UL.Aria.Common.Authorization.AuthorizationFilterBase">
+            <summary>
+            Base class for implementing <see cref="T:UL.Aria.Common.Authorization.IAuthorizationFilter"/>.
+            This is not a mandatory base class, it implements common functionality that would
+            be used by <em>most</em> but not all <see cref="T:UL.Aria.Common.Authorization.IAuthorizationFilter"/> implementations.
+            </summary>
+        </member>
+        <member name="T:UL.Aria.Common.Authorization.IAuthorizationFilter">
+            <summary>
+                Authorization Filters
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.IAuthorizationFilter.CheckAccess(System.Security.Claims.AuthorizationContext)">
+            <summary>
+                Checks the access.
+            </summary>
+            <param name="authorizationContext">The authorization context.</param>
+            <returns></returns>
+        </member>
+        <member name="P:UL.Aria.Common.Authorization.IAuthorizationFilter.Order">
+            <summary>
+                Gets the order of this filter used in determining sequence of evaluation.
+            </summary>
+            <value>
+                The priority.
+            </value>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.AuthorizationFilterBase.#ctor(System.Int32,UL.Aria.Common.Authorization.IAuthorizationContextValidator)">
+            <summary>
+                Initializes a new instance of the <see cref="T:UL.Aria.Common.Authorization.CompanyAdminAuthorizationFilter"/> class.
+            </summary>
+            <param name="order">The order.</param>
+            <param name="authorizationContextValidator"></param>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.AuthorizationFilterBase.CheckAccess(System.Security.Claims.AuthorizationContext)">
+            <summary>
+                Checks the access.
+            </summary>
+            <param name="authorizationContext">The authorization context.</param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.AuthorizationFilterBase.CheckCompanyAccess(System.Security.Claims.AuthorizationContext,System.Security.Claims.Claim)">
+            <summary>
+            Checks the company access.
+            </summary>
+            <param name="authorizationContext">The authorization context.</param>
+            <param name="resourceClaim">The resource claim.</param>
+            <returns></returns>
+        </member>
+        <member name="P:UL.Aria.Common.Authorization.AuthorizationFilterBase.Order">
+            <summary>
+                Gets the order of this filter used in determining sequence of evaluation.
+            </summary>
+            <value>
+                The priority.
+            </value>
+        </member>
+        <member name="P:UL.Aria.Common.Authorization.AuthorizationFilterBase.ExpectedResourceClaims">
+            <summary>
+            Gets the expected resource claims.
+            </summary>
+            <value>
+            The expected resource claims.
+            </value>
+        </member>
+        <member name="P:UL.Aria.Common.Authorization.AuthorizationFilterBase.ExpectedUserClaims">
+            <summary>
+            Gets the expected user claims.
+            </summary>
+            <value>
+            The expected user claims.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Common.Authorization.AuthorizationFilterFactory">
+            <summary>
+                Orders and serves up a supplied list of <see cref="T:UL.Aria.Common.Authorization.IAuthorizationFilter"/> objects sorted by their
+                <see cref="P:UL.Aria.Common.Authorization.IAuthorizationFilter.Order"/>
+                property.
+            </summary>
+        </member>
+        <member name="T:UL.Aria.Common.Authorization.IAuthorizationFilterFactory">
+            <summary>
+            Defines operations for constructing an AuthorizationManager
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.IAuthorizationFilterFactory.Create">
+            <summary>
+            Creates this instance.
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.AuthorizationFilterFactory.#ctor(System.Collections.Generic.IEnumerable{UL.Aria.Common.Authorization.IAuthorizationFilter})">
+            <summary>
+                Initializes a new instance of the <see cref="T:UL.Aria.Common.Authorization.AuthorizationFilterFactory"/> class.
+            </summary>
+            <param name="filters">The filters.</param>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.AuthorizationFilterFactory.Create">
+            <summary>
+                Creates this instance.
+            </summary>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="T:UL.Aria.Common.Authorization.AuthorizationManager">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:UL.Aria.Common.Authorization.IAuthorizationManager">
+            <summary>
+            Definition of an Authorization Manager
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.IAuthorizationManager.Authorize(System.Security.Claims.AuthorizationContext)">
+            <summary>
+            Authorizes the specified authorization context.
+            </summary>
+            <param name="authorizationContext">The authorization context.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.IAuthorizationManager.Authorize(System.Security.Claims.ClaimsPrincipal,System.Security.Claims.Claim,System.Security.Claims.Claim)">
+            <summary>
+            Authorizes the specified principle.
+            </summary>
+            <param name="principal">The principle.</param>
+            <param name="resourceClaim">The resource claim.</param>
+            <param name="actionClaim">The action claim.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.IAuthorizationManager.Authorize(System.Security.Principal.IPrincipal,System.String,System.String,System.String)">
+            <summary>
+            Authorizes the specified principal.
+            </summary>
+            <param name="principal">The principal.</param>
+            <param name="resource">The resource.</param>
+            <param name="action">The action.</param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.AuthorizationManager.#ctor(UL.Aria.Common.Authorization.IAuthorizationFilterFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Common.Authorization.AuthorizationManager"/> class.
+            </summary>
+            <param name="_filterFactory">The _filter factory.</param>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.AuthorizationManager.Authorize(System.Security.Claims.AuthorizationContext)">
+            <summary>
+            Authorizes the specified authorization context.
+            </summary>
+            <param name="authorizationContext">The authorization context.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.AuthorizationManager.Authorize(System.Security.Claims.ClaimsPrincipal,System.Security.Claims.Claim,System.Security.Claims.Claim)">
+            <summary>
+            Authorizes the specified principle.
+            </summary>
+            <param name="principal">The principle.</param>
+            <param name="resourceClaim">The resource claim.</param>
+            <param name="actionClaim">The action claim.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.AuthorizationManager.Authorize(System.Security.Principal.IPrincipal,System.String,System.String,System.String)">
+            <summary>
+            Authorizes the specified principal.
+            </summary>
+            <param name="principal">The principal.</param>
+            <param name="resource">The resource.</param>
+            <param name="action">The action.</param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="T:UL.Aria.Common.Authorization.AuthorizationResult">
+            <summary>
+            Defines values for Authoriation.
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.AuthorizationResult.None">
+            <summary>
+            Access is not granted.
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.AuthorizationResult.Grant">
+            <summary>
+            Access is granted
+            </summary>
+        </member>
+        <member name="T:UL.Aria.Common.Authorization.CommonAuthorizationContextValidator">
+            <summary>
+            Validates <see cref="T:System.Security.Claims.AuthorizationContext"/> objects.
+            </summary>
+        </member>
+        <member name="T:UL.Aria.Common.Authorization.IAuthorizationContextValidator">
+            <summary>
+            Defines operations for validating and cleansing <see cref="T:System.Security.Claims.AuthorizationContext"/> objects.
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.IAuthorizationContextValidator.CleanAuthorizationContext(System.Security.Claims.AuthorizationContext)">
+            <summary>
+            Cleans the authorization context.
+            </summary>
+            <param name="authorizationContext">The authorization context.</param>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.CommonAuthorizationContextValidator.#ctor(UL.Enterprise.Foundation.Framework.ICacheManager,UL.Aria.Service.Contracts.Service.ICompanyService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Common.Authorization.CommonAuthorizationContextValidator"/> class.
+            </summary>
+            <param name="cacheManager">The cache manager.</param>
+            <param name="companyService">The company provider.</param>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.CommonAuthorizationContextValidator.CleanAuthorizationContext(System.Security.Claims.AuthorizationContext)">
+            <summary>
+            Cleans the authorization context.
+            </summary>
+            <param name="authorizationContext">The authorization context.</param>
+        </member>
+        <member name="T:UL.Aria.Common.Authorization.CompanyAccessAuthorizationFilter">
+            <summary>
+                Filter for determining if a user has company access.
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.CompanyAccessAuthorizationFilter.#ctor(System.Int32,UL.Aria.Common.Authorization.IAuthorizationContextValidator)">
+            <summary>
+                Initializes a new instance of the <see cref="T:UL.Aria.Common.Authorization.CompanyAdminAuthorizationFilter"/> class.
+            </summary>
+            <param name="order">The order.</param>
+            <param name="authorizationContextValidator"></param>
+        </member>
+        <member name="P:UL.Aria.Common.Authorization.CompanyAccessAuthorizationFilter.ExpectedResourceClaims">
+            <summary>
+            Gets the expected resource claims.
+            </summary>
+            <value>
+            The expected resource claims.
+            </value>
+        </member>
+        <member name="P:UL.Aria.Common.Authorization.CompanyAccessAuthorizationFilter.ExpectedUserClaims">
+            <summary>
+            Gets the expected user claims.
+            </summary>
+            <value>
+            The expected user claims.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Common.Authorization.CompanyAdminAuthorizationFilter">
+            <summary>
+                Company Admin Authorization Filter
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.CompanyAdminAuthorizationFilter.#ctor(System.Int32,UL.Aria.Common.Authorization.IAuthorizationContextValidator)">
+            <summary>
+                Initializes a new instance of the <see cref="T:UL.Aria.Common.Authorization.CompanyAdminAuthorizationFilter"/> class.
+            </summary>
+            <param name="order">The order.</param>
+            <param name="authorizationContextValidator"></param>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.CompanyAdminAuthorizationFilter.CheckAccess(System.Security.Claims.AuthorizationContext)">
+            <summary>
+            Checks for access to at least one company
+            </summary>
+            <param name="authorizationContext">The authorization context.</param>
+            <returns></returns>
+        </member>
+        <member name="P:UL.Aria.Common.Authorization.CompanyAdminAuthorizationFilter.Order">
+            <summary>
+            Gets the order of this filter used in determining sequence of evaluation.
+            </summary>
+            <value>
+            The priority.
+            </value>
+        </member>
+        <member name="P:UL.Aria.Common.Authorization.CompanyAdminAuthorizationFilter.ExpectedResourceClaims">
+            <summary>
+            Gets the expected resource claims.
+            </summary>
+            <value>
+            The expected resource claims.
+            </value>
+        </member>
+        <member name="P:UL.Aria.Common.Authorization.CompanyAdminAuthorizationFilter.ExpectedUserClaims">
+            <summary>
+            Gets the expected user claims.
+            </summary>
+            <value>
+            The expected user claims.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Common.Authorization.ContainerAccessAuthorizationFilter">
+            <summary>
+                Container Access Authorization Filter - only works with projects now.  Can be extended in future.
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.ContainerAccessAuthorizationFilter.#ctor(System.Int32,UL.Aria.Service.Contracts.Service.IContainerService)">
+            <summary>
+                Initializes a new instance of the <see cref="T:UL.Aria.Common.Authorization.ContainerAccessAuthorizationFilter"/> class.
+            </summary>
+            <param name="order">The order.</param>
+            <param name="containerService">The container service.</param>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.ContainerAccessAuthorizationFilter.CheckAccess(System.Security.Claims.AuthorizationContext)">
+            <summary>
+                Checks for access to at least one company
+            </summary>
+            <param name="authorizationContext">The authorization context.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.ContainerAccessAuthorizationFilter.CheckResourceClaim(System.Security.Claims.AuthorizationContext,System.Security.Claims.Claim,System.Security.Claims.Claim)">
+            <summary>
+            Checks that the Principal has at least one of the claims that the Container (as specified by the resourceClaim) has in its ContainerList (as specified by the actionClaim).
+            </summary>
+            <param name="authorizationContext">The authorization context.</param>
+            <param name="resourceClaim">The resource claim.  A CSV with the fist item being a GUID ContainerID.</param>
+            <param name="actionClaim">The action claim with a type equal to a SecuredActions value.</param>
+            <returns></returns>
+        </member>
+        <member name="P:UL.Aria.Common.Authorization.ContainerAccessAuthorizationFilter.Order">
+            <summary>
+                Gets the order of this filter used in determining sequence of evaluation.
+            </summary>
+            <value>
+                The priority.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Common.Authorization.ProductAdminAuthorizationFilter">
+            <summary>
+                Class ProductAdminAccessAuthorizationFilter
+            </summary>
+        </member>
+        <member name="T:UL.Aria.Common.Authorization.ClaimAuthorizationFilterBase">
+            <summary>
+                Class GenericAccessAuthorizationFilter
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.ClaimAuthorizationFilterBase.#ctor(System.Int32)">
+            <summary>
+                Initializes a new instance of the <see cref="T:UL.Aria.Common.Authorization.ClaimAuthorizationFilterBase"/> class.
+            </summary>
+            <param name="order">The order.</param>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.ClaimAuthorizationFilterBase.CheckAccess(System.Security.Claims.AuthorizationContext)">
+            <summary>
+                Checks the access.
+            </summary>
+            <param name="authorizationContext">The authorization context.</param>
+            <returns>AuthorizationResult.</returns>
+        </member>
+        <member name="P:UL.Aria.Common.Authorization.ClaimAuthorizationFilterBase.ExpectedResourceClaims">
+            <summary>
+                Gets or sets the expected resource claims.
+            </summary>
+            <value>The expected resource claims.</value>
+        </member>
+        <member name="P:UL.Aria.Common.Authorization.ClaimAuthorizationFilterBase.ExpectedUserClaims">
+            <summary>
+                Gets or sets the expected action claims.
+            </summary>
+            <value>The expected action claims.</value>
+        </member>
+        <member name="P:UL.Aria.Common.Authorization.ClaimAuthorizationFilterBase.Order">
+            <summary>
+                Gets the order of this filter used in determining sequence of evaluation.
+            </summary>
+            <value>The priority.</value>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.ProductAdminAuthorizationFilter.#ctor(System.Int32)">
+            <summary>
+                Initializes a new instance of the <see cref="T:UL.Aria.Common.Authorization.ClaimAuthorizationFilterBase"/> class.
+            </summary>
+            <param name="order">The order.</param>
+        </member>
+        <member name="T:UL.Aria.Common.Authorization.MultipleCompanyAccessAuthorizationFilter">
+            <summary>
+            Filter for determining if a user has CompanyAdmin or CompanyAccess claims to more than one one company.
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.MultipleCompanyAccessAuthorizationFilter.#ctor(System.Int32,UL.Aria.Common.Authorization.IAuthorizationContextValidator)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Common.Authorization.MultipleCompanyAccessAuthorizationFilter"/> class.
+            </summary>
+            <param name="order">The order.</param>
+            <param name="authorizationContextValidator"></param>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.MultipleCompanyAccessAuthorizationFilter.CheckAccess(System.Security.Claims.AuthorizationContext)">
+            <summary>
+            Checks for CompanyAdmin or CompanyAccess claims to more than one one company.
+            </summary>
+            <param name="authorizationContext">The authorization context.</param>
+            <returns></returns>
+        </member>
+        <member name="P:UL.Aria.Common.Authorization.MultipleCompanyAccessAuthorizationFilter.Order">
+            <summary>
+            Gets the order of this filter used in determining sequence of evaluation.
+            </summary>
+            <value>
+            The priority.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Common.Authorization.OrderAccessAuthorizationFilter">
+            <summary>
+            Order Access Authorization Filter
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.OrderAccessAuthorizationFilter.#ctor(System.Int32,UL.Aria.Common.Authorization.IAuthorizationContextValidator)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Common.Authorization.OrderAccessAuthorizationFilter"/> class.
+            </summary>
+            <param name="order">The order.</param>
+            <param name="authorizationContextValidator">The authorization context validator.</param>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.OrderAccessAuthorizationFilter.CheckAccess(System.Security.Claims.AuthorizationContext)">
+            <summary>
+            Checks for access to at least one company
+            </summary>
+            <param name="authorizationContext">The authorization context.</param>
+            <returns></returns>
+        </member>
+        <member name="P:UL.Aria.Common.Authorization.OrderAccessAuthorizationFilter.Order">
+            <summary>
+            Gets the order of this filter used in determining sequence of evaluation.
+            </summary>
+            <value>
+            The priority.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Common.Authorization.ProductCreateAuthorizationFilter">
+            <summary>
+            deterimine if user can create products for a company.
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.ProductCreateAuthorizationFilter.#ctor(System.Int32,UL.Aria.Common.Authorization.IAuthorizationContextValidator)">
+            <summary>
+                Initializes a new instance of the <see cref="T:UL.Aria.Common.Authorization.CompanyAdminAuthorizationFilter"/> class.
+            </summary>
+            <param name="order">The order.</param>
+            <param name="authorizationContextValidator"></param>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.ProductCreateAuthorizationFilter.CheckAccess(System.Security.Claims.AuthorizationContext)">
+            <summary>
+            Checks the access.
+            </summary>
+            <param name="authorizationContext">The authorization context.</param>
+            <returns></returns>
+        </member>
+        <member name="T:UL.Aria.Common.Authorization.ProjectTemplateAdministratorAuthorizationFilter">
+            <summary>
+            Authorization filter for ProjectTemplate
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.ProjectTemplateAdministratorAuthorizationFilter.#ctor(System.Int32)">
+            <summary>
+                Initializes a new instance of the <see cref="T:UL.Aria.Common.Authorization.ProjectTemplateAdministratorAuthorizationFilter"/> class.
+            </summary>
+            <param name="order">The order.</param>
+        </member>
+        <member name="T:UL.Aria.Common.Authorization.ProductUpdateAuthorizationFilter">
+            <summary>
+            Determines if user can change a product (including submitting it). 
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.ProductUpdateAuthorizationFilter.#ctor(System.Int32,UL.Aria.Service.Contracts.Service.IContainerService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Common.Authorization.ProductUpdateAuthorizationFilter"/> class.
+            </summary>
+            <param name="order">The order.</param>
+            <param name="containerService">The container service.</param>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.ProductUpdateAuthorizationFilter.CheckAccess(System.Security.Claims.AuthorizationContext)">
+            <summary>
+            Checks the access.
+            </summary>
+            <param name="authorizationContext">The authorization context.</param>
+            <returns></returns>
+        </member>
+        <member name="T:UL.Aria.Common.Authorization.ProductStatusOverrideAuthorizationFilter">
+            <summary>
+            check status 
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.ProductStatusOverrideAuthorizationFilter.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Common.Authorization.ProductStatusOverrideAuthorizationFilter"/> class.
+            </summary>
+            <param name="order">The order.</param>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.ProductStatusOverrideAuthorizationFilter.CheckAccess(System.Security.Claims.AuthorizationContext)">
+            <summary>
+            Checks the access.
+            </summary>
+            <param name="authorizationContext">The authorization context.</param>
+            <returns></returns>
+        </member>
+        <member name="P:UL.Aria.Common.Authorization.ProductStatusOverrideAuthorizationFilter.Order">
+            <summary>
+            Gets the order of this filter used in determining sequence of evaluation.
+            </summary>
+            <value>
+            The priority.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Common.Authorization.SecuredActions">
+            <summary>
+            Portal claims Action values
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredActions.Update">
+            <summary>
+            The update/edit action
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredActions.View">
+            <summary>
+            The view/read-only action
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredActions.Create">
+            <summary>
+            The create/insert action
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredActions.Role">
+            <summary>
+            The role claim action
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredActions.AvailableDocumentPermission">
+            <summary>
+            Available documents.
+            </summary>
+        </member>
+        <member name="T:UL.Aria.Common.Authorization.SecuredClaims">
+            <summary>
+                Claims for Portals
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredClaims.CompanyAdmin">
+            <summary>
+                The company admin
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredClaims.CompanyAccess">
+            <summary>
+                The company access
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredClaims.CompanyProductAdmin">
+            <summary>
+                The company product admin
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredClaims.CompanyProjectAccess">
+            <summary>
+                Access to all projects for the specified company
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredClaims.CompanyOrderAccess">
+            <summary>
+                Access to all orders for the specified company
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredClaims.UlAdministrator">
+            <summary>
+                The UL administrator
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredClaims.UlOrderAdministrator">
+            <summary>
+                The ul order administrator
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredClaims.UlProjectAdministrator">
+            <summary>
+                The ul project administrator
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredClaims.UlProjectTemplateAdministrator">
+            <summary>
+                The ul project administrator
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredClaims.UlProductAdministrator">
+            <summary>
+                The ul product administrator
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredClaims.UlEmployee">
+            <summary>
+                The UL employee
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredClaims.UlSystemOperations">
+            <summary>
+                The ul operations
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredClaims.UlSystemAuditor">
+            <summary>
+                The ul audit
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredClaims.Customer">
+            <summary>
+                The external cuatomer
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredClaims.UserId">
+            <summary>
+                The user id (internal)
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredClaims.EmployeeId">
+            <summary>
+            The employee identifier
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredClaims.ContainerView">
+            <summary>
+                View access for the logical container that will represent products, projects, orders and etc.
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredClaims.ContainerEdit">
+            <summary>
+                Edit access for the logical container that will represent products, projects, orders and etc.
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredClaims.ContainerPrivate">
+            <summary>
+                Edit access for the logical container that will represent products, projects, orders and etc.
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredClaims.RequireLegalAcceptance">
+            <summary>
+                Denotes that the identitiy must accept terms and conditions (or other legal terms as defined by the claim's value).
+            </summary>
+        </member>
+        <member name="T:UL.Aria.Common.Authorization.SecuredPermissions">
+            <summary>
+            Secured Permissions
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredPermissions.PermissionContributor">
+            <summary>
+            The permission contributor
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredPermissions.PermissionReader">
+            <summary>
+            The permission reader
+            </summary>
+        </member>
+        <member name="T:UL.Aria.Common.Authorization.SecuredResources">
+            <summary>
+                Portal claims Resource values
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredResources.AriaAdministration">
+            <summary>
+                Global administrative permissions which only Extranet Administrators have.  e.g. The company administration pages.
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredResources.CompanyInstance">
+            <summary>
+                Access to a specific company.  The type of access will be specified by SecuredActions.
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredResources.CompanyAdministration">
+            <summary>
+                Permission to administer companies.  The type of administration will be specified by SecuredActions.
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredResources.CompanyUserAdministration">
+            <summary>
+                Permission to administer the users for a specific company.  The type of administration will be specified by SecuredActions.
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredResources.MultipleCompanyInstance">
+            <summary>
+                Denotes if a user has access to administer multiple companies.  Will check for multiple CompanyAdmin or CompanyAccess claims.
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredResources.OrderInstance">
+            <summary>
+                Access to a specific order.  The type of access will be specified by SecuredActions.
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredResources.ProjectInstace">
+            <summary>
+                Access to a specific project.  The type of access will be specified by SecuredActions.
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredResources.ProjectTemplateAdministration">
+            <summary>
+                Access to a project template Administration.  The type of access will be specified by SecuredActions.
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredResources.ProductInstance">
+            <summary>
+                Access to a specific product.  The type of access will be specified by SecuredActions.
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredResources.ProductStatus">
+            <summary>
+                Permission to change a product's status.
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredResources.ProductStatusOverride">
+            <summary>
+                Permission to change a products status and override any validation errors that occur.
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredResources.ProductAdministration">
+            <summary>
+                Permission to administer any product in the system in any way.
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.Authorization.SecuredResources.Documents">
+            <summary>
+                Permission to access any document in the system.
+            </summary>
+        </member>
+        <member name="T:UL.Aria.Common.Authorization.ThreadPrincipalResolver">
+            <summary>
+                Methods to get to current principal.
+            </summary>
+        </member>
+        <member name="P:UL.Aria.Common.Authorization.ThreadPrincipalResolver.Current">
+            <summary>
+            Gets or sets the current.
+            </summary>
+            <value>
+            The current.
+            </value>
+        </member>
+        <member name="P:UL.Aria.Common.Authorization.ThreadPrincipalResolver.UserId">
+            <summary>
+                Gets or sets the user id.
+            </summary>
+            <value>
+                The user id.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Common.Authorization.UlAdministratorAuthorizationFilter">
+            <summary>
+                Filter For UL super admins
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.UlAdministratorAuthorizationFilter.#ctor(System.Int32)">
+            <summary>
+                Initializes a new instance of the <see cref="T:UL.Aria.Common.Authorization.UlAdministratorAuthorizationFilter"/> class.
+            </summary>
+            <param name="order">The order.</param>
+        </member>
+        <member name="M:UL.Aria.Common.Authorization.UlAdministratorAuthorizationFilter.CheckAccess(System.Security.Claims.AuthorizationContext)">
+            <summary>
+                Checks the access.
+            </summary>
+            <param name="authorizationContext">The authorization context.</param>
+            <returns></returns>
+        </member>
+        <member name="P:UL.Aria.Common.Authorization.UlAdministratorAuthorizationFilter.Order">
+            <summary>
+                Gets the order of this filter used in determining sequence of evaluation.
+            </summary>
+            <value>
+                The priority.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Common.BusinessMessage.BusinessMessageProvider">
+            <summary>
+                Business message publishing provider class that logs business messages as AuditMessages so
+                Log configuration will handle them..
+            </summary>
+        </member>
+        <member name="T:UL.Aria.Common.BusinessMessage.IBusinessMessageProvider">
+            <summary>
+                Business message publishing provider interface.
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Common.BusinessMessage.IBusinessMessageProvider.Publish(UL.Aria.Service.Contracts.Dto.AuditMessageIdEnumDto,System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+                Publishes the business message.
+            </summary>
+            <param name="auditMessageId">The audit message id. This is a predefined id. Remember to update the message spreadsheet.</param>
+            <param name="message">The message.</param>
+            <param name="extendedProperties">The extended properties.</param>
+        </member>
+        <member name="M:UL.Aria.Common.BusinessMessage.IBusinessMessageProvider.Publish(UL.Aria.Service.Contracts.Dto.AuditMessageIdEnumDto,System.String)">
+            <summary>
+                Publishes the specified message id.
+            </summary>
+            <param name="auditMessageId">The audit message id. This is a predefined id. Remember to update the message spreadsheet.</param>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:UL.Aria.Common.BusinessMessage.BusinessMessageProvider.#ctor(UL.Enterprise.Foundation.Logging.ILogManager,UL.Enterprise.Foundation.Authorization.IPrincipalResolver)">
+            <summary>
+                Initializes a new instance of the <see cref="T:UL.Aria.Common.BusinessMessage.BusinessMessageProvider"/> class.
+            </summary>
+            <param name="logManager">The log manager.</param>
+            <param name="principalResolver"></param>
+        </member>
+        <member name="M:UL.Aria.Common.BusinessMessage.BusinessMessageProvider.Publish(UL.Aria.Service.Contracts.Dto.AuditMessageIdEnumDto,System.String)">
+            <summary>
+            Publishes the specified message id.
+            </summary>
+            <param name="auditMessageId">The audit message id.</param>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:UL.Aria.Common.BusinessMessage.BusinessMessageProvider.Publish(UL.Aria.Service.Contracts.Dto.AuditMessageIdEnumDto,System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Publishes the business message.
+            </summary>
+            <param name="auditMessageId">The audit message id.</param>
+            <param name="message">The message.</param>
+            <param name="extendedProperties">The extended properties.</param>
+            <exception cref="T:Microsoft.Practices.EnterpriseLibrary.Logging.LoggingException">Logging of Business Messages is
+            disabled</exception>
+        </member>
+        <member name="T:UL.Aria.Common.BusinessMessage.ExtendedPropertyKeys">
+            <summary>
+            List of constants used for standard extended property keys.
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.BusinessMessage.ExtendedPropertyKeys.UserKey">
+            <summary>
+            The user key
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.BusinessMessage.ExtendedPropertyKeys.MessageTime">
+            <summary>
+            The message time
+            </summary>
+        </member>
+        <member name="T:UL.Aria.Common.BusinessMessage.BusinessMessageIds">
+            <summary>
+            Business message identifiers.
+            </summary>
+        </member>
+        <member name="T:UL.Aria.Common.BusinessMessage.BusinessMessageIds.Projects">
+            <summary>
+            Message ids for projects.
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Common.BusinessMessage.BusinessMessageIds.Projects.ProjectStatusMessage">
+            <summary>
+            The project status message
+            </summary>
+        </member>
+        <member name="T:UL.Aria.Common.Framework.Guard">
+            <summary>
+            Helper class for validating method parameters
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Common.Framework.Guard.Clone``1(``0)">
+            <summary>
+            Deeps the clone.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="a">A.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Common.Framework.Guard.FilterIsNotNull(UL.Aria.Service.Contracts.Dto.SearchCriteriaDto,System.String)">
+            <summary>
+            Ensures that the specified filter containers at least one string, and that the string is not null.
+            </summary>
+            <param name="searchCriteria">The search criteria.</param>
+            <param name="filterKey">The filter key.</param>
+            <returns>The first string in the filter specified by filterKey</returns>
+        </member>
+    </members>
+</doc>

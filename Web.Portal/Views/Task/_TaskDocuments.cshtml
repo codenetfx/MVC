@@ -1,0 +1,108 @@
+﻿@using UL.Enterprise.Foundation
+@using UL.Aria.Web.Common.Models.Project
+@using UL.Aria.Web.Common.Models.Search
+@model UL.Aria.Web.Common.Models.Project.TaskDetail
+
+<div>
+    @Html.HiddenFor(x => x.TaskId)
+    @Html.HiddenFor(x => x.TaskNumber)
+    @Html.HiddenFor(x => x.ContainerId)
+    @Html.HiddenFor(x => x.ProjectId)
+    @{
+        var request = new TaskDocumentRequest() { ProjectId = Model.ProjectId, TaskId = Model.TaskId.GetValueOrDefault() };
+        var documentDownloadUrlTemplate = string.Format("{0}/[=this.Id]", Url.DownloadDocumentBare());
+    }
+
+    <!-- <div class="form-horizontal control-group"> -->
+    <div id="taskDocuments" data-url="@Url.PageGetTaskDocuments()"
+         data-associated-container-class="associated-docs-container" data-project-container-class="project-docs-container">
+        <datalist class="request" data-raw="@request.ToJson()"></datalist>
+        <a class="refresh" href="javascript:void()">Refresh</a>
+        <div><label class="strong">Associated Documents(<span class="task-doc-count">0</span>)</label></div>
+        <div id="associatedDocuments" class="task-document-overflow">
+            <table id="associatedDocumentsTable" class="table table-hover addRemoveTable">
+                <thead>
+                    <tr>
+                        <th class="nowrap">
+                            Name
+                        </th>
+                        <th class="nowrap">
+                            Date Added
+                        </th>
+                        <th class="nowrap">
+                            <input type="checkbox" class="select-all" />
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="associated-docs-container">
+                    <tr class="item item-template" data-id="[=this.Id]">
+                        <td><a href="@documentDownloadUrlTemplate">[=this.Title]</a></td>
+                        <td>[=new String(convertDateFromISO(this.ChangeDate))]</td>
+                        <td><input type="checkbox" class="select-item" /></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="no-docs-msg" style="display:none">
+                There are currently no documents associated with this task.
+            </div>
+        </div>
+        <hr />
+        <div class="addRemove">
+            <ul class="add-remove-actions">
+                <li id="button-vertical-remove" class="button-vertical-remove">
+                    <a id="removeTaskDocuments" class="remove-docs">REMOVE</a>
+                </li>
+                <li class="button-vertical-add">
+                    <a id="addTaskDocuments" class="add-docs">ADD</a>
+                </li>
+            </ul>
+        </div>
+       
+        <div>
+            <label class="strong">Documents(<span class="proj-doc-count">0</span>)</label>
+        </div>
+        <div id="projectDocuments" class="task-document-overflow">
+            <table id="projectDocumentsTable" class="table table-hover addRemoveTable projectDocuments">
+                <thead>
+                    <tr>
+                        <th class="nowrap">
+                            Name
+                        </th>
+                        <th class="nowrap">
+                            Date Added
+                        </th>
+                        <th class="nowrap">
+                            <input type="checkbox" class="select-all" />
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="project-docs-container">
+                    <tr class="item item-template" data-id="[=this.Id]">
+                        <td><a href="@documentDownloadUrlTemplate">[=this.Title]</a></td>
+                        <td>[=new String(convertDateFromISO(this.ChangeDate))]</td>
+                        <td><input type="checkbox" id="cb_[=this.Id]" class="select-item" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function (evt) {
+
+        $("#modal-task-documents").click(function (e) {
+            var docManager = $("#taskDocuments").documentManager();
+        });
+    });
+
+    function convertDateFromISO(date) {
+        date = date.split(/\D/);
+
+        var d = new Date(Date.UTC(date[0], --date[1] || '', date[2] || '', date[3] || '', date[4] || '',
+            date[5] || '', date[6] || '')).toString('MM/dd/yyyy hh:mm:ss tt');
+        return d;
+    }
+
+</script>
+<!-- </div> -->

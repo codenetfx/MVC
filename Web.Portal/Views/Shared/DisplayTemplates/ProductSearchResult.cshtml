@@ -1,0 +1,66 @@
+﻿@using UL.Aria.Web.Common.Models.Shared
+@using UL.Aria.Web.Common.Mvc
+@model UL.Aria.Web.Common.Models.Search.ProductSearchResult
+@{
+	var activeProjectId = ViewBag.ActiveProjectId as Guid?;
+}
+
+<div class="search-result product-result clearfix">
+	<div class="result-icon">
+		<a href="@Url.ProductDetails(Model.Id)">
+			<img src="@Url.TransparentImage()" alt="@Model.Sku" /></a>
+	</div>
+	<div class="result-actions">
+		@*<input type="checkbox" class="pull-right" style="margin: 2px 0 0 10px;" value="@Model.Id" data-group-name="@Model.EntityType.ToString()" onclick="return UL.Result_OnChange(this);" @(Model.IsSelected ? "checked='checked'" : null) />*@
+		<div class="dropdown pull-right">
+			<a title="Open Menu" class="dropdown-toggle caret" data-toggle="dropdown" href="#"><i></i></a>
+			<ul class="dropdown-menu" role="menu">
+				<li>
+					<a href="@Url.ProductDetails(Model.Id)">View</a>
+				</li>
+				<li>
+					<a href="@Url.ProductDownload(Model.Id)">Download</a>
+				</li>
+				@if (activeProjectId.HasValue)
+				{
+					<li>
+						<a href="#" data-toggle="modal"  data-target="#RemoveConfirmModal" data-item-href="@Url.PageRemoveProjectProduct(Model.Id, activeProjectId.Value)"  name="removeProduct">Remove Project Association</a>
+					</li>
+				}
+				@if (!Model.IsReadOnly)
+				{
+					<li>
+						<a href="#" data-toggle="modal" data-target="#DeleteModal" data-item-href="@Url.ProductDelete(Model.Id)" data-modal-title="Delete Product" data-item-name="Are you sure you want to delete '<span>@Html.DisplayFor(model => Model.Name)</span>'?" >Delete</a>
+					</li>
+					<li>
+						<a  class="upload" data-toggle="modal" href="@Url.UploadMultipleDocuments(Model.Id, EntityType.Product, Model.ContainerId)" data-width="@TaxonomyMenuItem.UploadModalWidth">Upload Documents</a>
+					</li>
+				}
+			</ul>
+		</div>
+	</div>
+	<div class="result-detail">
+		<div class="result-item-header">
+			<div class="display-status">
+				@Model.Status
+			</div>
+		</div>
+		<div class="result-item-title">
+			<a href="@Url.ProductDetails(Model.Id)">@Html.DisplayFor(model => model.ModelNumber) - @Html.DisplayFor(model => model.Name)</a>
+		</div>
+		<div class="display-row">
+			<div class="display-label">@Html.DisplayNameFor(model => model.Description):</div>
+			<div class="display-field">@Html.DisplayFor(model => model.Description)</div>
+		</div>
+
+		<div class="display-row">
+			<div class="display-label">@Html.DisplayNameFor(model => model.Sku):</div>
+			<div class="display-field">@Html.DisplayFor(model => model.Sku)</div>
+		</div>
+
+		<div class="display-row">
+			<div class="display-label">@Html.DisplayNameFor(model => model.ChangeDate):</div>
+			<div class="display-field">@Html.DisplayFor(model => model.ChangeDate)</div>
+		</div>
+	</div>
+</div>

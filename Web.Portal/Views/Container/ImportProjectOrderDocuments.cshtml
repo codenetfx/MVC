@@ -1,0 +1,95 @@
+﻿@model UL.Aria.Web.Common.Models.Container.ImportProjectOrderDocumentsModel
+@{
+    var grid = new WebGrid(Model.ProjectOrderDocuments, canPage: false);
+    var id = "id-" + Guid.NewGuid();
+}
+
+@using (Html.BeginForm("ImportProjectOrderDocuments", "Container", FormMethod.Post, new Dictionary<string, object>() { { "id", id }, { "class", "container-import-form" } }))
+{
+    @Html.HiddenFor(x => x.ProjectId)
+    @Html.HiddenFor(x => x.ProjectContainerId)
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Import Documents</h3>
+    </div>
+    <div class="modal-body">
+        <fieldset class="file-pane form-horizontal">
+            @if (Model.ProjectOrderDocuments.Any())
+            {
+                <div id="modal-import-documents" class="control-group">
+                    <label class="strong">Select documents to import from Order # @Html.ValueFor(model => model.OrderNumber)</label>
+                    <div class="task-document-overflow">
+                        @grid.GetHtml(
+                            tableStyle: "table table-hover addRemoveTable",
+                            rowStyle: "item",
+                            columns: new[]
+                            {
+                                grid.Column("Documents",
+                                    canSort: false,
+                                    style: "nowrap",
+                                    format: @<div>
+                                        <div class="result-icon">
+                                            <div class="icon-container @item.IconCSSClass">
+                                                <a href="#">
+                                                    <img class="document-spacer" src="@Url.Content("~/Images/clear.gif")" alt="@item.Title" />
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div>@item.Name<br />@item.DocumentTypeText</div>
+                                    </div>
+                                    )
+                                ,
+                                grid.Column(
+                                    style: "nowrap",
+                                    format: @<text><input name="documentIds" type="checkbox" value="@item.Id" /></text>
+                                    )
+                            }
+                         )
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="control-group">
+                    <label class="strong">There are no documents to import from order.</label>
+                </div>
+            }
+            
+            @Html.ValidationSummary()
+        </fieldset>
+    </div>
+    <div class="modal-footer browse-pane">
+        <button class="btn pull-left" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        @if (Model.ProjectOrderDocuments.Any())
+        {
+            <input type="submit" class="btn btn-primary" value="Import Documents" />
+        }
+       
+    </div>
+}
+
+<script type="text/javascript">
+
+    //hook ajax form submit
+    $("#@id").ajaxForm({
+        target: $("#@id").parent(),
+        beforeSubmit: validator,
+        success: function () {
+            $(this).closest(".modal").modal("hide");
+            UL.Refresh();
+        },
+        cache: false
+    });
+
+
+    function validator() {
+        var cbItems = $('input[name="documentIds"]:checked');
+        if (cbItems.length === 0) {
+            UL.AddErrorMessage("Please select a document.", $('#@id'));
+            return false;
+        }
+        return $.proxy(UL.ValidateModal, $("#@id"));
+    }
+
+</script>

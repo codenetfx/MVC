@@ -1,0 +1,3368 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UL.Aria.Web.Portal</name>
+    </assembly>
+    <members>
+        <member name="T:UL.Aria.Web.Portal.Areas.Api.ApiAreaRegistration">
+            <summary>
+            API Area Registration
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.ApiAreaRegistration.RegisterArea(System.Web.Mvc.AreaRegistrationContext)">
+            <summary>
+            Registers an area in an ASP.NET MVC application using the specified area's context information.
+            </summary>
+            <param name="context">Encapsulates the information that is required in order to register the area.</param>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Areas.Api.ApiAreaRegistration.AreaName">
+            <summary>
+            Gets the name of the area to register.
+            </summary>
+            <returns>The name of the area to register.</returns>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductController">
+            <summary>
+            ProductController
+            </summary>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.BaseController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Web.Portal.Controllers.BaseController.PageMessagesKey">
+            <summary>
+            The temp data service call key
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Web.Portal.Controllers.BaseController.TempDataServiceCallExceptionKey">
+            <summary>
+            The temp data service call exception key
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Web.Portal.Controllers.BaseController.NoAssetSearchResultsFormatString">
+            <summary>
+            The format string used to generate "no results" mesages when searchign for an entity type filtered to an asset, i.e. searching for a product's documents.
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Web.Portal.Controllers.BaseController._userContext">
+            <summary>
+            The user context instance
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Web.Portal.Controllers.BaseController._logHelper">
+            <summary>
+            The log helper
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Web.Portal.Controllers.BaseController._portalConfiguration">
+            <summary>
+            The portal configuration
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.BaseController.#ctor(UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.BaseController"/> class.
+            </summary>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.BaseController.AssureTempDataRedisProvider">
+            <summary>
+            Assures the temporary data provider.
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.BaseController.Json(System.Object,System.String,System.Text.Encoding)">
+            <summary>
+            Creates a <see cref="T:System.Web.Mvc.JsonResult" /> object that serializes the specified object to JavaScript Object Notation (JSON) format.
+            </summary>
+            <param name="data">The JavaScript object graph to serialize.</param>
+            <param name="contentType">The content type (MIME type).</param>
+            <param name="contentEncoding">The content encoding.</param>
+            <returns>
+            The JSON result object that serializes the specified object to JSON format.
+            </returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.BaseController.Json(System.Object,System.String,System.Text.Encoding,System.Web.Mvc.JsonRequestBehavior)">
+            <summary>
+            Creates a <see cref="T:System.Web.Mvc.JsonResult" /> object that serializes the specified object to JavaScript Object Notation (JSON) format.
+            </summary>
+            <param name="data">The JavaScript object graph to serialize.</param>
+            <param name="contentType">The content type (MIME type).</param>
+            <param name="contentEncoding">The content encoding.</param>
+            <param name="jsonRequestBehavior">The json request behavior.</param>
+            <returns>
+            The JSON result object that serializes the specified object to JSON format.
+            </returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.BaseController.Json(System.Object,Newtonsoft.Json.JsonSerializerSettings,System.Web.Mvc.JsonRequestBehavior)">
+            <summary>
+            returns a jsonNet Serialization result allowing ro the json settings to be overridden.
+            </summary>
+            <param name="data">The data.</param>
+            <param name="jsonSettings">The json settings.</param>
+            <param name="jsonRequestBehavior">The json request behavior.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.BaseController.OnResultExecuting(System.Web.Mvc.ResultExecutingContext)">
+            <summary>
+            Called before the action result that is returned by an action method is executed.
+            </summary>
+            <param name="filterContext">Information about the current request and action result</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.BaseController.SetCommonViewBagProperties(System.Object)">
+            <summary>
+            Sets the common view bag properties used by every page
+            </summary>
+            <param name="viewBag">The view bag.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.BaseController.SetNoSearchResultsMessage(UL.Aria.Web.Common.Models.Shared.EntityType)">
+            <summary>
+            Sets the "no results" message for search pages based on the provided entity type.
+            </summary>
+            <param name="entityType">Type of the entity.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.BaseController.AddPageMessage(System.String,System.Boolean,System.Diagnostics.TraceEventType,System.String)">
+            <summary>
+            Adds the page message.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="sticky">if set to <c>true</c> [sticky].</param>
+            <param name="severity">The severity.</param>
+            <param name="title">The title.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.BaseController.CreatePageMessage(System.String,System.Boolean,System.Diagnostics.TraceEventType,System.String)">
+            <summary>
+            Creates the grown page message that can be then serialized to a javascript alert for client side messages
+            </summary>
+            <param name="message">The message.</param>
+            <param name="sticky">if set to <c>true</c> [sticky].</param>
+            <param name="severity">The severity.</param>
+            <param name="title">The title.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.BaseController.AddPageMessage(UL.Aria.Web.Common.Models.Shared.GrowlMessage)">
+            <summary>
+            Adds the page message.
+            </summary>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.BaseController.TryServiceCall(System.Object,System.Action,System.String,System.String)">
+            <summary>
+            Calls the service and redirects to Action on success.  Logs success and failure messages appropriately.
+            Renders current view with model on failure.
+            </summary>
+            <param name="model">The model.</param>
+            <param name="serviceCall">The service call.</param>
+            <param name="successMessage">The success message.</param>
+            <param name="failureMessage">The failure message format strign where 0 = base exception message.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.BaseController.RenderPartialViewToString(System.String,System.Object)">
+            <summary>
+            Renders the partial view to string.
+            </summary>
+            <param name="viewName">Name of the view.</param>
+            <param name="model">The model.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.BaseController.RenderViewToString(System.String,System.String,System.Object)">
+            <summary>
+            Renders the partial view to string.
+            </summary>
+            <param name="viewName">Name of the view.</param>
+            <param name="layoutPage">The layout page.</param>
+            <param name="model">The model.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.BaseController.SetPageMetadata(System.String,System.Collections.Generic.IEnumerable{UL.Aria.Web.Common.Models.Shared.Breadcrumb},System.String,System.String,Microsoft.Practices.Unity.Utility.Pair{System.String,System.String}[])">
+            <summary>
+            Sets various ViewBag properties relating to page titles, window titles, bread crumbs and SEO related tags.
+            </summary>
+            <param name="pageTitle">The page title.</param>
+            <param name="crumbs">The breadcrumbs.  Note you do not need to include the crumb for Home.</param>
+            <param name="seoDescription">The seo description.</param>
+            <param name="seoKeywords">The seo keyowrds.</param>
+            <param name="trackingTitles">A list of secure window title replacements that should be used for web analytics tracking.  The First is the text to replace with the Second.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.BaseController.GetEntityTypeCount(System.Collections.Generic.IEnumerable{UL.Aria.Web.Common.Models.Search.RefinementItem},UL.Aria.Web.Common.Models.Shared.EntityType)">
+            <summary>
+            Gets the entity type count.
+            </summary>
+            <param name="contentTypeCounts">The content type counts.</param>
+            <param name="type">The type.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.BaseController.OnException(System.Web.Mvc.ExceptionContext)">
+            <summary>
+            Called when an unhandled exception occurs in the action.
+            </summary>
+            <param name="filterContext">Information about the current request and action.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.BaseController.BuildLargeJsonResult(System.Object)">
+            <summary>
+            Builds the large json result.
+            </summary>
+            <param name="data">The data.</param>
+            <returns>JsonResult.</returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.BaseController.ShouldRedirect(System.Boolean,UL.Aria.Web.Common.Providers.IProfileProvider,System.String,System.Web.Mvc.ActionResult@)">
+            <summary>
+            Shoulds the redirect.
+            </summary>
+            <param name="useDefaultSearch">if set to <c>true</c> [use default search].</param>
+            <param name="profileProvider">The profile provider.</param>
+            <param name="pageOrderQueue">The page order queue.</param>
+            <param name="redirect">The redirect.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.BaseController.GetDefaultCriteriaIfApplicable(System.Boolean,UL.Aria.Web.Common.Providers.IProfileProvider)">
+            <summary>
+            Shoulds the redirect.
+            </summary>
+            <param name="useDefaultSearch">if set to <c>true</c> [use default search].</param>
+            <param name="profileProvider">The profile provider.</param>
+            <returns></returns>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Controllers.BaseController.PortalVersion">
+            <summary>
+            Gets the portal version.
+            </summary>
+            <value>
+            The portal version.
+            </value>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Controllers.BaseController.LoggingCategory">
+            <summary>
+            Gets the logging category to use for all logging.
+            </summary>
+            <value>
+            The logging category.
+            </value>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductController.#ctor(UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Providers.IProductProvider,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductController"/> class.
+            </summary>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="productProvider">The product provider.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductController.Fetch(System.Guid)">
+            <summary>
+                Fetches the specified unique identifier.
+            </summary>
+            <param name="id">The unique identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductController.Fetch(System.String)">
+            <summary>
+                Fetches the specified unique identifier.
+            </summary>
+            <param name="id">The unique identifier.</param>
+            <returns></returns>
+            <exception cref="T:System.Web.HttpException">400;Invalid entity id.</exception>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductController.LoggingCategory">
+            <summary>
+            Gets the logging category to use for all logging.
+            </summary>
+            <value>
+            The logging category.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyController">
+            <summary>
+                Class ProductFamilyController
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyController.#ctor(UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Providers.IProductFamilyProvider,UL.Enterprise.Foundation.Mapper.IMapperRegistry,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.BaseController"/> class.
+            </summary>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="productFamilyProvider">The product family provider.</param>
+            <param name="mapper">The mapper.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyController.Fetch(System.String)">
+            <summary>
+                Fetches the specified id.
+            </summary>
+            <param name="id">The id.</param>
+            <returns>JsonResult.</returns>
+            <exception cref="T:System.Web.HttpException">
+                400;Invalid entity id.
+                or
+                400;Invalid entity id.
+            </exception>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyController.Fetch(System.Guid)">
+            <summary>
+                Fetches the specified id.
+            </summary>
+            <param name="id">The id.</param>
+            <returns>JsonResult.</returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyController.Create(UL.Aria.Web.Common.Models.Product.ProductFamilyEx)">
+            <summary>
+            Creates the specified product family.
+            </summary>
+            <param name="productFamily">The product family.</param>
+            <returns>EmptyResult.</returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyController.Update(UL.Aria.Web.Common.Models.Product.ProductFamilyEx)">
+            <summary>
+            Updates the specified product family.
+            </summary>
+            <param name="productFamily">The product family.</param>
+            <returns>EmptyResult.</returns>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyController.LoggingCategory">
+            <summary>
+                Gets the logging category to use for all logging.
+            </summary>
+            <value>The logging category.</value>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyAttributeController">
+            <summary>
+                Controller for <see cref="T:UL.Aria.Web.Common.Models.Product.ProductFamilyAttribute"/> operations
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyAttributeController.#ctor(UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Providers.IProductFamilyAttributeProvider,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.BaseController"/> class.
+            </summary>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="productFamilyAttributeProvider">The product family attribute prof provider.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyAttributeController.Fetch(System.String,System.String)">
+            <summary>
+                Fetches all.
+            </summary>
+            <param name="id">The unique identifier.</param>
+            <param name="scopeIds">The scope ids.</param>
+            <returns>
+                JsonResult.
+            </returns>
+            <exception cref="T:System.Web.HttpException">400;Invalid entity id.</exception>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyAttributeController.Fetch(System.Guid)">
+            <summary>
+                Fetches the specified category vy id.
+            </summary>
+            <param name="id">The id.</param>
+            <returns>JsonResult.</returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyAttributeController.Fetch(System.Collections.Generic.IEnumerable{System.Guid})">
+            <summary>
+                Fetches the scope.
+            </summary>
+            <param name="scopeIds">The scope ids.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyAttributeController.Create(UL.Aria.Web.Common.Models.Product.ProductFamilyAttribute)">
+            <summary>
+                Creates the specified category.
+            </summary>
+            <param name="productFamilyAttribute">The category.</param>
+            <returns>
+                JsonResult.
+            </returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyAttributeController.Update(System.Guid,UL.Aria.Web.Common.Models.Product.ProductFamilyAttribute)">
+            <summary>
+                Updates the specified category by  id.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="productFamilyAttribute">The product family attribute.</param>
+            <returns>
+                JsonResult.
+            </returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyAttributeController.Delete(System.Guid)">
+            <summary>
+                Deletes the specified category by id.
+            </summary>
+            <param name="id">The id.</param>
+            <returns>
+                EmptyResult.
+            </returns>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyAttributeController.LoggingCategory">
+            <summary>
+                Gets the logging category to use for all logging.
+            </summary>
+            <value>The logging category.</value>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyFeatureController">
+            <summary>
+            Controller for <see cref="T:UL.Aria.Web.Common.Models.Product.ProductFamilyFeature"/> operations
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyFeatureController.#ctor(UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Providers.IProductFamilyFeatureProvider,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.BaseController"/> class.
+            </summary>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="productFamilyFeatureProvider">The product family Feature prof provider.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyFeatureController.Fetch(System.String,System.String)">
+            <summary>
+            Fetches all.
+            </summary>
+            <param name="id">The unique identifier.</param>
+            <param name="scopeIds">The scope ids.</param>
+            <returns>
+            JsonResult.
+            </returns>
+            <exception cref="T:System.Web.HttpException">400;Invalid entity id.</exception>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyFeatureController.Fetch(System.Guid)">
+            <summary>
+                Fetches the specified category vy id.
+            </summary>
+            <param name="id">The id.</param>
+            <returns>JsonResult.</returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyFeatureController.Fetch(System.Collections.Generic.IEnumerable{System.Guid})">
+            <summary>
+            Fetches the scope.
+            </summary>
+            <param name="scopeIds">The scope ids.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyFeatureController.Create(UL.Aria.Web.Common.Models.Product.ProductFamilyFeature)">
+            <summary>
+            Creates the specified category.
+            </summary>
+            <param name="productFamilyFeature">The category.</param>
+            <returns>
+            JsonResult.
+            </returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyFeatureController.Update(System.Guid,UL.Aria.Web.Common.Models.Product.ProductFamilyFeature)">
+            <summary>
+            Updates the specified category by  id.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="productFamilyFeature">The product family Feature.</param>
+            <returns>
+            JsonResult.
+            </returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyFeatureController.Delete(System.Guid)">
+            <summary>
+            Deletes the specified category by id.
+            </summary>
+            <param name="id">The id.</param>
+            <returns>
+            EmptyResult.
+            </returns>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyFeatureController.LoggingCategory">
+            <summary>
+                Gets the logging category to use for all logging.
+            </summary>
+            <value>The logging category.</value>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyFeatureValueController">
+            <summary>
+                Class ProductFamilyFeatureValueController
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyFeatureValueController.#ctor(UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Providers.IProductFamilyFeatureValueProvider,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyFeatureValueController"/> class.
+            </summary>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="productFamilyFeatureValueProvider">The product family feature value provider.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyFeatureValueController.Fetch(System.Nullable{System.Guid},System.Nullable{System.Guid})">
+            <summary>
+                Fetches all.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="productFeatureId">The product feature id.</param>
+            <returns>JsonResult.</returns>
+            <exception cref="T:System.Web.HttpException">
+                400;Invalid entity id.
+                or
+                400;Invalid family id.
+            </exception>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyFeatureValueController.Fetch(System.Guid)">
+            <summary>
+                Fetches the specified id.
+            </summary>
+            <param name="id">The id.</param>
+            <returns>JsonResult.</returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyFeatureValueController.Create(UL.Aria.Web.Common.Models.Product.ProductFamilyFeatureValue)">
+            <summary>
+                Creates the specified product family feature value.
+            </summary>
+            <param name="productFamilyFeatureValue">The product family feature value.</param>
+            <returns>JsonResult.</returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyFeatureValueController.Update(System.Guid,UL.Aria.Web.Common.Models.Product.ProductFamilyFeatureValue)">
+            <summary>
+                Updates the specified id.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="productFamilyFeatureValue">The product family feature value.</param>
+            <returns>EmptyResult.</returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyFeatureValueController.Delete(System.Guid)">
+            <summary>
+                Deletes the specified id.
+            </summary>
+            <param name="id">The id.</param>
+            <returns>EmptyResult.</returns>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Areas.Api.Controllers.ProductFamilyFeatureValueController.LoggingCategory">
+            <summary>
+                Gets the logging category to use for all logging.
+            </summary>
+            <value>The logging category.</value>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.AdminController">
+            <summary>
+            Administration pages for the UL administrator.
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.AdminController.#ctor(UL.Aria.Web.Common.Providers.ICompanyProvider,UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.AdminController"/> class.
+            </summary>
+            <param name="companyProvider">The company provider.</param>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.AdminController.Index">
+            <summary>
+            Default page.
+            </summary>
+            <returns>ActionResult.</returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.AdminController.Companies(UL.Aria.Web.Common.Models.Search.SearchCriteria)">
+            <summary>
+            Searches the companies.
+            </summary>
+            <param name="searchCriteria">The search criteria.</param>
+            <returns></returns>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Controllers.AdminController.LoggingCategory">
+            <summary>
+            Gets the logging category to use for all logging.
+            </summary>
+            <value>
+            The logging category.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Areas.Api.Controllers.CategoryController">
+            <summary>
+                Class CategoryController
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.CategoryController.#ctor(UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Providers.ICategoryProvider,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.BaseController"/> class.
+            </summary>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="categoryProvider">The category provider.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.CategoryController.Fetch(System.String)">
+            <summary>
+            Fetches all.
+            </summary>
+            <param name="id"></param>
+            <returns>
+            JsonResult.
+            </returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.CategoryController.Fetch(System.Guid)">
+            <summary>
+                Fetches the specified category vy id.
+            </summary>
+            <param name="id">The id.</param>
+            <returns>JsonResult.</returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.CategoryController.Create(UL.Aria.Web.Common.Models.Product.Category)">
+            <summary>
+                Creates the specified category.
+            </summary>
+            <param name="category">The category.</param>
+            <returns>JsonResult.</returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.CategoryController.Update(System.Guid,UL.Aria.Web.Common.Models.Product.Category)">
+            <summary>
+                Updates the specified category by  id.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="category">The category.</param>
+            <returns>JsonResult.</returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.CategoryController.Delete(System.Guid)">
+            <summary>
+            Deletes the specified category by id.
+            </summary>
+            <param name="id">The id.</param>
+            <returns>
+            EmptyResult.
+            </returns>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Areas.Api.Controllers.CategoryController.LoggingCategory">
+            <summary>
+                Gets the logging category to use for all logging.
+            </summary>
+            <value>The logging category.</value>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.DashboardController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.DashboardController.#ctor(UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Providers.ICompanyProvider,UL.Aria.Web.Common.Providers.IProfileProvider,UL.Aria.Web.Common.Providers.ISearchProvider,UL.Aria.Web.Common.Providers.ISessionProvider,UL.Aria.Web.Common.Enrichment.IAdditionalRefinersFactory,UL.Aria.Web.Common.Providers.IDashboardProvider,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.DashboardController"/> class.
+            </summary>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="companyProvider">The company provider.</param>
+            <param name="profileProvider">The profile provider.</param>
+            <param name="searchProvider">The search provider.</param>
+            <param name="sessionProvider">The session provider.</param>
+            <param name="additionalRefinersFactory">The additional refiners factory.</param>
+            <param name="dashboardProvider">The dashboard provider.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.DashboardController.Index(UL.Aria.Web.Common.Models.Search.SearchCriteria,System.Boolean)">
+            <summary>
+            Indexes this instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.DashboardController.GetProjectList(UL.Aria.Web.Common.Models.Search.JsonSearchCriteria,UL.Aria.Web.Common.Mvc.JqGrid.JqGridPostData)">
+            <summary>
+            Gets the project list.
+            </summary>
+            <param name="criteria">The criteria.</param>
+            <param name="postData">The post data.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.DashboardController.GetTaskList(UL.Aria.Web.Common.Models.Search.JsonSearchCriteria,UL.Aria.Web.Common.Mvc.JqGrid.JqGridPostData)">
+            <summary>
+            Gets the task list.
+            </summary>
+            <param name="criteria">The criteria.</param>
+            <param name="postData">The post data.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.DashboardController.Refiners(UL.Aria.Web.Common.Models.Search.JsonSearchCriteria)">
+            <summary>
+            Refiners the specified criteria.
+            </summary>
+            <param name="criteria">The criteria.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.DashboardController.EnrichResultsWithCompanyName(UL.Aria.Web.Common.Models.Search.SearchResultSet{UL.Aria.Web.Common.Models.Search.TaskSearchResult})">
+            <summary>
+            Enriches the name of the results with company.
+            This process uses a dictionary so that repeated ids are not fetched more than onces from the data source.
+            </summary>
+            <param name="model">The model.</param>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Controllers.DashboardController.LoggingCategory">
+            <summary>
+            Gets the logging category to use for all logging.
+            </summary>
+            <value>
+            The logging category.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.DocumentTemplateController">
+            <summary>
+            Provides a Controller for Document Templates
+            </summary>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.TemplateAdminBaseController">
+            <summary>
+            Template Admin Controller
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TemplateAdminBaseController.#ctor(UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.TemplateAdminController"/> class.
+            </summary>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TemplateAdminBaseController.OnResultExecuting(System.Web.Mvc.ResultExecutingContext)">
+            <summary>
+            Called before the action result that is returned by an action method is executed.
+            </summary>
+            <param name="filterContext">Information about the current request and action result</param>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Controllers.TemplateAdminBaseController.LoggingCategory">
+            <summary>
+            Gets the logging category to use for all logging.
+            </summary>
+            <value>
+            The logging category.
+            </value>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.DocumentTemplateController.#ctor(UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Providers.IDocumentTemplateProvider,UL.Aria.Web.Common.Providers.IBusinessUnitProvider,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.DocumentTemplateController"/> class.
+            </summary>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="documentTemplateProvider">The document template provider.</param>
+            <param name="businessUnitProvider">The business unit provider.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.DocumentTemplateController.Index(UL.Aria.Web.Common.Models.Search.SearchCriteria)">
+            <summary>
+            Indexes this instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.DocumentTemplateController.Create">
+            <summary>
+            Creates this instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.DocumentTemplateController.Create(UL.Aria.Web.Common.Models.DocumentTemplate.DocumentTemplate)">
+            <summary>
+            Creates the specified document template.
+            </summary>
+            <param name="documentTemplate">The document template.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.DocumentTemplateController.Edit(System.Guid)">
+            <summary>
+            Edits the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.DocumentTemplateController.Edit(UL.Aria.Web.Common.Models.DocumentTemplate.DocumentTemplateEdit)">
+            <summary>
+            Edits the specified document template.
+            </summary>
+            <param name="documentTemplate">The document template.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.DocumentTemplateController.Delete(System.Guid)">
+            <summary>
+            Deletes the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.DocumentTemplateController.Download(System.Guid)">
+            <summary>
+                Downloads the specified id.
+            </summary>
+            <param name="id">The id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.DocumentTemplateController.ValidateDocumentTemplate(UL.Aria.Web.Common.Models.DocumentTemplate.DocumentTemplate)">
+            <summary>
+            Validates the document template.
+            </summary>
+            <param name="documentTemplate">The document template.</param>
+            <returns></returns>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.LinkController">
+            <summary>
+                Provides a Controller for Links
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.LinkController.#ctor(UL.Aria.Web.Common.Providers.ILinkProvider,UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.LinkController"/> class.
+            </summary>
+            <param name="linkProvider">The link provider.</param>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.LinkController.Index(UL.Aria.Web.Common.Models.Search.SearchCriteria)">
+            <summary>
+                Indexes the specified search criteria.
+            </summary>
+            <param name="searchCriteria">The search criteria.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.LinkController.Create">
+            <summary>
+                Creates this instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.LinkController.Create(UL.Aria.Web.Common.Models.TaskType.Link)">
+            <summary>
+                Creates the specified Link.
+            </summary>
+            <param name="link">The Link.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.LinkController.Edit(System.Guid)">
+            <summary>
+                Edits the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.LinkController.Edit(UL.Aria.Web.Common.Models.TaskType.Link)">
+            <summary>
+                Edits the specified Link.
+            </summary>
+            <param name="link">The Link.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.LinkController.Deactivate(System.Guid)">
+            <summary>
+            Deactivates the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.CompanyController">
+            <summary>
+            Administrative pages for the extranet administrators (i.e. special client users)
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.CompanyController.#ctor(UL.Aria.Web.Common.Providers.ICompanyProvider,UL.Aria.Web.Common.Providers.IProfileProvider,UL.Aria.Web.Common.Providers.IContactProvider,UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Providers.ISearchProvider,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.CompanyController"/> class.
+            </summary>
+            <param name="companyProvider">The provider.</param>
+            <param name="profileProvider">The profile provider.</param>
+            <param name="contactProvider">The contact provider.</param>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="searchProvider">The search provider.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.CompanyController.Index">
+            <summary>
+            Views a user's company
+            </summary>
+            <returns>
+            ActionResult.
+            </returns>
+            <exception cref="T:System.Web.HttpException">Not authorized to access this company</exception>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.CompanyController.Details(System.Guid)">
+            <summary>
+            Views the details for a company.
+            </summary>
+            <param name="id">The id.</param>
+            <returns></returns>
+            <exception cref="T:System.Web.HttpException">Not authorized to access this company</exception>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.CompanyController.Edit(System.Guid)">
+            <summary>
+            Edit the details for a company.
+            </summary>
+            <param name="id">The id.</param>
+            <returns></returns>
+            <exception cref="T:System.Web.HttpException">Not authorized to access this company</exception>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.CompanyController.Edit(UL.Aria.Web.Common.Models.Shared.CompanyInfo)">
+            <summary>
+            Edit the details for a company.
+            </summary>
+            <param name="companyInfo">The companyInfo.</param>
+            <returns></returns>
+            <exception cref="T:System.Web.HttpException">Not authorized to access this company</exception>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.CompanyController.Containers(System.Nullable{System.Guid},UL.Aria.Web.Common.Models.Search.SearchCriteria)">
+            <summary>
+            Containerses the specified id.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="searchCriteria">The search criteria.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.CompanyController.Members(System.Nullable{System.Guid},UL.Aria.Web.Common.Models.Search.SearchCriteria)">
+            <summary>
+            Gets the users.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="searchCriteria">The search criteria.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.CompanyController.Search(UL.Aria.Web.Common.Models.Search.SearchCriteria)">
+            <summary>
+            Searches companies with the specified criteria.
+            </summary>
+            <param name="criteria">The criteria.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.CompanyController.RemoveUser(System.Guid,System.Guid)">
+            <summary>
+            Removes the user.
+            </summary>
+            <param name="userId">The user id.</param>
+            <param name="companyId">The company id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.CompanyController.Remove(System.Guid)">
+            <summary>
+            Removes a company
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.CompanyController.Create(UL.Aria.Web.Common.Models.Shared.CompanyInfo)">
+            <summary>
+            Creates the company.
+            </summary>
+            <param name="companyInfo">The company info.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.CompanyController.Create">
+            <summary>
+            Creates the company.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.CompanyController.CreateUser(System.Guid)">
+            <summary>
+            Adds the new user.
+            </summary>
+            <param name="companyId">The id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.CompanyController.CreateUser(System.Guid,UL.Aria.Web.Common.Models.Company.CompanyUserModel)">
+            <summary>
+            Creates the user.
+            </summary>
+            <param name="companyId">The company id.</param>
+            <param name="userInfo">The user info.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.CompanyController.UpdateOrderContacts(System.String)">
+            <summary>
+            Updates the order contacts for all valid projects/requests matching order number.
+            </summary>
+            <param name="orderNumber">The order number.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.CompanyController.GetAccounts(UL.Aria.Web.Common.Models.Company.CompanyContactRequest)">
+            <summary>
+            Gets account Info for external Id or list of external ids
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.CompanyController.ActionsRight(System.Guid,System.Boolean)">
+            <summary>
+            Actions the right.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="canCreateUser">if set to <c>true</c> [can create user].</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.CompanyController.SetPageMetadata(UL.Aria.Web.Common.Models.Shared.CompanyInfo,System.String)">
+            <summary>
+            Breadcrumbses the specified dictionary.
+            </summary>
+            <param name="company">The company.</param>
+            <param name="crumbText">The crumb text.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.CompanyController.BuildMenu(System.Web.Mvc.UrlHelper,UL.Aria.Web.Common.Models.Shared.ICompanyInfo)">
+            <summary>
+            Builds the menu.
+            </summary>
+            <param name="url">The URL.</param>
+            <param name="company">The company.</param>
+            <returns></returns>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Controllers.CompanyController.LoggingCategory">
+            <summary>
+            Gets the logging category to use for all logging.
+            </summary>
+            <value>
+            The logging category.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.ContainerController">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ContainerController.#ctor(UL.Aria.Web.Common.Providers.IAriaProvider,UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Providers.IFileTransferProvider,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Providers.ISearchProvider,UL.Aria.Web.Common.Providers.IContainerProvider,UL.Aria.Web.Common.Providers.ISessionProvider,UL.Aria.Web.Common.Providers.IDocumentProvider,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.CompanyController"/> class.
+            </summary>
+            <param name="ariaProvider">The aria provider.</param>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="fileTransferProvider">The file transfer provider.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="searchProvider">The search provider.</param>
+            <param name="containerProvider">The container provider.</param>
+            <param name="sessionProvider">The session provider.</param>
+            <param name="documentProvider">The document provider.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ContainerController.Upload(System.Guid,UL.Aria.Web.Common.Models.Shared.EntityType,System.Nullable{System.Guid})">
+            <summary>
+                Uploads this instance.
+            </summary>
+            <param name="id">The asset id.</param>
+            <param name="entityType">the entity type</param>
+            <param name="containerId">The container id.  If not provided, the system will look it up via a search.</param>
+            <returns></returns>
+            <exception cref="T:System.Web.HttpException">Container not found</exception>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ContainerController.Upload(UL.Aria.Web.Common.Models.Shared.DocumentUpload)">
+            <summary>
+                Uploads the specified files.
+            </summary>
+            <param name="documentUpload">The upload.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ContainerController.UploadMultiple(System.Guid,UL.Aria.Web.Common.Models.Shared.EntityType,System.Nullable{System.Guid},System.Nullable{System.Boolean},System.Nullable{System.Guid})">
+            <summary>
+            Uploads multiple files.
+            </summary>
+            <param name="id">The unique identifier.</param>
+            <param name="entityType">Type of the entity.</param>
+            <param name="containerId">The container unique identifier.</param>
+            <param name="reupload">The reupload.</param>
+            <param name="assetId">The asset identifier.</param>
+            <returns></returns>
+            <exception cref="T:System.Web.HttpException">Container not found</exception>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ContainerController.ImportProjectOrderDocuments(System.Guid,System.Guid,System.String)">
+            <summary>
+            Gets the documents for a project's order and presents them for import to the project docs
+            </summary>
+            <param name="projectId">The project guid</param>
+            <param name="containerId">The project container guid</param>
+            <param name="orderNumber">The orderNumber</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ContainerController.ImportProjectOrderDocuments(UL.Aria.Web.Common.Models.Container.ImportProjectOrderDocumentsModel,System.Collections.Generic.List{System.String})">
+            <summary>
+            Processes the import/copy of selected documents from a project's order to the project's docs
+            </summary>
+            <param name="importProjectOrderDocumentsModel">The model for this action.</param>
+            <param name="documentIds">The document identifiers to import/copy.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ContainerController.EditMetadata(System.Guid)">
+            <summary>
+            Return populated DocumentMetadataUpload model to UI
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns></returns>
+            <exception cref="T:System.Web.HttpException">The requested container could not be found</exception>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ContainerController.EditMetadata(UL.Aria.Web.Common.Models.Shared.DocumentMetadataUpload)">
+            <summary>
+            </summary>
+            <param name="metadataUpload"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ContainerController.ReUpload(System.Guid)">
+            <summary>
+            Res the upload.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns></returns>
+            <exception cref="T:System.Web.HttpException">The requested container could not be found</exception>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ContainerController.DeleteDocument(System.Guid)">
+            <summary>
+                Deletes the document.
+            </summary>
+            <param name="id">The id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ContainerController.DownloadDocument(System.String)">
+            <summary>
+                Downloads a document by guid.
+            </summary>
+            <param name="documentId">The document id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ContainerController.EditDocumentOnline(System.Guid)">
+            <summary>
+            Edits the document online.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ContainerController.PreviewDocumentOnline(System.Guid)">
+            <summary>
+            Edits the document online.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ContainerController.UnlockDocument(System.Guid)">
+            <summary>
+            Unlocks the document.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Controllers.ContainerController.LoggingCategory">
+            <summary>
+                Gets the logging category to use for all logging.
+            </summary>
+            <value>
+                The logging category.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Areas.Api.Controllers.UnitOfMeasureController">
+            <summary>
+                Class UnitOfMeasureController
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.UnitOfMeasureController.#ctor(UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Providers.IUnitOfMeasureProvider,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Areas.Api.Controllers.UnitOfMeasureController"/> class.
+            </summary>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="unitOfMeasureProvider">The unit of measure provider.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.UnitOfMeasureController.Fetch(System.String)">
+            <summary>
+                Fetches all.
+            </summary>
+            <param name="id"></param>
+            <returns>JsonResult.</returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.UnitOfMeasureController.Fetch(System.Guid)">
+            <summary>
+                Fetches the specified id.
+            </summary>
+            <param name="id">The id.</param>
+            <returns>JsonResult.</returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.UnitOfMeasureController.Create(UL.Aria.Web.Common.Models.Product.UnitOfMeasure)">
+            <summary>
+                Creates the specified unit of measure.
+            </summary>
+            <param name="unitOfMeasure">The unit of measure.</param>
+            <returns>JsonResult.</returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.UnitOfMeasureController.Update(System.Guid,UL.Aria.Web.Common.Models.Product.UnitOfMeasure)">
+            <summary>
+                Updates the specified id.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="unitOfMeasure">The unit of measure.</param>
+            <returns>JsonResult.</returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Areas.Api.Controllers.UnitOfMeasureController.Delete(System.Guid,System.String)">
+            <summary>
+            Deletes the specified id.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="justHereForCompilerUniqueness">Just here for compiler uniqueness.</param>
+            <returns>
+            JsonResult.
+            </returns>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Areas.Api.Controllers.UnitOfMeasureController.LoggingCategory">
+            <summary>
+                Gets the logging category to use for all logging.
+            </summary>
+            <value>The logging category.</value>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.ErrorController">
+            <summary>
+            Class ErrorController
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ErrorController.#ctor(UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.ErrorController"/> class.
+            </summary>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ErrorController.Index">
+            <summary>
+            Custom error page
+            </summary>
+            <returns>ActionResult.</returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ErrorController.FileNotFound">
+            <summary>
+            Custom file not found page
+            </summary>
+            <returns>ActionResult.</returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ErrorController.Unauthorized">
+            <summary>
+            Unauthorizeds this instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ErrorController.InternalServer">
+            <summary>
+            Internals the server.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ErrorController.Throw(System.String)">
+            <summary>
+            Tests this instance.
+            </summary>
+            <returns>ActionResult.</returns>
+            <exception cref="T:System.Exception">Testing</exception>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Controllers.ErrorController.LoggingCategory">
+            <summary>
+            Gets the logging category to use for all logging.
+            </summary>
+            <value>
+            The logging category.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.HelpController">
+            <summary>
+                HelpController
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.HelpController.#ctor(UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Providers.IEmailProvider,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.HelpController"/> class.
+            </summary>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="emailProvider">The contact us provider.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.HelpController.Index">
+            <summary>
+                Indexes this instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.HelpController.ContactUs">
+            <summary>
+                Contacts the us.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.HelpController.ContactUs(UL.Aria.Web.Common.Models.Help.ContactUsModel)">
+            <summary>
+                Contacts the us.
+            </summary>
+            <param name="vm">The vm.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.HelpController.Confirmation">
+            <summary>
+                Confirmations this instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.HelpController.Faq">
+            <summary>
+            FAQs this instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Controllers.HelpController.LoggingCategory">
+            <summary>
+                Gets the logging category to use for all logging.
+            </summary>
+            <value>
+                The logging category.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.HomeController">
+            <summary>
+            Home controller class.
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.HomeController.#ctor(UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Providers.ISearchProvider,UL.Aria.Web.Common.Providers.ICompanyProvider,UL.Aria.Web.Common.Providers.IIncomingOrderProvider,UL.Aria.Web.Common.Providers.IProfileProvider,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Providers.ISessionProvider,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.HomeController"/> class.
+            </summary>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper</param>
+            <param name="searchProvider">The search provider.</param>
+            <param name="companyProvider">The company provider.</param>
+            <param name="incomingOrderProvider">The incoming order provider.</param>
+            <param name="profileProvider">The profile provider.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="sessionProvider">The session provider.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.HomeController.PageLinks">
+            <summary>
+            Pages the links.
+            </summary>
+            <returns>Returns JsonResult Containing the user permission specific menu items.</returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.HomeController.Index">
+            <summary>
+            Indexes this instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Controllers.HomeController.LoggingCategory">
+            <summary>
+            Gets the logging category to use for all logging.
+            </summary>
+            <value>
+            The logging category.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.JsonNetResult">
+            <summary>
+            result
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.JsonNetResult.ExecuteResult(System.Web.Mvc.ControllerContext)">
+            <summary>
+            Enables processing of the result of an action method by a custom type that inherits from the <see cref="T:System.Web.Mvc.ActionResult"/> class.
+            </summary>
+            <param name="context">The context within which the result is executed.</param>
+            <exception cref="T:System.ArgumentNullException">context</exception>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Controllers.JsonNetResult.JsonSettings">
+            <summary>
+            Gets or sets the json settings.
+            </summary>
+            <value>
+            The json settings.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.LegalController">
+            <summary>
+            Terms and conditions and other legal pages
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.LegalController.#ctor(UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Providers.ITermsAndConditionsProvider,UL.Aria.Web.Common.Providers.IProfileProvider,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.HelpController"/> class.
+            </summary>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="termsAndConditionsProvider">The terms and conditions provider.</param>
+            <param name="profileProvider">The profile provider.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.LegalController.Index">
+            <summary>
+            Redirects to default Online Policies page (Terms of Use).
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.LegalController.TermsAndConditions(System.Guid,System.String)">
+            <summary>
+            Terms the and conditions.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="redirectUrl">The redirect URL.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.LegalController.TermsAndConditions(UL.Aria.Web.Common.Models.Help.TermsAndConditionsModel,System.String)">
+            <summary>
+            Termses the and conditions.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.LegalController.DeclineTerms(System.Guid)">
+            <summary>
+            Declines the terms.
+            </summary>
+            <param name="id">The id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.LegalController.TermsOfUse">
+            <summary>
+            The site's terms of use policy.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.LegalController.AboutCookies">
+            <summary>
+            The site's cookie policy.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.LegalController.SetPageMetadata(System.String)">
+            <summary>
+            Sets the page metadata.
+            </summary>
+            <param name="crumbText">The crumb text.</param>
+            <returns></returns>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Controllers.LegalController.LoggingCategory">
+            <summary>
+            Gets the logging category to use for all logging.
+            </summary>
+            <value>
+            The logging category.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.LoginController">
+            <summary>
+            Login controller class.
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.LoginController.#ctor(UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Providers.IEmailProvider,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.LoginController"/> class.
+            </summary>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="emailProvider">The email provider.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.LoginController.SignIn(System.String)">
+            <summary>
+            Builds a token and send the user to the configured STS provider.
+            </summary>
+            <returns>ActionResult.</returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.LoginController.SignOut">
+            <summary>
+            The logout confirmation page after a logout occurs
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.LoginController.SignOut(System.String)">
+            <summary>
+            Logs the users out of both this portal and the STS portal
+            </summary>
+            <returns>ActionResult.</returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.LoginController.Unauthorized">
+            <summary>
+            Unauthorized page.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.LoginController.Unauthorized(System.String)">
+            <summary>
+            Unauthorized user requesting access
+            </summary>
+            <param name="requestAccess">The request access.</param>
+            <returns></returns>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Controllers.LoginController.LoggingCategory">
+            <summary>
+            Gets the logging category to use for all logging.
+            </summary>
+            <value>
+            The logging category.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.NotificationController">
+            <summary>
+            Provides a mvc controller for Notification related information.
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.NotificationController.#ctor(UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Service.Contracts.Service.INotificationService,UL.Aria.Web.Common.Notification.INotificationItemEntityDataStrategyFactory,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.NotificationController"/> class.
+            </summary>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="notificationService">The notification service.</param>
+            <param name="entityStrategyFactory">The entity strategy factory.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.NotificationController.GetByCurrentUser(UL.Aria.Web.Common.Models.Notification.NotificationRequestModel)">
+            <summary>
+            Gets the by current user.
+            </summary>
+            <param name="request">The request.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.NotificationController.Dismiss(UL.Aria.Web.Common.Models.Notification.NotificationDismissRequest)">
+            <summary>
+            Dismisses this instance.
+            </summary>
+            <param name="request">The request.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.NotificationController.ViewEntity(UL.Aria.Web.Common.Models.Notification.NotificationItemModel)">
+            <summary>
+            Views the entity.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.NotificationController.ViewNotification(UL.Aria.Web.Common.Models.Notification.NotificationItemModel)">
+            <summary>
+            Views the notification.
+            </summary>
+            <param name="notification">The notification.</param>
+            <returns></returns>
+            <exception cref="T:System.Web.HttpException">
+            An unsupported Entity type was attempted to be viewed via notifications.
+            or
+            Entity not found for notification.
+            </exception>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Controllers.NotificationController.LoggingCategory">
+            <summary>
+            Gets the logging category to use for all logging.
+            </summary>
+            <value>
+            The logging category.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.OrderController">
+            <summary>
+            Order Controller
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.OrderController.#ctor(UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Providers.ISearchProvider,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Providers.IOrderProvider,UL.Aria.Web.Common.Providers.ISessionProvider,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.OrderController"/> class.
+            </summary>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="searchProvider">The search provider.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="orderProvider">The order provider.</param>
+            <param name="sessionProvider">The session provider.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.OrderController.Index(System.Guid)">
+            <summary>
+            Indexes the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.OrderController.Details(System.Guid)">
+            <summary>
+            Details the specified id.
+            </summary>
+            <param name="id">The id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.OrderController.CustomerInformation(System.Guid)">
+            <summary>
+            Order Customer Information
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.OrderController.Documents(System.Guid,UL.Aria.Web.Common.Models.Search.SearchCriteria)">
+            <summary>
+            Documents the specified id.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="criteria">The criteria.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.OrderController.Services(System.Guid,UL.Aria.Web.Common.Models.Search.SearchCriteria)">
+            <summary>
+            Services the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="criteria">The criteria.</param>
+            <returns></returns>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Controllers.OrderController.LoggingCategory">
+            <summary>
+            Gets the logging category to use for all logging.
+            </summary>
+            <value>
+            The logging category.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.ProductController">
+            <summary>
+                ProductController
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProductController.#ctor(UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Providers.ISearchProvider,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Providers.IProductProvider,UL.Aria.Web.Common.Providers.ICompanyProvider,UL.Aria.Web.Common.Providers.IProductFamilyProvider,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Providers.ISessionProvider,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.ProductController"/> class.
+            </summary>
+            <param name="userContext">The user context.</param>
+            <param name="searchProvider">The profile provider.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="productProvider">The product provider.</param>
+            <param name="companyProvider">The company provider.</param>
+            <param name="productFamilyProvider">The product family provider.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="sessionProvider">The session provider.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProductController.Details(System.Guid)">
+            <summary>
+                Details the specified id.
+            </summary>
+            <param name="id">The id.</param>
+            <returns></returns>
+            <exception cref="T:System.Web.HttpException">Container not found</exception>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProductController.Image(System.Guid)">
+            <summary>
+                Products the image.
+            </summary>
+            <param name="id">The id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProductController.Documents(System.Guid,UL.Aria.Web.Common.Models.Search.SearchCriteria)">
+            <summary>
+                Documents the specified id.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="criteria">The criteria.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProductController.Download(System.Guid)">
+            <summary>
+                Downloads the specified id.
+            </summary>
+            <param name="id">The id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProductController.DownloadFamily(System.Guid)">
+            <summary>
+                Downloads the products for the family with the specified id.
+            </summary>
+            <param name="id">The id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProductController.UploadProductFamily">
+            <summary>
+                Uploads the product family.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProductController.UploadProductFamily(UL.Aria.Web.Common.Models.Product.ProductUpload)">
+            <summary>
+                Uploads the product family.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProductController.Upload">
+            <summary>
+                Gets the product upload modal
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProductController.Upload(UL.Aria.Web.Common.Models.Product.ProductUpload)">
+            <summary>
+                Uploads the specified files.
+            </summary>
+            <param name="upload">The upload.</param>
+            <returns></returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProductController.Uploads(UL.Aria.Web.Common.Models.Search.SearchCriteria)">
+            <summary>
+                Gets a list of uploaded products
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProductController.UploadStatus(System.Guid,UL.Aria.Web.Common.Models.Search.SearchCriteria)">
+            <summary>
+                Gets a list of products and product upload messages associated with a product upload
+            </summary>
+            <param name="id"></param>
+            <param name="searchCriteria"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProductController.Submit(System.Guid[],System.Boolean)">
+            <summary>
+                Submits the Product.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="overRide">The override.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProductController.SubmitProduct(System.Guid[])">
+            <summary>
+                Submits the product.
+            </summary>
+            <param name="productId">The product id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProductController.Delete(System.Guid)">
+            <summary>
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProductController.UploadFile(System.Guid)">
+            <summary>
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Controllers.ProductController.LoggingCategory">
+            <summary>
+                Gets the logging category to use for all logging.
+            </summary>
+            <value>
+                The logging category.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.ProductFamilyController">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProductFamilyController.#ctor(UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Providers.IProductFamilyProvider,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.BaseController"/> class.
+            </summary>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="productFamilyProvider">The product family provider.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProductFamilyController.Fetch(System.String)">
+            <summary>
+                Fetches the specified Product Family.
+            </summary>
+            <param name="id">The unique identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProductFamilyController.DownloadProductFamilyTemplate(System.Guid,System.String)">
+            <summary>
+                Downloads the product family template.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="template">The template.</param>
+            <returns></returns>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Controllers.ProductFamilyController.LoggingCategory">
+            <summary>
+                Gets the logging category to use for all logging.
+            </summary>
+            <value>
+                The logging category.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.ProfileController">
+            <summary>
+            Profile controller class.
+            </summary>
+        </member>
+        <member name="F:UL.Aria.Web.Portal.Controllers.ProfileController._profileProvider">
+            <summary>
+            The _profile provider
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProfileController.#ctor(UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Providers.IProfileProvider,UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Providers.ISessionProvider,UL.Aria.Web.Common.Providers.ICompanyProvider,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.ProfileController"/> class.
+            </summary>
+            <param name="logHelper">The log helper.</param>
+            <param name="profileProvider">The profile provider.</param>
+            <param name="userContext">The user context.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="sessionProvider">The session provider.</param>
+            <param name="companyProvider">The company provider.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProfileController.Index">
+            <summary>
+            Returns the default profile list.
+            </summary>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProfileController.Avatar">
+            <summary>
+            Avitars the specified id.
+            </summary>
+            <returns>System.Web.Mvc.ActionResult.</returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProfileController.SearchULUsers(System.String)">
+            <summary>
+            Searches the ul users.
+            </summary>
+            <param name="keyword">The keyword.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProfileController.SearchEligibleTaskOwners(System.String)">
+            <summary>
+            Searches the eligible task owners.
+            </summary>
+            <param name="keyword">The keyword.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProfileController.SearchEligibleProjectOwners(System.String)">
+            <summary>
+            Searches the eligible project owners.
+            </summary>
+            <param name="keyword">The keyword.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProfileController.Basic">
+            <summary>
+            basic profile editing.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProfileController.Basic(UL.Aria.Web.Common.Models.Profile.UserProfile)">
+            <summary>
+            basic profile editing.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProfileController.ScratchSpace">
+            <summary>
+            A page showing user's scratch documents
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProfileController.PurgeScratchSpace">
+            <summary>
+            Purces the scratch space.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProfileController.Upload(UL.Aria.Web.Common.Models.Shared.DocumentUpload)">
+            <summary>
+            Uploads the specified files.
+            </summary>
+            <param name="file">The file.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProfileController.CreateFavoriteSearch(UL.Aria.Web.Common.Models.Search.SearchCriteria,System.String)">
+            <summary>
+            Creates the favorite search.
+            </summary>
+            <param name="criteria">The criteria.</param>
+            <param name="location">The location.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProfileController.CreateDefaultSearch(UL.Aria.Web.Common.Models.Profile.SearchFavorite)">
+            <summary>
+            Creates the default search.
+            </summary>
+            <param name="searchFavorite">The search favorite.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProfileController.CreateFavoriteSearch(UL.Aria.Web.Common.Models.Profile.SearchFavorite)">
+            <summary>
+            Creates the favorite search.
+            </summary>
+            <param name="searchFavorite">The search favorite.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProfileController.EditFavorite(System.Guid)">
+            <summary>
+            Edits the favorite.
+            </summary>
+            <param name="id">The id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProfileController.EditFavorite(UL.Aria.Web.Common.Models.Profile.SearchFavorite)">
+            <summary>
+            Edits the favorite.
+            </summary>
+            <param name="searchFavorite">The search favorite.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProfileController.DeleteFavorite(System.Guid[])">
+            <summary>
+            Deletes the favorite.
+            </summary>
+            <param name="id">The id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProfileController.DeleteFavoriteGroup">
+            <summary>
+            Deletes the favorite group.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProfileController.JsKeepAlive">
+            <summary>
+            Provides a ping method for long running user interaction with javascript.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProfileController.Favorites(UL.Aria.Web.Common.Models.Search.SearchCriteria)">
+            <summary>
+            Favoriteses this instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Controllers.ProfileController.LoggingCategory">
+            <summary>
+            Gets the logging category to use for all logging.
+            </summary>
+            <value>
+            The logging category.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.ProjectController">
+            <summary>
+                Project pages
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectController.#ctor(UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Providers.IIncomingOrderProvider,UL.Aria.Web.Common.Providers.IProjectProvider,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Providers.ITaskProvider,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Providers.ISearchProvider,UL.Aria.Web.Common.Providers.IAriaProvider,UL.Aria.Web.Common.Providers.ISessionProvider,UL.Aria.Web.Common.Providers.ICompanyProvider,UL.Aria.Web.Common.Providers.IProductProvider,UL.Aria.Web.Common.Validation.Project.IProjectModelStateValidationStrategy,UL.Enterprise.Foundation.Mapper.IMapperRegistry,UL.Aria.Web.Common.Providers.IHistoryProvider,UL.Aria.Web.Common.Providers.IProjectTemplateProvider,UL.Aria.Web.Common.Providers.IBusinessUnitProvider,UL.Aria.Web.Common.Managers.Project.IProjectActionManager,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.ProjectController"/> class.
+            </summary>
+            <param name="userContext">The user context.</param>
+            <param name="incomingOrderProvider">The incoming order provider</param>
+            <param name="projectProvider">The project provider</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="taskProvider">The task provider.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="searchProvider">the search provider</param>
+            <param name="ariaProvider">The aria provider.</param>
+            <param name="sessionProvider">The session provider.</param>
+            <param name="companyProvider">The company provider.</param>
+            <param name="productProvider">The product provider.</param>
+            <param name="projectModelStateValidationStrategy">The project model state validation strategy.</param>
+            <param name="mapperRegistry">The mapper registry.</param>
+            <param name="historyProvider">The history provider.</param>
+            <param name="projectTemplateProvider">The ProjectTemplate provider.</param>
+            <param name="businessUnitProvider">The business unit provider.</param>
+            <param name="projectActionManager">The project action manager.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectController.History(System.Guid)">
+            <summary>
+            Gets the audit history for a project
+            </summary>
+            <param name="id">The project guid</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectController.DownloadHistory(System.Guid)">
+            <summary>
+            Exports the history to Excel formated file result.
+            </summary>
+            <param name="id">The id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectController.Index(System.Guid)">
+            <summary>
+            Project overview
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectController.Products(System.Guid,UL.Aria.Web.Common.Models.Search.SearchCriteria)">
+            <summary>
+            Products the specified id.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="criteria">The criteria.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectController.Documents(System.Guid,UL.Aria.Web.Common.Models.Search.SearchCriteria)">
+            <summary>
+            Documents the specified id.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="criteria">The criteria.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectController.GetTaskDocumentModel(UL.Aria.Web.Common.Models.Project.TaskDocumentRequest)">
+            <summary>
+            Gets the task documents information.
+            </summary>
+            <param name="request">The request.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectController.Details(System.Guid)">
+            <summary>
+            Return Project detail view model to General Info view
+            </summary>
+            <param name="id">The id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectController.CustomerInfo(System.Guid)">
+            <summary>
+            Return Project detail view model to Customer Info view
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectController.OrderInfo(System.Guid)">
+            <summary>
+            Return Project detail view model to Order Info view
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectController.PlanningAndOperations(System.Guid)">
+            <summary>
+            Return Project detail view model to Planning and Operations view
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectController.SearchCompanies(System.String)">
+            <summary>
+            Searches the ul users.
+            </summary>
+            <param name="keyword">The keyword.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectController.AgentInfo(System.Guid)">
+            <summary>
+            Return Project detail view model to Agent Info view
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectController.CreateNew">
+            <summary>
+                Creates a project from scratch
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectController.Create(System.Guid)">
+            <summary>
+                Create a project from an existing incoming order request.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectController.Create(UL.Aria.Web.Common.Models.Shared.ProjectCreate,System.String)">
+            <summary>
+                Create new project
+            </summary>
+            <param name="project"></param> 
+            <param name="shouldOpenDetailsGroup"></param>
+            <returns>ActionResult</returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectController.GetProjectEditModel(System.Guid)">
+            <summary>
+            Gets the project, converts to ProjectCreate instance, assigns templates and service lines, 
+            and build page links.
+            </summary>
+            <param name="id">The id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectController.Edit(System.Guid)">
+            <summary>
+            Edits the project information.
+            </summary>
+            <param name="id">The id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectController.Edit(System.Guid,System.Web.Mvc.FormCollection)">
+            <summary>
+            Edit project
+            </summary>
+            <param name="id">The id.</param>
+            <param name="form">The form.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectController.EditLines(UL.Aria.Web.Common.Models.Shared.ProjectCreate)">
+            <summary>
+            Searches for line items to associate to this project
+            </summary>
+            <param name="criteria">The criteria.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectController.Download(System.Guid)">
+            <summary>
+            Downloads the product family template.
+            </summary>
+            <param name="id">The id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectController.DownloadProjects">
+            <summary>
+            Downloads the projects.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectController.SearchProjectTemplate(System.Guid)">
+            <summary>
+            Searches the project template.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectController.SearchProduct(System.Guid)">
+            <summary>
+            Searches the product.
+            </summary>
+            <param name="id">The id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectController.SearchProduct(System.Guid,UL.Aria.Web.Common.Models.Search.SearchCriteria)">
+            <summary>
+            Searches the product.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="criteria">The criteria.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectController.AddProduct(System.Guid,System.String[])">
+            <summary>
+            Adds the product.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="productId">The product id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectController.RemoveProduct(System.Guid,System.Guid)">
+            <summary>
+            Removes the product.
+            </summary>
+            <param name="productId">The product id.</param>
+            <param name="projectId">The project id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectController.ProjectSectionNavigationLinks(System.Guid,UL.Aria.Web.Common.IUserContext,System.Web.Mvc.UrlHelper,System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Collections.Generic.IEnumerable{UL.Aria.Web.Common.Models.Shared.TaxonomyMenuItem})">
+            <summary>
+            Projects the section navigation links.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="userContext">The user context.</param>
+            <param name="url">The URL.</param>
+            <param name="taskCount">The task count.</param>
+            <param name="documentCount">The document count.</param>
+            <param name="productCount">The product count.</param>
+            <param name="taskStatus">The task status.</param>
+            <returns></returns>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Controllers.ProjectController.LoggingCategory">
+            <summary>
+                Gets the logging category to use for all logging.
+            </summary>
+            <value>
+                The logging category.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.ProjectTemplateController">
+            <summary>
+            Project Template Controller
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectTemplateController.#ctor(UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Providers.IProjectTemplateProvider,UL.Aria.Web.Common.Providers.IBusinessUnitProvider,UL.Aria.Web.Common.Providers.ITaskTypeProvider,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.ProjectTemplateController"/> class.
+            </summary>
+            <param name="userContext">The user context.</param>
+            <param name="projectTemplateProvider">The project template provider.</param>
+            <param name="businessUnitProvider">The business unit provider.</param>
+            <param name="taskTypeProvider">The task type provider.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectTemplateController.Create">
+            <summary>
+            Creates this instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectTemplateController.Create(UL.Aria.Web.Common.Models.Project.ProjectTemplateCreate,System.String)">
+            <summary>
+            Creates the specified project template.
+            </summary>
+            <param name="projectTemplate">The project template.</param>
+            <param name="saveDraft">The save draft.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectTemplateController.Edit(System.Guid)">
+            <summary>
+            Edits the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectTemplateController.Edit(UL.Aria.Web.Common.Models.Project.ProjectTemplateCreate,System.String)">
+            <summary>
+            Edits the specified project template.
+            </summary>
+            <param name="projectTemplate">The project template.</param>
+            <param name="saveDraft">The save draft.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectTemplateController.Delete(System.Guid)">
+            <summary>
+            Deletes the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ProjectTemplateController.Details(System.Guid)">
+            <summary>
+            Details the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Controllers.ProjectTemplateController.LoggingCategory">
+            <summary>
+                Gets the logging category to use for all logging.
+            </summary>
+            <value>
+                The logging category.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.ReferenceController">
+            <summary>
+            Controller for reference items
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ReferenceController.#ctor(UL.Aria.Web.Common.Providers.IIndustryCodeProvider,UL.Aria.Web.Common.Providers.IServiceCodeProvider,UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.ReferenceController"/> class.
+            </summary>
+            <param name="industryCodeProvider">The industry code provider.</param>
+            <param name="serviceCodeProvider">The service code provider.</param>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ReferenceController.ServiceCode(System.String)">
+            <summary>
+            Searches the service codes.
+            </summary>
+            <param name="keyword">The keyword.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.ReferenceController.IndustryCode(System.String)">
+            <summary>
+            Searches the industry codes.
+            </summary>
+            <param name="keyword">The keyword.</param>
+            <returns></returns>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Controllers.ReferenceController.LoggingCategory">
+            <summary>
+            Gets the logging category to use for all logging.
+            </summary>
+            <value>
+            The logging category.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.RequestController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.RequestController.#ctor(UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Providers.IIncomingOrderProvider,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Providers.ISearchProvider,UL.Aria.Web.Common.Providers.ISessionProvider,UL.Aria.Web.Common.Providers.IProfileProvider,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Projects the controller.
+            </summary>
+            <param name="userContext">The user context.</param>
+            <param name="incomingOrderProvider">The incoming order provider.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="searchProvider">The search provider.</param>
+            <param name="sessionProvider">The session provider.</param>
+            <param name="_profileProvider">The _profile provider.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.RequestController.IncomingOrderDetails(System.Guid)">
+            <summary>
+                Display Incoming Order Details
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.RequestController.OrderQueue(UL.Aria.Web.Common.Models.Search.SearchCriteria,System.Boolean)">
+            <summary>
+                Orders the queue.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.RequestController.Refiners(UL.Aria.Web.Common.Models.Search.JsonSearchCriteria)">
+            <summary>
+            Refinerses the specified criteria.
+            </summary>
+            <param name="criteria">The criteria.</param>
+            <returns></returns>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Controllers.RequestController.LoggingCategory">
+            <summary>
+            Gets the logging category to use for all logging.
+            </summary>
+            <value>
+            The logging category.
+            </value>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.SearchController">
+            <summary>
+                Controller class to facilitate searching over Products, Orders, Tests, Documents
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.SearchController.#ctor(UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Providers.ISearchProvider,UL.Aria.Web.Common.Providers.IProductFamilyProvider,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Providers.ISessionProvider,UL.Aria.Web.Common.Providers.ICompanyProvider,UL.Aria.Web.Common.Providers.ITaskProvider,UL.Aria.Web.Common.Providers.IProfileProvider,UL.Aria.Web.Common.Providers.IIncomingOrderProvider,UL.Aria.Web.Common.Providers.IProjectTemplateProvider,UL.Aria.Web.Common.Enrichment.IAdditionalRefinersFactory,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.SearchController"/> class.
+            </summary>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="searchProvider">The search provider.</param>
+            <param name="productFamilyProvider">The product family provider</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="sessionProvider">The session provider.</param>
+            <param name="companyProvider">The company provider</param>
+            <param name="taskProvider">The task provider</param>
+            <param name="profileProvider">The profile provider.</param>
+            <param name="incomingOrderProvider">The incoming order provider.</param>
+            <param name="projectTemplateProvider">The project template provider.</param>
+            <param name="additionalRefinersFactory">The additional refiner factory.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.SearchController.Index(UL.Aria.Web.Common.Models.Search.SearchCriteria)">
+            <summary>
+                Indexes this instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.SearchController.Refiners(UL.Aria.Web.Common.Models.Search.JsonSearchCriteria)">
+            <summary>
+            Refiners the specified criteria.
+            </summary>
+            <param name="criteria">The criteria.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.SearchController.ProjectTemplateRefiners(UL.Aria.Web.Common.Models.Search.JsonSearchCriteria)">
+            <summary>
+            Refiners the specified criteria.
+            </summary>
+            <param name="criteria">The criteria.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.SearchController.Product(UL.Aria.Web.Common.Models.Search.SearchCriteria,System.Boolean)">
+            <summary>
+                Gets/Pages the Products for the specified search criteria.
+            </summary>
+            <param name="criteria">The criteria.</param>
+            <param name="useDefaultSearch">Default search.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.SearchController.ProductTemplate(UL.Aria.Web.Common.Models.Search.SearchCriteria)">
+            <summary>
+                Gets/Pages the Product Families for the specified search criteria.
+            </summary>
+            <param name="criteria">The criteria.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.SearchController.ProjectTemplate(UL.Aria.Web.Common.Models.Search.SearchCriteria,System.Boolean)">
+            <summary>
+            Projects the template.
+            </summary>
+            <param name="criteria">The criteria.</param>
+            <param name="useDefaultSearch">if set to <c>true</c> [use default search].</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.SearchController.Forward(System.String,UL.Aria.Web.Common.Models.Project.ProjectViewType,System.String)">
+            <summary>
+            Forward.
+            </summary>
+            <param name="searchCriteria">The criteria as string Json.</param>
+            <param name="viewType">Type of the view.</param>
+            <param name="saveFilterName">The name to save the current criteria into saved favorites etc.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.SearchController.Project(UL.Aria.Web.Common.Models.Search.SearchCriteria,System.Boolean,UL.Aria.Web.Common.Models.Project.ProjectViewType)">
+            <summary>
+            Projects the specified criteria.
+            </summary>
+            <param name="criteria">The criteria.</param>
+            <param name="useDefaultSearch">Default search.</param>
+            <param name="viewType">Type of the view.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.SearchController.EnrichResultsWithCompanyName(UL.Aria.Web.Common.Models.Search.SearchResultSet{UL.Aria.Web.Common.Models.Search.ProjectSearchResult})">
+            <summary>
+            Enriches the name of the results with company.
+            This process uses a dictionary so that repeated ids are not fetched more than onces from the data source.
+            </summary>
+            <param name="model">The model.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.SearchController.GetProjectList(UL.Aria.Web.Common.Models.Search.JsonSearchCriteria,UL.Aria.Web.Common.Mvc.JqGrid.JqGridPostData)">
+            <summary>
+            Gets the project list.
+            </summary>
+            <param name="criteria">The criteria.</param>
+            <param name="postData">The post data.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.SearchController.GetProjectView(UL.Aria.Web.Common.Models.Project.ProjectViewType,UL.Aria.Web.Common.Models.Search.SearchResultSet{UL.Aria.Web.Common.Models.Search.ProjectSearchResult},UL.Aria.Web.Common.Models.Search.SearchCriteria)">
+            <summary>
+            Gets the project view based on the specified viewType.
+            </summary>
+            <param name="viewType">Type of the view.</param>
+            <param name="model">The model.</param>
+            <param name="criteria"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.SearchController.Order(UL.Aria.Web.Common.Models.Search.SearchCriteria,System.Boolean)">
+            <summary>
+                Orders the specified criteria.
+            </summary>
+            <param name="criteria">The criteria.</param>
+            <param name="useDefaultSearch">Default search.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.SearchController.Task(UL.Aria.Web.Common.Models.Search.SearchCriteria,System.Boolean)">
+            <summary>
+            Tasks the specified criteria.
+            </summary>
+            <param name="searchCriteria">The search criteria.</param>
+            <param name="useDefaultSearch">if set to <c>true</c> [use default search].</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.SearchController.ExportTasks(UL.Aria.Web.Common.Models.Search.SearchCriteria)">
+            <summary>
+                Export tasks based on specified criteria
+            </summary>
+            <param name="criteria">The criteria.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.SearchController.GroupItem(System.Guid,System.String)">
+            <summary>
+                Remembers the specified result, in the group specified, for this session.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="group">The group.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.SearchController.GroupItem(System.Guid,System.String,System.String)">
+            <summary>
+                Removes the specified result from the group specified.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="group">The group.</param>
+            <param name="notUsed">This variable is not used, only here to avoid a method naming conflict.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.SearchController.GroupItem(System.String)">
+            <summary>
+                returns the selected items for the group specified.
+            </summary>
+            <param name="id">The group name.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.SearchController.Typeahead(UL.Aria.Web.Common.Models.Search.SearchCriteria)">
+            <summary>
+            Returns JSON for typeahead queries.
+            </summary>
+            <param name="criteria">The criteria.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.SearchController.SetViewBag(UL.Aria.Web.Common.Models.Search.SearchCriteria)">
+            <summary>
+                Sets common page elements, titles, etc
+            </summary>
+            <param name="searchCriteria"></param>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Controllers.SearchController.LoggingCategory">
+            <summary>
+                Gets the logging category to use for all logging.
+            </summary>
+            <value>
+                The logging category.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.TaskController">
+            <summary>
+                Task pages
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskController.#ctor(UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Validation.Task.ITaskModelStateValidationStrategy,UL.Aria.Web.Common.Providers.IProjectProvider,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Providers.ITaskProvider,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Providers.ISearchProvider,UL.Aria.Web.Common.Providers.IAriaProvider,UL.Aria.Web.Common.Providers.ISessionProvider,UL.Aria.Web.Common.Providers.IContainerProvider,UL.Aria.Web.Common.Providers.IHistoryProvider,UL.Aria.Web.Common.Managers.Project.IProjectActionManager,UL.Aria.Web.Common.Providers.ITaskTypeProvider,UL.Aria.Web.Common.Providers.IFileTransferProvider,UL.Aria.Web.Common.Providers.ICertificationManagementProvider,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.ProjectController"/> class.
+            </summary>
+            <param name="userContext">The user context.</param>
+            <param name="taskModelStateValidationStrategy">The task model state validation strategy.</param>
+            <param name="projectProvider">The project provider</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="taskProvider">The task provider.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="searchProvider">the search provider</param>
+            <param name="ariaProvider">The aria provider.</param>
+            <param name="sessionProvider">The session provider.</param>
+            <param name="containerProvider">The container provider.</param>
+            <param name="historyProvider">The history provider.</param>
+            <param name="projectActionManager">The project action manager.</param>
+            <param name="taskTypeProvider">The task type provider.</param>
+            <param name="fileTransferProvider">The file transfer provider.</param>
+            <param name="certificationManagementProvider">The certification management provider.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskController.All(System.Guid,UL.Aria.Web.Common.Models.Search.SearchCriteria,UL.Aria.Web.Common.Models.Project.TaskViewType)">
+            <summary>
+            Tasks the specified id.
+            </summary>
+            <param name="projectId">The id.</param>
+            <param name="criteria">The criteria.</param>
+            <param name="viewType">Type of the view.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskController.AllProjectTasks(System.Guid,UL.Aria.Web.Common.Models.Search.JsonSearchCriteria)">
+            <summary>
+            Returns all the task for the specified project.
+            </summary>
+            <param name="projectId">The project identifier.</param>
+            <param name="criteria">The criteria.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskController.SaveBulk(UL.Aria.Web.Common.Mvc.JqGrid.JqGridResults{UL.Aria.Web.Common.Models.Project.TaskTreeGridFacade})">
+            <summary>
+            Saves the bulk.
+            </summary>
+            <param name="request">The request.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskController.DeleteBulk(UL.Aria.Web.Common.Mvc.JqGrid.JqGridResults{UL.Aria.Web.Common.Models.Project.TaskTreeGridFacade})">
+            <summary>
+            Saves the bulk.
+            </summary>
+            <param name="request">The request.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskController.CertificationRequest(System.Guid,System.Nullable{System.Guid})">
+            <summary>
+            Prepares view for creating a Certification Request
+            </summary>
+            <param name="taskId">The task identifier.</param>
+            <param name="containerId">The container identifier.</param>
+            <returns></returns>
+            <exception cref="T:System.Web.HttpException">The requested project could not be found</exception>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskController.CertificationRequest(UL.Aria.Web.Common.Models.Project.CertificationManagement)">
+            <summary>
+            Submits a certification request.
+            </summary>
+            <param name="certificationManagement">The certification management.</param>
+            <returns></returns>
+            <exception cref="T:System.Web.HttpException">The requested project could not be found</exception>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskController.Detail(System.Guid,System.Nullable{System.Guid})">
+            <summary>
+            Tasks the detail.
+            </summary>
+            <param name="taskId">The task identifier.</param>
+            <param name="containerId">The container identifier.</param>
+            <returns></returns>
+            <exception cref="T:System.Web.HttpException">
+            The requested project could not be found
+            or
+            The requested task could not be found
+            </exception>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskController.DownloadTasks(System.Guid,System.Guid,UL.Aria.Web.Common.Models.Search.SearchCriteria)">
+            <summary>
+            Exports the tasks.
+            </summary>
+            <param name="projectId">The id.</param>
+            <param name="containerId">The container id.</param>
+            <param name="searchCriteria">The search criteria.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskController.Edit(System.Guid,System.Nullable{System.Guid},System.Boolean,System.Boolean)">
+            <summary>
+            Edits the task.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="containerId">The container id.</param>
+            <param name="isReactivateReqeust">if set to <c>true</c> [is reactivate reqeust].</param>
+            <param name="disableParentTask">if set to <c>true</c> [disable parent task].</param>
+            <returns></returns>
+            <exception cref="T:System.Web.HttpException">Project not found</exception>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskController.Edit(System.Guid,UL.Aria.Web.Common.Models.Project.TaskDetail,UL.Aria.Web.Common.Models.Search.TaskDocumentChangeRequest)">
+            <summary>
+            Edits the task.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="taskDetail">The task detail.</param>
+            <param name="taskDocuments">The task documents.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskController.RemoveParentAssociation(System.Guid,System.Guid)">
+            <summary>
+            Removes the parent association.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="containerId">The container identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskController.DeleteTaskGroup(System.Nullable{System.Guid})">
+            <summary>
+            Deletes the task group.
+            </summary>
+            <param name="id">The container id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskController.DeleteTask(System.Guid[],System.Nullable{System.Guid})">
+            <summary>
+            Deletes the task.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="containerId">The container id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskController.Create(System.Guid,System.Nullable{System.Guid})">
+            <summary>
+            Creates the task.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="containerId">The container id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskController.Create(System.Guid,UL.Aria.Web.Common.Models.Project.TaskDetail)">
+            <summary>
+            Creates the task.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="taskDetail">The task detail.</param>
+            <returns></returns>
+            <exception cref="T:System.Exception">Invalid model</exception>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskController.History(System.Guid,System.Guid)">
+            <summary>
+            Gets the audit history for a task
+            </summary>
+            <param name="id">The task guid</param>
+            <param name="projectId">The project guid</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskController.DownloadHistory(System.Guid,System.Guid)">
+            <summary>
+            Exports the history to Excel formatted file result.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="containerId">The container identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskController.GetTaskTypeBehaviors(System.Guid)">
+            <summary>
+            Gets the task type behaviors.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskController.CreateDocumentFromTemplate(System.Guid,System.Guid,System.Guid)">
+            <summary>
+            Creates the document.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="containerId">The container identifier.</param>
+            <param name="taskId">The task identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskController.CreateDocumentFromTemplate(UL.Aria.Web.Common.Models.Project.TaskDocument)">
+            <summary>
+            Creates the document.
+            </summary>
+            <param name="taskDocument">The task document.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskController.AddDocumentToTask(System.Guid,System.String[])">
+            <summary>
+            Adds the product.
+            </summary>
+            <param name="id">The id.</param>
+            <param name="documentIds">The product id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskController.AssignTaskGroup(System.Nullable{System.Guid})">
+            <summary>
+            Assigns the task group.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskController.AssignTaskGroup(System.Nullable{System.Guid},UL.Aria.Web.Common.Models.Project.AssignTaskGroup)">
+            <summary>
+            Assigns the task group.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="taskGroup">The task group.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskController.AssignTask(System.Guid[],System.Nullable{System.Guid},UL.Aria.Web.Common.Models.Project.AssignTaskGroup)">
+            <summary>
+            Assigns the task.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="containerId">The container identifier.</param>
+            <param name="taskGroup">The task group.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskController.CompleteTaskGroup(System.Nullable{System.Guid})">
+            <summary>
+            Completes the task group.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskController.GetTaskSelectionName(System.Guid)">
+            <summary>
+            Returns the session provider group name for project's tasks.
+            </summary>
+            <param name="projectContainerId">The project container unique identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskController.AddDocumentsToTask(UL.Aria.Web.Common.Models.Project.TaskDetail,UL.Aria.Web.Common.Models.Search.TaskDocumentChangeRequest)">
+            <summary>
+            Adds the documents to task.
+            </summary>
+            <param name="taskDetail">The task.</param>
+            <param name="taskDocumentChangeRequest">The document update.</param>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Controllers.TaskController.LoggingCategory">
+            <summary>
+                Gets the logging category to use for all logging.
+            </summary>
+            <value>
+                The logging category.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.BusinessUnitController">
+            <summary>
+                Provides a Controller for businessUnits
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.BusinessUnitController.#ctor(UL.Aria.Web.Common.Providers.IBusinessUnitProvider,UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.BusinessUnitController"/> class.
+            </summary>
+            <param name="businessUnitProvider">The businessUnit provider provider.</param>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.BusinessUnitController.Index(UL.Aria.Web.Common.Models.Search.SearchCriteria)">
+            <summary>
+                Indexes the specified search criteria.
+            </summary>
+            <param name="searchCriteria">The search criteria.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.BusinessUnitController.Create">
+            <summary>
+                Creates this instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.BusinessUnitController.Create(UL.Aria.Web.Common.Models.Project.BusinessUnit)">
+            <summary>
+                Creates the specified Business Unit.
+            </summary>
+            <param name="businessUnit">The Business Unit.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.BusinessUnitController.Edit(System.Guid)">
+            <summary>
+                Edits the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.BusinessUnitController.Edit(UL.Aria.Web.Common.Models.Project.BusinessUnit)">
+            <summary>
+                Edits the specified Business Unit.
+            </summary>
+            <param name="businessUnit">The Business Unit.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.BusinessUnitController.Delete(System.Guid)">
+            <summary>
+                Deletes the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.TaskCategoryController">
+            <summary>
+            Provides a Controller for Task Templates
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskCategoryController.#ctor(UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Providers.ITaskCategoryProvider,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.TaskCategoryController"/> class.
+            </summary>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="taskCategoryProvider">The task template provider.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskCategoryController.Index(UL.Aria.Web.Common.Models.Search.SearchCriteria)">
+            <summary>
+            Indexes the specified search criteria.
+            </summary>
+            <param name="searchCriteria">The search criteria.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskCategoryController.Create">
+            <summary>
+            Creates this instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskCategoryController.Create(UL.Aria.Web.Common.Models.TaskCategory.TaskCategoryCreate)">
+            <summary>
+            Creates the specified task template.
+            </summary>
+            <param name="taskCategory">The task template.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskCategoryController.Edit(System.Guid)">
+            <summary>
+            Edits the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskCategoryController.Edit(UL.Aria.Web.Common.Models.TaskCategory.TaskCategoryCreate)">
+            <summary>
+            Edits the specified task template.
+            </summary>
+            <param name="taskCategory">The task template.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskCategoryController.Delete(System.Guid)">
+            <summary>
+            Deletes the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.TaskTypeController">
+            <summary>
+            Provides a Controller for Task Types
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskTypeController.#ctor(UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Providers.ITaskTypeProvider,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.TaskTypeController"/> class.
+            </summary>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="taskTypeProvider">The task type provider.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskTypeController.Index(UL.Aria.Web.Common.Models.Search.SearchCriteria)">
+            <summary>
+            Indexes this instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskTypeController.Delete(System.Guid)">
+            <summary>
+            Deletes the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskTypeController.Edit(System.Guid)">
+            <summary>
+            Edits the specified identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskTypeController.Edit(UL.Aria.Web.Common.Models.TaskType.TaskTypeEditable)">
+            <summary>
+            Edits the specified task type information.
+            </summary>
+            <param name="taskTypeEditable">The task type information.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskTypeController.Create">
+            <summary>
+            Creates the specified identifier.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TaskTypeController.Create(UL.Aria.Web.Common.Models.TaskType.TaskTypeEditable)">
+            <summary>
+            Creates the specified task type information.
+            </summary>
+            <param name="taskTypeEditable">The task type information.</param>
+            <returns></returns>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.TemplateAdminController">
+            <summary>
+            Template Admin Controller
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TemplateAdminController.#ctor(UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Providers.IProjectTemplateProvider,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.TemplateAdminController"/> class.
+            </summary>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="projectTemplateProvider">The project template provider.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TemplateAdminController.Index">
+            <summary>
+            Indexes this instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.TemplateAdminController.ProjectTemplates(UL.Aria.Web.Common.Models.Search.SearchCriteria)">
+            <summary>
+            Projects the templates.
+            </summary>
+            <param name="searchCriteria">The criteria.</param>
+            <returns></returns>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.UserController">
+            <summary>
+            Pages focused on users and their assets
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserController.#ctor(UL.Aria.Web.Common.Providers.IProfileProvider,UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Providers.ISearchProvider,UL.Aria.Web.Common.Providers.IUserBusinessClaimProvider,UL.Aria.Web.Common.Claims.IUserBusinessClaimFactory,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Providers.IEmailProvider,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.CompanyController"/> class.
+            </summary>
+            <param name="profileProvider">The profile provider.</param>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="searchProvider">The search provider.</param>
+            <param name="userBusinessClaimProvider">The user business claim provider.</param>
+            <param name="claimFactory">The claim factory.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="emailProvider">The email provider.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserController.Details(System.Guid)">
+            <summary>
+            Details for the user specified by the id.
+            </summary>
+            <param name="id">The id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserController.Containers(System.Guid,UL.Aria.Web.Common.Models.Search.SearchCriteria)">
+            <summary>
+            Containerses the specified id.
+            </summary>
+            <param name="userId">The user id.</param>
+            <param name="searchCriteria">The search criteria.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserController.Edit(System.Guid)">
+            <summary>
+            Edits the user.
+            </summary>
+            <param name="userId">The user id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserController.Edit(UL.Aria.Web.Common.Models.Company.CompanyUserModel)">
+            <summary>
+            Updates the user.
+            </summary>
+            <param name="userProfile">The user profile.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserController.Search(UL.Aria.Web.Common.Models.Profile.UserProfileSearchSpecificationModel)">
+            <summary>
+            Searches users with the specified criteria.
+            </summary>
+            <param name="criteria">The criteria.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserController.Audit(System.Guid)">
+            <summary>
+            Displays the user history.
+            </summary>
+            <param name="id">The id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserController.ContainerAccess(System.Guid,System.Guid)">
+            <summary>
+            Shows the form used to update container access for a specified user
+            </summary>
+            <param name="userId">The user id.</param>
+            <param name="containerId">The container id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserController.ContainerAccess(UL.Aria.Web.Common.Models.Container.UserContainerClaims)">
+            <summary>
+            Updates access to containers
+            </summary>
+            <param name="model">The claims.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserController.GrantAdminAccess(System.Guid,System.Guid)">
+            <summary>
+            Makes the admin.
+            </summary>
+            <param name="userId">The user id.</param>
+            <param name="companyId">The company id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserController.RemoveAdminAccess(System.Guid,System.Guid)">
+            <summary>
+            Makes the user normal.
+            </summary>
+            <param name="userId">The user id.</param>
+            <param name="companyId">The company id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserController.GrantAccess(System.Guid,System.Guid)">
+            <summary>
+            Grants general site access to a user.
+            </summary>
+            <param name="userId">The user id.</param>
+            <param name="companyId">The company id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserController.DenyAccess(System.Guid,System.Guid)">
+            <summary>
+            Denies the access.
+            </summary>
+            <param name="userId">The user id.</param>
+            <param name="companyId">The company id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserController.GrantOrderAccess(System.Guid,System.Guid)">
+            <summary>
+            Grants the specified user access to all orders in the specififed company
+            </summary>
+            <param name="userId">The user id.</param>
+            <param name="companyId">The company id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserController.RemoveOrderAccess(System.Guid,System.Guid)">
+            <summary>
+            Remove access for the specified user to all orders in the specififed company
+            </summary>
+            <param name="userId">The user id.</param>
+            <param name="companyId">The company id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserController.GrantProjectAccess(System.Guid,System.Guid)">
+            <summary>
+            Grants the specified user access to all projects in the specififed company
+            </summary>
+            <param name="userId">The user id.</param>
+            <param name="companyId">The company id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserController.RemoveProjectAccess(System.Guid,System.Guid)">
+            <summary>
+            Remove access for the specified user to all projects in the specififed company
+            </summary>
+            <param name="userId">The user id.</param>
+            <param name="companyId">The company id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserController.RemoveProjectTemplateManagerAccess(System.Guid)">
+            <summary>
+            Remove access for the specified user to all projects in the specififed company
+            </summary>
+            <param name="userId">The user id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserController.GrantProjectTemplateManagerAccess(System.Guid)">
+            <summary>
+            Grants the specified user access to all projects in the specififed company
+            </summary>
+            <param name="userId">The user id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserController.GrantProductAccess(System.Guid,System.Guid)">
+            <summary>
+            Grants the product access.
+            </summary>
+            <param name="userId">The user unique identifier.</param>
+            <param name="companyId">The company unique identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserController.RemoveProductAccess(System.Guid,System.Guid)">
+            <summary>
+            Removes the product access.
+            </summary>
+            <param name="userId">The user unique identifier.</param>
+            <param name="companyId">The company unique identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserController.GrantOrderAdminAccess(System.Guid,System.Guid)">
+            <summary>
+            Grants the specified user access to all orders in the entire system
+            </summary>
+            <param name="userId">The user id.</param>
+            <param name="companyId">The company id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserController.RemoveOrderAdminAccess(System.Guid,System.Guid)">
+            <summary>
+            Remove access for the specified user to all orders in the entire system
+            </summary>
+            <param name="userId">The user id.</param>
+            <param name="companyId">The company id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserController.CheckAndGrantTypeClaim(System.Guid,System.Guid,System.String,System.String)">
+            <summary>
+            Checks the and grant type claim.
+            </summary>
+            <param name="userId">The user unique identifier.</param>
+            <param name="companyId">The company unique identifier.</param>
+            <param name="claim">The claim.</param>
+            <param name="typeForMessage">The thing that is being granted access to (plural form).  This will be used in the 'success' message shown to the user.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserController.RemoveTypeClaim(System.Guid,System.Guid,System.String,System.String)">
+            <summary>
+            Removes the type claim.
+            </summary>
+            <param name="userId">The user unique identifier.</param>
+            <param name="companyId">The company unique identifier.</param>
+            <param name="claim">The claim.</param>
+            <param name="typeForMessage">The thing that is being granted access to (plural form).  This will be used in the 'success' message shown to the user.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserController.AddCompanyLevelClaim(System.Guid,System.Guid,System.String,System.String)">
+            <summary>
+            Adds the user claim.
+            </summary>
+            <param name="companyId">The company id.</param>
+            <param name="userId">The user id.</param>
+            <param name="claim">The claim.</param>
+            <param name="typeForMessage">The thing that is being granted access to (plural form).  This will be used in the 'success' message shown to the user.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserController.AddSystemLevelClaim(System.Guid,System.String,System.String)">
+            <summary>
+            Adds the system level claim.
+            </summary>
+            <param name="userId">The user unique identifier.</param>
+            <param name="claim">The claim.</param>
+            <param name="typeForMessage">The thing that is being granted access to (plural form).  This will be used in the 'success' message shown to the user.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserController.RemoveCompanyLevelClaim(System.Guid,System.Guid,System.String,System.String)">
+            <summary>
+            Removes the user claim.
+            </summary>
+            <param name="companyId">The company id.</param>
+            <param name="userId">The user id.</param>
+            <param name="claim">The claim.</param>
+            <param name="typeForMessage">The thing that is being granted access to (plural form).  This will be used in the 'success' message shown to the user.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserController.SetPageMetadata(UL.Aria.Web.Common.Models.Profile.UserProfile,System.String)">
+            <summary>
+            Sets the page title, crumbs and window title.
+            </summary>
+            <param name="user">The company.</param>
+            <param name="crumbText">The crumb text.</param>
+            <returns></returns>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Controllers.UserController.LoggingCategory">
+            <summary>
+            Gets the logging category to use for all logging.
+            </summary>
+            <value>
+            The logging category.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.Controllers.UserTeamController">
+            <summary>
+            User Team controller.
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserTeamController.#ctor(UL.Aria.Web.Common.IUserContext,UL.Aria.Web.Common.Logging.ILogHelper,UL.Aria.Web.Common.Configuration.IPortalConfiguration,UL.Aria.Web.Common.Providers.IUserTeamProvider,UL.Aria.Web.Common.Mvc.ITempDataProviderFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.Controllers.UserTeamController"/> class.
+            </summary>
+            <param name="userContext">The user context.</param>
+            <param name="logHelper">The log helper.</param>
+            <param name="portalConfiguration">The portal configuration.</param>
+            <param name="userTeamProvider">The user team provider.</param>
+            <param name="tempDataProviderFactory">The temporary data provider factory.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserTeamController.Edit">
+            <summary>
+            Edits this instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.Controllers.UserTeamController.Edit(UL.Aria.Web.Common.Models.UserTeam.UserTeamInfo)">
+            <summary>
+            Edits the specified user team information.
+            </summary>
+            <param name="userTeamInfo">The user team information.</param>
+            <returns></returns>
+        </member>
+        <member name="P:UL.Aria.Web.Portal.Controllers.UserTeamController.LoggingCategory">
+            <summary>
+            Gets the logging category to use for all logging.
+            </summary>
+            <value>
+            The logging category.
+            </value>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.AriaApplication">
+            <summary>
+            MVC application class.
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.AriaApplication.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:UL.Aria.Web.Portal.AriaApplication"/> class.
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.AriaApplication.Application_Start(System.Object,System.EventArgs)">
+            <summary>
+            The Application_Start method is called only one time during the life cycle of an application. 
+            Called when the first resource (such as a page) in an ASP.NET application is requested. 
+            You can use this method to perform startup tasks such as loading data into the cache and 
+            initializing static values.
+            You should set only static data during application start. Do not set any instance data because 
+            it will be available only to the first instance of the HttpApplication class that is created.
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.AriaApplication.Application_AuthorizeRequest(System.Object,System.EventArgs)">
+            <summary>
+            Handles the AuthorizeRequest event of the Application control.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+            <exception cref="T:System.UnauthorizedAccessException"></exception>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.AriaApplication.AuthorizeUser(UL.Aria.Common.Authorization.IAuthorizationManager,System.Security.Claims.ClaimsPrincipal,System.Web.HttpContext)">
+            <summary>
+            Authorizes the user.
+            </summary>
+            <param name="authorizationManager">The authorization manager.</param>
+            <param name="claimsPrincipal">The claims principal.</param>
+            <param name="context">The context.</param>
+            <exception cref="T:System.Web.HttpException">Not authorized to access this resource</exception>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.AriaApplication.VerifyLegalTerms(System.Security.Claims.ClaimsPrincipal,System.Web.HttpContext)">
+            <summary>
+            Verifies no legal terms need to be accepted, and redirects if some do.
+            </summary>
+            <param name="claimsPrincipal">The claims principal.</param>
+            <param name="context">The context.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.AriaApplication.Application_BeginRequest(System.Object,System.EventArgs)">
+            <summary>
+            Handles the BeginRequest event of the AriaApplication control.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.AriaApplication.Application_EndRequest(System.Object,System.EventArgs)">
+            <summary>
+            Handles the EndRequest event of the AriaApplication control.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.AriaApplication.Application_AcquireRequestState(System.Object,System.EventArgs)">
+            <summary>
+            Handles the Application_AcquireRequestState event.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.AriaApplication.Application_LogRequest(System.Object,System.EventArgs)">
+            <summary>
+            Handles the LogRequest event of the AriaApplication control.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.AriaApplication.LogErrorOrRequest(System.Web.HttpApplication,UL.Aria.Web.Common.Logging.ILogHelper)">
+            <summary>
+            Logs the request.
+            </summary>
+            <param name="app">The application.</param>
+            <param name="log">The log.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.AriaApplication.WSFederationAuthenticationModule_SignedIn(System.Object,System.EventArgs)">
+            <summary>
+            Event raised after the user is signed in.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.AriaApplication.WSFederationAuthenticationModule_AuthorizationFailed(System.Object,System.IdentityModel.Services.AuthorizationFailedEventArgs)">
+            <summary>
+            Handles the AuthorizationFailed event of the WSFederationAuthenticationModule control.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.AriaApplication.WSFederationAuthenticationModule_SignInError(System.Object,System.IdentityModel.Services.ErrorEventArgs)">
+            <summary>
+            Handles the SignInError event of the WSFederationAuthenticationModule control.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.IdentityModel.Services.ErrorEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.AriaApplication.WSFederationAuthenticationModule_SessionSecurityTokenCreated(System.Object,System.IdentityModel.Services.SessionSecurityTokenCreatedEventArgs)">
+            <summary>
+            Handles the SessionSecurityTokenCreated event of the WSFederationAuthenticationModule control so that we can customize
+            the duration of our session cookie.  This occurs immediately before WSFederationAuthenticationModule_SignedIn. 
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="T:UL.Aria.Web.Portal.WebRole">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:UL.Aria.Web.Portal.WebRole.OnStart">
+            <summary>
+            Called when [start].
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

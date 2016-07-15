@@ -1,0 +1,138 @@
+﻿@model UL.Aria.Web.Common.Models.TaskType.Link
+@{
+    var success = ((bool?)ViewBag.Success).GetValueOrDefault(false);
+    var id = "form_" + Guid.NewGuid().ToString();
+    ViewBag.ModalTitle = "Create Link";
+}
+@using (Html.BeginForm("Create", "Link", FormMethod.Post, new Dictionary<string, object>() { { "id", id }, { "class", "task-type-create-form" } }))
+{
+    if (success)
+    {
+        <div class="modal-success-create">
+            <div class="modal-body">
+                <i class="ul-icon-success"></i><span>Link has been successfully created.</span>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-info" data-dismiss="modal" aria-hidden="true" onclick=" UL.Refresh(); ">Dismiss</button>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Create Link</h3>
+        </div>
+
+        <div class="modal-body create-task-type">
+            @Helpers.ModalSubmitFix()
+            <div class="form-horizontal create-link">
+                @Html.LabelFor(model => model.DisplayName, new {@class = "strong"})
+                <div class="controls modal-create-tasktype">
+                    @Html.TextBoxFor(model => model.DisplayName)
+                    @Html.ValidationMessageFor(model => model.DisplayName)
+                </div>
+            </div>
+            <div class="form-horizontal create-link">
+                @Html.LabelFor(model => model.RootUrl, new {@class = "strong"})
+                <div class="controls modal-create-tasktype">
+                    @Html.TextBoxFor(model => model.RootUrl)
+                    @Html.ValidationMessageFor(model => model.RootUrl)
+                </div>
+            </div>
+            <div class="form-horizontal create-link">
+                @Html.LabelFor(model => model.Label, new { @class = "strong" })
+                <div class="controls modal-create-tasktype">
+                    @Html.TextBoxFor(model => model.Label)
+                    @Html.ValidationMessageFor(model => model.Label)
+                </div>
+            </div>
+            <div class="form-horizontal create-link">
+                @Html.LabelFor(model => model.IsModal, new { @class = "strong" })
+                <div class="controls modal-create-tasktype">
+                    @Html.CheckBoxFor(model => model.IsModal)
+                    @Html.ValidationMessageFor(model => model.IsModal)
+                </div>
+            </div>
+            <div class="form-horizontal control-group tasktype-bu-create">
+                @Html.LabelFor(model => model.BusinessUnits, new {@class = "strong"})
+                <div class="controls chkBusinessUnit">
+                    @Html.CheckboxListFor(m => m.BusinessUnits, Model.BusinessUnits)
+                    @Html.ValidationMessageFor(x => x.BusinessUnits)
+                </div>
+            </div>
+            <div class="form-horizontal control-group">
+                @Html.LabelFor(x => x.Description)
+                <div class="controls">
+                    @Html.TextAreaFor(model => model.Description, new
+                    {
+                        rows = "5",
+                        @class = "task-comment-box"
+                    })
+                    @Html.ValidationMessageFor(x => x.Description)
+                </div>
+            </div>
+
+            @Html.ValidationSummary()
+        </div>
+        <div class="modal-footer">
+            <input type="submit" id="btnUpdateTask" class="btn pull-right btn-primary" value="Save Link"/>
+            <button class="btn pull-left" id="task-modal" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        </div>     
+    }
+}
+<script type="text/javascript">
+    @{
+        var tabkey = "";
+        if (this.Context.Request.Params.AllKeys.Contains("tab"))
+        {
+            tabkey = this.Context.Request.Params["tab"];
+        }
+    }
+
+    var initTabKey = '@tabkey';
+
+    //hook ajax form submissions
+    $("#@id").ajaxForm({
+        target: $("#@id").parent(),
+        beforeSubmit: $.proxy(UL.ValidateModal, $("#@id")),
+        cache: false
+    });
+    $(document).ready(function () {
+        var proj = "";
+
+        function displayValidationErrors() {
+            $('a.accordion-toggle').removeClass('view-error');
+            $('span.field-validation-error, input.input-validation-error').each(function () {
+                var view = $(this).closest('.modal-tab-panel').prop('id');
+                var selector = 'a[data-tab-selector="#' + view + '"]';
+                if (!$(selector).hasClass('view-error')) {
+                    $(selector).addClass('view-error');
+                    proj = view.substr(0, view.lastIndexOf("-"));
+                }
+            });
+        }
+
+        displayValidationErrors();
+        var form = $("#@id");
+        form.removeData('validator');
+        form.removeData('unobtrusiveValidation');
+        $.validator.unobtrusive.parse(form);
+
+        $('#tab-task-type-create').tabfy({ defaultTab: (proj == "") ? 'modal-tasktype-details' : proj, selectedTab: initTabKey });
+
+        //idle session manager hook
+        $(".task-type-create-form").sessionManager({
+            idleWarningTimeout: UlAriaWebPortalConfig.IdleWarningTimeoutMinutes * 60000, //60,000 == 1 minute
+            serverCallInterval: UlAriaWebPortalConfig.ServerCallIntervalMinutes * 60000, //60,000 == 1 minute
+        });
+
+        $('#@id').closest(".modal").modal({ backdrop: 'static', keyboard: false });
+
+        var successmsg = $('.modal-success-create');
+        if (successmsg.length > 0) {
+            $('#@id').closest(".modal").modal("hide");
+            window.location.reload();
+        }
+    });
+</script>

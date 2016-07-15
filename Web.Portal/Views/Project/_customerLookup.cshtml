@@ -1,0 +1,82 @@
+﻿@using Microsoft.Ajax.Utilities
+@model UL.Aria.Web.Common.Models.Shared.ProjectCreate
+
+<div class="customer-lookup" data-field-group-selector="@ViewBag.FieldGroupSelector" data-selected-lines="@Model.SelectedServiceLines.Any(s => s.Selected).ToString().ToLower()"
+     data-company-id="@ViewBag.CompanyLookupId" data-account-number="@ViewBag.AccountNumber" data-url="@Url.PageGetAccounts()"
+     data-sync-button-selector=".sync-btn" data-screen-selector=".screen" data-modal-selector=".lookup-modal"
+     data-fixed-account-id="@ViewBag.OracleId"
+     data-variable-account-id-source="@ViewBag.VariableOracleIdSource">
+    <button class="sync-btn">Sync from Customer Master</button>
+    <div class="lookup-modal" style="display:none">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button><h3>
+                Select Account
+            </h3>
+        </div>
+        <div class="modal-body screen-canvas" id="modal-form">
+        </div>
+        <div class="modal-footer error-footer">
+            <button class="btn btn-info pull-right next-btn" aria-hidden="true">Next</button>
+            <button class="btn btn-info pull-right done-btn" data-dismiss="modal" aria-hidden="true">Done</button>
+            <button class="btn btn-info pull-right cancel-btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+            <button class="btn btn-info pull-right back-btn" aria-hidden="true">Back</button>
+        </div>
+    </div>
+    <div class="screen" data-screen-id="Accounts" style="display:none">
+        <table cellpadding="0" cellspacing="0" style="width:97%">
+            <thead>
+                <tr>
+                    <th style="width:85px">Account</th>
+                    <th style="width:231px;">Customer Company Name &amp; Address</th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+        <div style="height:300px; width:100%; overflow-y:scroll;">
+            <table cellpadding="0" cellspacing="0" style="width:100%">
+                <tbody>
+                    <tr class=" item-template">
+                        <td style="width:85px">
+                            [=this.Id]
+                        </td>
+                        <td style="width:231px;">
+                            <textarea readonly="readonly" rows="[=this.Address.count(/\r\n/g) + 4]" class="text-box multi-line" style="height:100% !important; border:1px solid transparent !important; width:95% !important; margin:0; background-color:transparent; cursor:default; resize:none;">[=this.CompanyName + "\r\n"][=this.Address + "\r\n"][=this.City] [=this.State] [=this.PostalCode]</textarea>
+                        </td>
+                        <td><input type="radio" name="account" data-id="[=this.RuntimeId]" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="screen" data-screen-id="Contacts" style="display:none;">
+        <table cellpadding="0" cellspacing="0" style="width:100%">
+            <thead>
+                <tr>
+                    <th style="width:332px;">Customer Contact Details</th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+        <div style="height:300px; width:100%; overflow-y:scroll;">
+            <table cellpadding="0" cellspacing="0" style="width:100%">
+                <tbody>
+                    <tr class="item-template">
+                        <td style="text-align:left;width:332px;">
+                            <div>
+                                [=this.FullName]
+                            </div>
+                            <div>
+                                [=this.Title]
+                            </div>
+                            <div>
+                                [=this.Email]
+                            </div>
+                        </td>
+                        <td><input type="radio" name="contact" data-id="[=this.Id]" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,268 @@
+﻿@using UL.Enterprise.Foundation
+@using UL.Aria.Web.Common.Models.Project
+@model UL.Aria.Web.Common.Models.Project.TaskDetail
+@{
+    var isProjectHandlerCurrentUser = string.Equals(Model.CurrentUser, Model.ProjectHandler, StringComparison.OrdinalIgnoreCase);
+    var canBlockTaskOwner = Model.IsProjectHandlerRestricted && !isProjectHandlerCurrentUser;
+}
+<div id="task-details-view">
+	@Html.HiddenFor(x => x.TaskId)
+	@Html.HiddenFor(x => x.TaskNumber)
+	@Html.HiddenFor(x => x.ContainerId)
+	@Html.HiddenFor(x => x.IsReactivateRequest)
+	<div class="form-horizontal control-group">
+		<div class="left-col">
+			@Html.LabelFor(model => model.TaskName, new { @class = "strong" })
+			<div class="controls">
+				@Html.TextBoxFor(x => x.TaskName, Model.TaskTypeId != Model.FreeformTaskTypeId)
+				@Html.HiddenFor(x => x.TaskName)
+				@Html.HiddenFor(x => x.TaskTypeId)
+				@*@Html.ComboboxFor(x => x.TaskName, x => x.TaskTypeId, Model.TaskTypes, displayMember: "Name", idMember: "Id", placeholderText: "Create Freeform Task", disable: true)
+					@Html.ValidationMessageFor(model => model.TaskName)*@
+			</div>
+		</div>
+
+		<div class="right-col">
+			@Html.LabelFor(model => model.Description, new { @class = "strong" })
+			<div class="controls">
+				@Html.TextBoxFor(model => model.Description, Model.HtmlAttributes)
+				@Html.ValidationMessageFor(model => model.Description)
+			</div>
+		</div>
+	</div>
+
+
+
+
+	<div class="form-horizontal control-group">
+		<div class="left-col">
+			@Html.LabelFor(m => m.ParentTaskNumber, new { @class = "strong" })
+			@Html.TextBoxFor(model => model.ParentTaskNumber, Model.DisableParentTask)
+			@Html.ValidationMessageFor(model => model.ParentTaskNumber, Model.ParentTaskNumberErrorMessage)
+		</div>
+		<div class="right-col">
+			@Html.LabelFor(m => m.ChildTaskNumber, new { @class = "strong" })
+			@Html.TextBoxFor(model => model.ChildTaskNumber)
+			@Html.ValidationMessageFor(model => model.ChildTaskNumber, Model.ChildTaskErrorMessage)
+		</div>
+
+	</div>
+
+	<div class="form-horizontal control-group">
+		@Html.LabelFor(x => x.PredecessorTask)
+		<div class="controls">
+			@Html.TextBoxFor(model => model.PredecessorTask)
+			@Html.DescriptionFor(x => x.PredecessorTask)
+			@Html.ValidationMessageFor(model => model.PredecessorTask, Model.PredecessorTaskErrorMessage)
+		</div>
+	</div>
+
+	<div class="form-horizontal control-group">
+		<div class="left-col">
+			@Html.LabelFor(x => x.Phase)
+			<div class="controls">
+				@{
+					var htmlAttributes = new Dictionary<string, object>();
+					if (Model.IsReactivateRequest)
+					{
+						htmlAttributes.Add("disabled", "disabled");
+					}
+				}
+
+				@Html.DropDownListFor(m => m.Phase, new SelectList(Model.PhaseList, "key", "value", Model.Phase), htmlAttributes)
+				@Html.ValidationMessageFor(model => model.Phase, Model.PhaseChangeErrorMessage)
+			</div>
+		</div>
+		<div class="right-col">
+			@*@Html.LabelFor(x => x.Progress)
+				<div class="controls">
+					@Html.DropDownListFor(m => m.Progress, new SelectList(Model.ProgressList, "key", "value", Model.Progress))
+				</div>*@
+		</div>
+	</div>
+
+	<div class="form-horizontal control-group">
+		<div class="left-col">
+			@Html.LabelFor(model => model.StartDate, new { @class = "strong" })
+			<div class="controls">
+				@Html.EditorFor(model => model.StartDate)
+				@Html.ValidationMessageFor(model => model.StartDate)
+			</div>
+		</div>
+		<div class="right-col">
+			@Html.LabelFor(model => model.EndDate, new { @class = "strong" })
+			<div class="controls">
+				@Html.EditorFor(model => model.EndDate)
+				@Html.ValidationMessageFor(model => model.EndDate)
+			</div>
+		</div>
+	</div>
+
+	<div class="form-horizontal control-group reminder-date">
+		<div class="left-col">
+			@Html.LabelFor(model => model.ReminderDate, new { @class = "strong" })
+			<div class="controls">
+				@Html.EditorFor(model => model.ReminderDate)
+				@Html.ValidationMessageFor(model => model.ReminderDate)
+			</div>
+		</div>
+
+	</div>
+
+	<div class="form-horizontal control-group">
+		<div class="left-col">
+			@Html.LabelFor(x => x.EstimatedDuration)
+			<div class="controls">
+				@Html.TextBoxFor(model => model.EstimatedDuration)
+				@Html.ValidationMessageFor(model => model.EstimatedDuration)
+			</div>
+		</div>
+		<div class="right-col">
+			@Html.LabelFor(x => x.ActualDuration)
+			<div class="controls">
+				@Html.TextBoxFor(model => model.ActualDuration)
+				@Html.ValidationMessageFor(model => model.ActualDuration)
+			</div>
+		</div>
+	</div>
+
+	<div class="form-horizontal control-group">
+		<div class="left-col">
+			@Html.LabelFor(x => x.PercentComplete)
+			<div class="controls">
+				@Html.DropDownListFor(m => m.PercentComplete, new SelectList(Model.PercentCompleteList, "key", "value", Model.PercentComplete))
+			</div>
+		</div>
+		@*<div class="right-col">
+				@Html.LabelFor(x => x.ClientBarrierHours)
+				<div class="controls">
+					@Html.TextBoxFor(model => model.ClientBarrierHours)
+					@Html.ValidationMessageFor(mode => Model.ClientBarrierHours)
+				</div>
+			</div>*@
+	</div>
+
+	<div class="form-horizontal control-group" id="task-owner" data-block-task-owner="@canBlockTaskOwner.ToString().ToLower()" data-title-text="Only the Project Handler can assign this Task">
+		@Html.LabelFor(m => m.TaskOwnerAssigned, new { @class = "strong" })
+		<span class="task-restricted">
+			Assignment of this task is restricted.<br /> Only the Project Handler may assign<br />this task.
+		</span>
+		<div class="controls">
+			@Html.RadioButtonFor(m => m.TaskOwnerAssigned, EnumTaskOwner.AssignToMe, new { @checked = true }) <strong>@EnumTaskOwner.AssignToMe.GetDisplayName()</strong>
+		</div>
+		<div class="controls">
+			@Html.RadioButtonFor(m => m.TaskOwnerAssigned, EnumTaskOwner.AssignToGroup) <strong>@EnumTaskOwner.AssignToGroup.GetDisplayName()</strong>
+		</div>
+		<div class="controls">
+			<div class="left-col">
+				@Html.RadioButtonFor(m => m.TaskOwnerAssigned, EnumTaskOwner.AssignToHandler) <strong>@EnumTaskOwner.AssignToHandler.GetDisplayName()</strong>
+			</div>
+			<div class="left-col" style="margin-left: 15px;">
+				@Html.AutoCompleteFor(m => m.TaskOwner, Url.PageSearchULUsers(), Model.TaskOwnerAssigned != EnumTaskOwner.AssignToHandler, minSearchTermLength: 2)
+				@Html.ValidationMessageFor(model => model.TaskOwner)
+			</div>
+		</div>
+	</div>
+
+
+</div>
+
+<script>
+	$(document).ready(function (e) {
+		var remove = "Remove Hold";
+		function taskAssigned() {
+			var taskOwner = $("input:radio[name='TaskOwnerAssigned']:checked").val();
+			if (taskOwner === "AssignToMe" || taskOwner === "AssignToGroup") {
+				return true;
+			}
+			if (taskOwner === "AssignToHandler" &&
+                $("#TaskOwner").val() !== "Unassigned" &&
+                $("#TaskOwner").val() !== "") {
+				return true;
+			}
+			return false;
+		}
+
+		function statusCheck(s) {
+			if ($("#Phase option:selected").val() === "OnHold") {
+				return;
+			}
+
+			if ($("#Phase option:selected").val() === "RemoveHold") {
+				$("#Phase option:selected").remove();
+
+				var newOption = "<option value='" + "OnHold" + "'>On Hold</option>";
+				$("#Phase").append(newOption);
+
+				setTimeout(function () {
+					if ($("#Phase option[value='OnHold']").length > 1) {
+						$("#Phase option:last").remove();
+					}
+				}, 500);
+			}
+
+			if (s.val() !== "" && !taskAssigned()) {
+				$("#Phase option:first").val("AwaitingAssignment");
+				$("#Phase option:first").text("Awaiting Assignment");
+			}
+			if (s.val() === "" && taskAssigned() ||
+                s.val() === "" && !taskAssigned()) {
+				$("#Phase option:first").val("NotScheduled");
+				$("#Phase option:first").text("Not Scheduled");
+			}
+			if (s.val() !== "" && taskAssigned()) {
+				$("#Phase option:first").val("InProgress");
+				$("#Phase option:first").text("In Progress");
+			}
+		}
+
+		$("#StartDate").change(function () {
+			statusCheck($("#StartDate"));
+		});
+
+		$("#task-owner").change(function () {
+			statusCheck($("#StartDate"));
+		});
+
+		$("#TaskOwner").bind("mouseenter mouseleave", function () {
+			statusCheck($("#StartDate"));
+		});
+
+		function rePopulateStatus(s) {
+			$.each(s, function (index, val) {
+				$("#Phase").append($("<option/>", {
+					value: val.value,
+					text: val.value
+				}));
+			});
+		}
+
+		$(".btn-primary").click(function () {
+			var obj = $("#Phase").children();
+			var arr = $.makeArray(obj);
+
+			setTimeout(function () {
+				if ($("#TaskOwner").hasClass("input-validation-error")) {
+					rePopulateStatus(arr);
+				}
+			}, 1000);
+		});
+
+		$("#Phase").change(function () {
+			var status = $("#Phase option:selected").val();
+
+			if (status === "OnHold") {
+				if ($('#Phase option:contains("' + remove + '")').length) {
+					return;
+				}
+				var newOption = "<option value='" + "RemoveHold" + "'>Remove Hold</option>";
+				$("#Phase").append(newOption);;
+			}
+
+			if (status === "RemoveHold") {
+				statusCheck($("#StartDate"));
+			}
+		});
+	});
+
+</script>

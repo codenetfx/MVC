@@ -1,0 +1,133 @@
+﻿@using UL.Aria.Web.Common.Models.Project
+@model UL.Aria.Web.Common.Models.Project.BusinessUnit
+@{
+    var success = ((bool?)ViewBag.Success).GetValueOrDefault(false);
+    var id = "form_" + Guid.NewGuid().ToString();
+    ViewBag.ModalTitle = "Create Business Unit";
+}
+
+
+@using (Html.BeginForm("Create", "BusinessUnit", FormMethod.Post, new Dictionary<string, object>() { { "id", id }, { "class", "task-type-create-form" } }))
+{
+    if (success)
+    {
+        <div class="modal-success-create">
+            <div class="modal-body">
+                <i class="ul-icon-success"></i><span>Business Unit has been successfully created.</span>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-info" data-dismiss="modal" aria-hidden="true" onclick=" UL.Refresh(); ">Dismiss</button>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Create Business Unit</h3>
+        </div>
+    <div class="modal-body">
+        @*<div class="modal-center-pane edit-project ">
+            @Helpers.ModalSubmitFix()
+
+
+
+            @Html.ValidationSummary()
+        </div>*@
+
+
+
+        <fieldset class="file-pane">
+            <div class="form-horizontal control-group">
+                @Html.LabelFor(model => model.Code, new { @class = "strong" })
+                <div class="controls">
+                    @Html.EditorFor(model => model.Code)
+                    @Html.ValidationMessageFor(x => x.Code)
+                </div>
+            </div>
+
+            <div class="form-horizontal control-group">
+                @Html.LabelFor(model => model.Name, new { @class = "strong" })
+                <div class="controls">
+                    @Html.EditorFor(model => model.Name)
+                    @Html.ValidationMessageFor(x => x.Name)
+                </div>
+            </div>
+
+            <div class="form-horizontal control-group">
+                @Html.LabelFor(model => model.Note, new { @class = "strong" })
+                <div class="controls chkBusinessUnit">
+                    @Html.TextAreaFor(m => m.Note, Model.Note)
+                    @Html.ValidationMessageFor(x => x.Note)
+                </div>
+            </div>
+
+            @Html.ValidationSummary()
+        </fieldset>
+    </div>
+
+        <div class="modal-footer">
+            <input type="submit" id="btnUpdateTask" class="btn pull-right btn-primary" value="Save" />
+            <button class="btn pull-left" id="task-modal" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        </div>
+    }
+}
+
+<script type="text/javascript">
+    @{
+        var tabkey = "";
+        if (this.Context.Request.Params.AllKeys.Contains("tab"))
+        {
+            tabkey = this.Context.Request.Params["tab"];
+        }
+    }
+
+    var initTabKey = '@tabkey';
+
+    //hook ajax form submissions
+    $("#@id").ajaxForm({
+        target: $("#@id").parent(),
+        beforeSubmit: $.proxy(UL.ValidateModal, $("#@id")),
+        cache: false
+    });
+    $(document).ready(function () {
+        $('.create-task-type').closest('.modal').addClass('modal-two-col');
+        var proj = "";
+
+        function displayValidationErrors() {
+            $('a.accordion-toggle').removeClass('view-error');
+            $('span.field-validation-error, input.input-validation-error').each(function () {
+                var view = $(this).closest('.modal-tab-panel').prop('id');
+                var selector = 'a[data-tab-selector="#' + view + '"]';
+                if (!$(selector).hasClass('view-error')) {
+                    $(selector).addClass('view-error');
+                    proj = view.substr(0, view.lastIndexOf("-"));
+                }
+            });
+        }
+
+        displayValidationErrors();
+        var form = $("#@id");
+        form.removeData('validator');
+        form.removeData('unobtrusiveValidation');
+        $.validator.unobtrusive.parse(form);
+
+        $('#tab-task-type-create').tabfy({ defaultTab: (proj == "") ? 'modal-tasktype-details' : proj, selectedTab: initTabKey });
+
+        //idle session manager hook
+        $(".task-type-create-form").sessionManager({
+            idleWarningTimeout: UlAriaWebPortalConfig.IdleWarningTimeoutMinutes * 60000, //60,000 == 1 minute
+            serverCallInterval: UlAriaWebPortalConfig.ServerCallIntervalMinutes * 60000, //60,000 == 1 minute
+        });
+
+        $('#@id').closest(".modal").modal({ backdrop: 'static', keyboard: false });
+
+        var successmsg = $('.modal-success-create');
+        if (successmsg.length > 0) {
+            $('#@id').closest(".modal").modal("hide");
+            window.location.reload();
+        }
+    });
+</script>
+
+

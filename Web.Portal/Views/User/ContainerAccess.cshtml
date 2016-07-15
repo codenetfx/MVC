@@ -1,0 +1,39 @@
+﻿@using UL.Aria.Web.Portal.Controllers
+@model UL.Aria.Web.Common.Models.Container.UserContainerClaims
+@{
+    string id = string.Concat("containerClaims-", Model.ContainerId);
+}
+<fieldset class="container-actions" id="@id">
+    @using (Html.BeginForm("ContainerAccess", "User", FormMethod.Post, new Dictionary<string, object> { { "class", "form-inline" } }))
+    {
+        @Html.HiddenFor(m => m.UserId)
+        @Html.HiddenFor(m => m.ContainerId)
+	 
+     
+        if (Model.Claims.Any())
+        {
+        <text> </text>
+        @Html.CheckboxListFor(m => m.Claims, Model.Claims)
+
+        <p class="editor-buttons">
+            <input type="button" value="Cancel" class="btn" onclick="$(this).parents('TR:first').toggleContainerDetails();" />
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </p>
+        }
+        else
+        {
+        <p>No Actions available on this container</p>
+        }
+
+
+    }
+    @{Html.RenderPartial("_PageMessages", (object)TempData[BaseController.PageMessagesKey], new ViewDataDictionary());}
+    <script type="text/javascript">
+        $("#@id FORM").ajaxForm({ target: @Html.Raw(Json.Encode("#" + id)), replaceTarget: true });
+		
+		@if (ViewBag.Success)
+         {
+			<text>$("#@id").parents('TR:first').toggleContainerDetails();</text>
+         }
+    </script>
+</fieldset>

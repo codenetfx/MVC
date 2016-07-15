@@ -1,0 +1,22 @@
+﻿@model DateTime?
+@{
+	var editDate = (Model == null || Model.Value == default(DateTime)) ? null : ViewData.TemplateInfo.FormattedModelValue;
+	var displayDate = !string.IsNullOrEmpty(editDate + "") ? editDate : string.Format(ViewData.ModelMetadata.DisplayFormatString ?? "{0:d}", DateTime.Now);
+	var id = "date-" + Guid.NewGuid().ToString();
+	//ViewData.ModelMetadata.EditFormatString
+}
+<div id="@id" class="input-append date" data-date="@displayDate" data-date-format="mm/dd/yyyy">
+    @Html.TextBox("", editDate, new { @class = "span2"})
+	<span class="add-on">
+		<i class="icon-calendar"></i>
+	</span>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#@id').datepicker()
+      .on('changeDate', function () {
+          $(this).datepicker('hide');
+      });
+    });
+
+</script>

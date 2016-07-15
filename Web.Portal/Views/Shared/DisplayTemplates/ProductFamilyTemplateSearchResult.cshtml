@@ -1,0 +1,46 @@
+﻿@using UL.Aria.Web.Common.Mvc
+@model UL.Aria.Web.Common.Models.Search.ProductFamilyTemplateSearchResult
+@{
+	var productTemplate = Url.ProductFamilyDownload(Model.Id, "ProductTemplate");
+	var productFamilyTemplate = Url.ProductFamilyDownload(Model.Id, "Template");
+	var productFamilyProductDownload = Url.ProductDownloadFamily(Model.Id);
+}
+
+<div class="search-result product-family-result clearfix">
+	<div class="result-icon">
+		<a href="@productFamilyTemplate">
+			<img src="@Url.TransparentImage()" alt="@Model.Name" /></a>
+	</div>
+	<div class="result-actions">
+		@*<input type="checkbox" class="pull-right" style="margin: 2px 0 0 10px;" />*@
+		<div class="dropdown pull-right">
+			<a title="Open Menu" class="dropdown-toggle caret" data-toggle="dropdown" href="#"><i></i></a>
+			<ul class="dropdown-menu" role="menu">
+				<li>
+					<a href="@productTemplate">Download New Product Template</a>
+					@*<a href="@productFamilyTemplate">Download Product Family Details</a>*@
+					<a href="@productFamilyProductDownload">Download Products</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="result-detail">
+        @*<div class="result-item-header">
+            <div class="display-status">
+                @Model.Status
+            </div>
+        </div>*@
+		<div class="result-item-title">
+			<a href="@productTemplate">@Html.DisplayFor(model => model.Name)</a>
+		</div>
+		<div class="display-row">
+			<div class="display-label">@Html.DisplayNameFor(model => model.Description):</div>
+			<div class="display-field">@Html.DisplayFor(model => model.Description)</div>
+		</div>
+
+		<div class="display-row">
+			<div class="display-label">@Html.DisplayNameFor(model => model.UpdatedDateTime):</div>
+			<div class="display-field">@Html.DisplayFor(model => model.UpdatedDateTime)</div>
+		</div>
+	</div>
+</div>

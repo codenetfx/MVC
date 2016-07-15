@@ -1,0 +1,47 @@
+﻿@using UL.Aria.Web.Common.Models.Shared
+@{
+    ISessionStash m = ViewBag.SessionStash as ISessionStash;
+}
+
+@if(m != null && m.IsAuthenticated) {
+<div class="header_flyup" style="display: none;">
+    <div id="myHomeContainer">
+        <div class="close_down">
+            <div class="expanded up"></div>
+        </div>
+        <div class="tab" id="myHome">
+            <div class="content-wrapper clearfix">
+                <h2 class="profile">Hi, @m.UserDisplayName</h2>
+                <div class="profile_column">
+                    <p>@m.UserAboutMe</p>
+                </div>
+                <div class="profile_column">
+                    <ul>
+                        <li class="first"><a href="@Url.PageHome()">Home</a></li>
+                        <li><a href="@Url.PageProfile()">My Profile</a></li>
+                    </ul>
+                </div>
+                <div class="profile_column">
+                    <ul>
+                        <li class="first"><a href="@Url.PageFavorites()">Favorites (@m.SavedSearchCount)</a></li>
+                        <li><a href="@Url.PageScratchSpace()">Scratch Space</a></li>
+                    </ul>
+                </div>
+                <div class="profile_column last">
+                    <ul>
+                        <li class="first"><a href="@Url.PageHelp()" class="help" title="Help">Help</a></li>
+                        <li>
+                            @using (Html.BeginForm("SignOut", "Login", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <a href="#singout" onclick="$(this).parents('FORM').submit();event.preventDefault();">Logout</a>
+                            }
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
+

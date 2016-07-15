@@ -1,0 +1,28 @@
+﻿@using UL.Aria.Web.Common.Mvc
+@using System.Linq;
+@model UL.Aria.Web.Common.Models.Profile.UserProfile
+
+@{
+	Layout = "_Layout.cshtml";
+	ViewBag.Title = "My Profile :: UL";
+	ViewBag.PageTitle = "My Profile";
+}
+
+<fieldset>
+	<h2>
+		@Html.DisplayFor(model => model.BasicInformation.DisplayName)
+	</h2>
+	<div title="Job Title">
+		@Html.DisplayFor(model => model.BasicInformation.Title)
+	</div>
+
+	@if (Model.Company.Id.HasValue)
+ {
+		<div>
+			<a href="@Url.PageCompanyDetails(Model.Company.Id.Value)">
+				@Html.DisplayFor(model => model.Company.Name)
+			</a>
+		</div>
+ }
+	<p title="About Me">@Html.DisplayFor(m => m.BasicInformation.AboutMe)</p>
+</fieldset>

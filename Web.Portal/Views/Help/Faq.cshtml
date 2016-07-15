@@ -1,0 +1,430 @@
+﻿@model UL.Aria.Web.Common.Models.Shared.BaseViewModel
+
+@{
+	Layout = "~/Views/Help/_Layout.cshtml";
+}
+
+@section aside {
+	@{ Html.RenderPartial("_Contact"); }
+}
+
+<fieldset class="search-header">
+	<legend>
+		<h2>FAQs</h2>
+
+		<ul class="refine-list">
+			<li><a href="#faq-all">All</a></li>
+			<li><a href="#faq-login">Login</a></li>
+			<li><a href="#faq-home">Home</a></li>
+			<li><a href="#faq-profile">Profile</a></li>
+			<li><a href="#faq-order">Orders</a></li>
+		    <li><a href="#faq-project">Projects</a></li>
+            <li><a href="#faq-product">Products</a></li>
+			<li><a href="#faq-company">Companies</a></li>
+			<li><a href="#faq-document">Documents</a></li>
+		</ul>
+	</legend>
+</fieldset>
+
+<fieldset class="search-body" style="padding-bottom: 740px;">
+
+	<!-- begin FAQ entries -->
+
+	<a name="faq-all" style="visibility: hidden;"></a>
+	<a name="faq-login" style="visibility: hidden;"></a>
+
+	<!-- begin of Login Q&As -->
+	<div class="search-result faq-result faq-login clearfix">
+		<div class="display-status">Login</div>
+		<div class="result-item-title">How do I create a portal.ul.com account?</div>
+		<div class="display-row">
+			<p>Accounts on portal.ul.com are restricted to a limited number of UL customers during the pilot stage. Contact UL at portalservices@ul.com if you would like to be put on our waiting list.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-login clearfix">
+		<div class="display-status">Login</div>
+		<div class="result-item-title">How do I access portal.ul.com?</div>
+		<div class="display-row">
+			<p>A link to the portal is provided in the email acknowledging that your account has been created.  The URL is portal.ul.com.  You may bookmark it for convenience.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-login clearfix">
+		<div class="display-status">Login</div>
+		<div class="result-item-title">Why did I receive a temporary password?</div>
+		<div class="display-row">
+			<p>Temporary passwords are sent when a new account is created, or a new password is requested through the "Reset Password" or "Forgot Password" links.  For security reasons, the password reset email is sent to the email address on record in the user's portal.ul.com account.  As long as the email address is not shared, you are the only one who received the temporary password.  You will be required to change your password immediately upon logging in with the temporary password.  A temporary password will expire if it is not used within 90 days.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-login clearfix">
+		<div class="display-status">Login</div>
+		<div class="result-item-title">I forgot my username</div>
+		<div class="display-row">
+			<p>Your username is your email address. If your portal account was created using an email address that you can no longer access, use the Contact Us link to request assistance from our User Support Team.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-login clearfix">
+		<div class="display-status">Login</div>
+		<div class="result-item-title">I forgot my password</div>
+		<div class="display-row">
+			<p>You can generate a new password using the "Forgot Your Password?" link on the portal login page. A new temporary password will be sent to the user's email address immediately. You will need to change your password at your next login. The temporary password will expire if it is not used within 90 days.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-login clearfix">
+		<div class="display-status">Login</div>
+		<div class="result-item-title">I reset my password but I didn't receive an email with the temporary password</div>
+		<div class="display-row">
+			<p>Check your profile to confirm that your email address is correct. If it needs to be corrected, use the Contact Us link to request the change. If the address is correct, spam filtering may prevent the email from being delivered. Contact your local IT department regarding its spam policies and request that they accept all emails from UL.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-login clearfix">
+		<div class="display-status">Login</div>
+		<div class="result-item-title">I was unable to login to the portal using a bookmark to an internal page</div>
+		<div class="display-row">
+			<p>UL discourages bookmarking any page other than portal.ul.com for accessing portal.ul.com, since internal URLs within the site are subject to change.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-login clearfix">
+		<div class="display-status">Login</div>
+		<div class="result-item-title">I was unable to login to the portal using the Login link on www.ul.com</div>
+		<div class="display-row">
+			<p>The login link on www.ul.com does not currently connect to portal.ul.com. You can access the portal at portal.ul.com.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-login clearfix">
+		<div class="display-status">Login</div>
+		<div class="result-item-title">I get an "Error: Authentication failed. Please try again" message after I try to log in to portal.ul.com</div>
+		<div class="display-row">
+			<p>There are several reasons for this error:</p>
+			<ul>
+				<li>If you changed your password after bookmarking a sub-page of the site, you will need to remove the bookmark and access the portal via portal.ul.com.</li>
+				<li>If you changed the password after choosing the "Remember my password" feature in your browser, disable the "Remember my password" feature</li>
+				<li>If you are using an incorrect password, use the "Forgot Password" link to generate an email with a temporary password</li>
+				<li>You may be using the wrong case on one or more characters when entering the password (passwords are case sensitive). Check the CAPS LOCK key setting and try entering the password again. If the password still doesn't work, use the "Forgot Password" link to generate an email with a temporary password</li>
+				<li>You may be entering a username and password for a different system. Make sure you are using the username and password for your portal.ul.com account.</li>
+			</ul>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-login clearfix">
+		<div class="display-status">Login</div>
+		<div class="result-item-title">I get an "Error: The user account is locked or disabled." after I try to log in to portal.ul.com</div>
+		<div class="display-row">
+			<p>Your account will be locked if an incorrect username/password combination was entered six times, or if you haven't logged into your account for more than 90 days. Clicking on the "Forgot Password" link will generate an email with a new temporary password that will enable you to log in.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-login clearfix">
+		<div class="display-status">Login</div>
+		<div class="result-item-title">I logged in with a new temporary password after getting an "Error: The user account is locked or disabled.", but I was still unable to access my page.</div>
+		<div class="display-row">
+			<p>Your ability to log in may have been disabled because of some other issue with your account. Use the Contact Us link to request assistance from our User Support Team.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-login clearfix">
+		<div class="display-status">Login</div>
+		<div class="result-item-title">I am a UL staff member and I was unable to login to portal.ul.com on UL's network (at a UL facility or when logged into VPN)</div>
+		<div class="display-row">
+			<p>If you have been able to log in to the portal before, there may be a problem with the network, firewall or proxy that connects the UL office to the portal. Contact the Service Desk via the ESS Portal to report this as an Incident.</p>
+		</div>
+	</div>
+	<!-- end Login Q&As -->
+
+	<a name="faq-home" style="visibility: hidden;"></a>
+
+	<!-- begin of Home Q&As -->
+	<div class="search-result faq-result faq-home clearfix">
+		<div class="display-status">Home</div>
+		<div class="result-item-title">Can a company have more than one username and password?</div>
+		<div class="display-row">
+			<p>portal.ul.com accounts are set up on an individual basis; so multiple individuals within a company may have accounts, each with its own username and password.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-home clearfix">
+		<div class="display-status">Home</div>
+		<div class="result-item-title">How can I request access to privileged content specific to my company?</div>
+		<div class="display-row">
+			<p>Use the Contact Us link and enter "Access Company Information" in the Subject field. Describe the information you want to access in the Message field. UL will forward your request to your company's Customer Account Administrator.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-home clearfix">
+		<div class="display-status">Home</div>
+		<div class="result-item-title">Can I access records for more than one customer company from my account?</div>
+		<div class="display-row">
+			<p>At this time, portal.ul.com accounts are limited to accessing records for one customer company.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-home clearfix">
+		<div class="display-status">Home</div>
+		<div class="result-item-title">Is my agent eligible for an individual portal.ul.com account?</div>
+		<div class="display-row">
+			<p>No, Agents are not eligible for a portal.ul.com account at this time.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-home clearfix">
+		<div class="display-status">Home</div>
+		<div class="result-item-title">When I try to access CAPA/QASR from portal.ul.com, I'm asked to log in again. What login/username and password do I use to access these applications?</div>
+		<div class="display-row">
+			<p>You must use a valid CAPA/QASR login/username and password. This application is only available to customers who subscribe to specific UL Verification Services. Use the Contact Us link if you have any questions.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-home clearfix">
+		<div class="display-status">Home</div>
+		<div class="result-item-title">I can't access MyHome, UL iQ, My Agreements, Standards Online, CSDS, eInvoice or UL University with my portal.ul.com username and password</div>
+		<div class="display-row">
+			<p>These portals are not set up for single signon with portal.ul.com at this time. They require separate accounts. Use Contact Us to ask our User Support Team if you need more information.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-home clearfix">
+		<div class="display-status">Home</div>
+		<div class="result-item-title">What browsers does portal.ul.com support?</div>
+		<div class="display-row">
+			<p>portal.ul.com supports Microsoft Internet Explorer 8.0. You can determine what browser you are using by going to the Help menu in your browser and choosing "About...." A screen will appear showing which browser and version you are using. Using older browsers or non-compatible browsers may reduce site functionality. You may also encounter JavaScript errors if you use a browser older than the recommended minimum.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-home clearfix">
+		<div class="display-status">Home</div>
+		<div class="result-item-title">What browser settings need to be enabled for me to use portal.ul.com?</div>
+		<div class="display-row">
+			<p>Browser settings on your local computer or proxy computers that connect your computer to the Internet can affect the site's functionality. portal.ul.com requires the following browser settings:</p>
+			<ul>
+				<li>JavaScript 1.1 or higher needs to be enabled</li>
+				<li>Your browser must be set to enable Cookies and SSL</li>
+				<li>To support multiple file upload you must have Adobe Flash plugin installed</li>
+			</ul>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-home clearfix">
+		<div class="display-status">Home</div>
+		<div class="result-item-title">Graphics/images aren't displaying on my page</div>
+		<div class="display-row">
+			<p>All browsers with default settings should display all images on portal.ul.com. If they are not, reset your browser settings to default.</p>
+		</div>
+	</div>
+	<!-- end Home Q&As -->
+
+	<a name="faq-profile" style="visibility: hidden;"></a>
+
+	<!-- begin of Profile Q&As -->
+	<div class="search-result faq-result faq-profile clearfix">
+		<div class="display-status">Profile</div>
+		<div class="result-item-title">Can I make a change to my profile information?</div>
+		<div class="display-row">
+			<p>You can update your display name, Job Title, and Description by going to My Profile, then to Edit Profile. If anything else needs to be changed, use the Contact Us link and enter "Change Account Profile" in the Subject field. Describe the change in the Message field. Upon validation of the request, UL will make the change on your account.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-profile clearfix">
+		<div class="display-status">Profile</div>
+		<div class="result-item-title">My email address has changed. How do I update my login and profile?</div>
+		<div class="display-row">
+			<p>Use the Contact Us link and enter "Change Email Address" in the Subject field. Enter the new email address in the Message field. Upon validation of the request, UL will make the change on your account and will send you an email with a new temporary password, since your account login information is associated with your email address.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-profile clearfix">
+		<div class="display-status">Profile</div>
+		<div class="result-item-title">I would like to change my password. Can I do that online?</div>
+		<div class="display-row">
+			<p>We are developing a Change Password tool for a future release that will be available from My Profile. Until then, if you need to change your password, click on the Forgot Password link on the login screen. You'll receive an email with a new temporary password.  Log in using that password, and change your password to the new password you want to use after logging in.</p>
+		</div>
+	</div>
+	<!-- end Profile Q&As -->
+
+	<a name="faq-order" style="visibility: hidden;"></a>
+
+	<!-- begin of Orders Q&As -->
+	<div class="search-result faq-result faq-order clearfix">
+		<div class="display-status">Orders</div>
+		<div class="result-item-title">What is an Order?</div>
+		<div class="display-row">
+			<p>An order is a confirmed purchase potentially comprised of multiple lines. This purchase order is then used to generate an invoice for UL services.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-order clearfix">
+		<div class="display-status">Orders</div>
+		<div class="result-item-title">When will my company's Orders become visible in Aria?</div>
+		<div class="display-row">
+			<p>Orders that were opened before the launch of the UL Portal will appear after the Order's next status change. Orders that were opened after the launch will appear thereafter. It can take a few minutes for a new or updated order to appear on the portal. If you still do not see your order, please use the Contact Us link to notify us.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-order clearfix">
+		<div class="display-status">Orders</div>
+		<div class="result-item-title">Can I upload, revise or delete documents attached to an Order record?</div>
+		<div class="display-row">
+			<p>Only UL staff members can upload, modify or delete documents attached to an Order record.</p>
+		</div>
+	</div>
+	<!-- end Orders Q&As -->
+
+	<a name="faq-project" style="visibility: hidden;"></a>
+
+	<!-- begin Projects Q&As -->
+	<div class="search-result faq-result faq-project clearfix">
+		<div class="display-status">Projects</div>
+		<div class="result-item-title">What is a Project?</div>
+		<div class="display-row">
+			<p>A set of activities (tasks), people, and documents that support the fulfillment of work requested with UL.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-project clearfix">
+		<div class="display-status">Projects</div>
+		<div class="result-item-title">How often is Project information updated?</div>
+		<div class="display-row">
+			<p>Project information can take a few minutes from submission to update. If you still do not see your updates, please use the Contact Us link to notify us.</p>
+		</div>
+	</div>
+	<!-- end Projects Q&As -->
+
+	<a name="faq-product" style="visibility: hidden;"></a>
+
+	<!-- begin of Products Q&As -->
+	<div class="search-result faq-result faq-product clearfix">
+		<div class="display-status">Products</div>
+		<div class="result-item-title">What is a Product?</div>
+		<div class="display-row">
+			<p>A product is a record of a model and its attributes.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-product clearfix">
+		<div class="display-status">Products</div>
+		<div class="result-item-title">How do you upload a Product?</div>
+		<div class="display-row">
+			<p>From your home page click on "Products" and in the upper right select "Add Products"</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-product clearfix">
+		<div class="display-status">Products</div>
+		<div class="result-item-title">What does the status of my Product mean?</div>
+		<div class="display-row">
+			<p>A product may have either of the following statuses:</p>
+			<ul>
+				<li>Draft:  The product record has been created by a user and saved as a draft (not yet submitted to UL). A draft Product Record can be revised by any user who can access it.</li>
+				<li>Submitted:  A user has submitted the product to UL for investigation. A Submitted product record can only be revised by UL staff.</li>
+			</ul>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-product clearfix">
+		<div class="display-status">Products</div>
+		<div class="result-item-title">Can I upload, revise or delete documents attached to a Product record?</div>
+		<div class="display-row">
+			<p>You can upload, revise or delete documents from a Product record until the Product has been Submitted to UL; after that, only UL staff members can modify or delete the document.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-product clearfix">
+		<div class="display-status">Products</div>
+		<div class="result-item-title">How quickly is Product information updated after a change?</div>
+		<div class="display-row">
+			<p>It can take a few minutes for product information to appear on the portal. If you still do not see your Product, please use the Contact Us link to notify us.</p>
+		</div>
+	</div>
+	<!-- end Products Q&As -->
+
+	<a name="faq-company" style="visibility: hidden;"></a>
+
+	<!-- begin Companies Q&As -->
+	<div class="search-result faq-result faq-company clearfix">
+		<div class="display-status">Companies</div>
+		<div class="result-item-title">What is a Customer Account Administrator?</div>
+		<div class="display-row">
+			<p>A Customer Account Administrator is an individual who is responsible for granting or limiting access to your company's online records with UL. He or she is typically a management-level individual who maintains day-to-day interaction with UL.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-company clearfix">
+		<div class="display-status">Companies</div>
+		<div class="result-item-title">What are the responsibilities of a Customer Account Administrator?</div>
+		<div class="display-row">
+			<p>A Customer Account Administrator protects the confidentiality of your company's intellectual property by 1) only granting access to employees of your company who have a need to share your company’s UL records and 2) by changing or removing that access when an employee’s responsibilities change, or an employee leaves your company.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-company clearfix">
+		<div class="display-status">Companies</div>
+		<div class="result-item-title">Who should be a Customer Account Administrator for my company?</div>
+		<div class="display-row">
+			<p>Any person who is familiar with the roles that your company's employees have in interacting with UL can be a Customer Account Administrator.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-company clearfix">
+		<div class="display-status">Companies</div>
+		<div class="result-item-title">Can an Agent become the Customer Account Administrator for my company?</div>
+		<div class="display-row">
+			<p>No. An Agent cannot become the Customer Account Administrator for your company.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-company clearfix">
+		<div class="display-status">Companies</div>
+		<div class="result-item-title">Can I be the Customer Account Administrator for more than one customer company?</div>
+		<div class="display-row">
+			<p>At this time, portal.ul.com accounts are limited to accessing records for one customer company.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-company clearfix">
+		<div class="display-status">Companies</div>
+		<div class="result-item-title">What should I do if my company's UL account has changed because of an acquisition or sale?</div>
+		<div class="display-row">
+			<p>Use the Contact Us link and enter "Change of Company Ownership" in the Subject field. Provide details in the Message field. UL will contact you to discuss how to proceed.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-company clearfix">
+		<div class="display-status">Companies</div>
+		<div class="result-item-title">What company-confidential information will I be controlling as Customer Account Administrator?</div>
+		<div class="display-row">
+			<p>All Customer Account Administrators can grant access all of their company's Order records. (Order records cannot be managed individually). Customer Account Administrators for companies that are participating in the Products or Projects pilots can also manage access to Product and Project records. They can grant a user access to all Product or Project records, or can grant access on an individual Product or Project record basis. Customer Account Administrators can remove a user's access to their company's records at any time.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-company clearfix">
+		<div class="display-status">Companies</div>
+		<div class="result-item-title">How can I find out who has access to my company's records via the portal?</div>
+		<div class="display-row">
+			<p>Only as a Customer Account Administrator, click on your company name, then click on the Members link in the left navigation menu to view a list of users who have access to your company's records.</p>
+		</div>
+	</div>
+	<!-- end Companies Q&As -->
+
+	<a name="faq-document" style="visibility: hidden;"></a>
+
+	<!-- begin Documents Q&As -->
+	<div class="search-result faq-result faq-document clearfix">
+		<div class="display-status">Documents</div>
+		<div class="result-item-title">What is the largest document I can upload?</div>
+		<div class="display-row">
+			<p>125MB</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-document clearfix">
+		<div class="display-status">Documents</div>
+		<div class="result-item-title">Why can't I see a document I've just uploaded?</div>
+		<div class="display-row">
+			<p>It can take up to a few minutes for a document to be visible through the site. If you still do not see the document you've added, use the Contact Us link to notify us.</p>
+		</div>
+	</div>
+	<div class="search-result faq-result faq-document clearfix">
+		<div class="display-status">Documents</div>
+		<div class="result-item-title">Why can I still see a document I've deleted?</div>
+		<div class="display-row">
+			<p>Access to any document that has been deleted is immediately removed; however, it can take a few minutes to remove it from your view. If you still see the document you've deleted, use the Contact Us link to notify us.</p>
+		</div>
+	</div>
+	<!-- end Documents Q&As -->
+
+	<!-- end FAQ entries -->
+
+</fieldset>
+
+@section scripts {
+	<script type="text/javascript">
+		$(document).ready(function () {
+		    $(".refine-list li a, .menuLevel1 a").on('click', function (e) {
+		        e.preventDefault();
+				var selectorClass = "." + $(this).attr('href').split("#")[1];
+
+				if (selectorClass == ".faq-all" || selectorClass == ".undefined") {
+					$(".faq-result:hidden").slideDown('fast');
+				} else {
+					$(selectorClass).slideDown('fast');
+					$(".faq-result").not(selectorClass).slideUp('fast');
+				}
+
+				$(this).closest("UL").find("LI").removeClass("active").addClass("inactive");
+				$(this).closest("LI").removeClass("inactive").addClass("active");
+
+			});
+
+		});
+	</script>
+}

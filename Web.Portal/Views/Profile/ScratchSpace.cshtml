@@ -1,0 +1,126 @@
+﻿@using UL.Aria.Web.Common.Models.Profile
+@model UL.Aria.Web.Common.Models.Profile.ScratchSpace
+
+@{
+    ViewBag.PageTitle = "Scratch Space";
+    ViewBag.Title = "Scratch Space :: UL";
+    Layout = "~/Views/Profile/_LayoutScratch.cshtml";
+    var EnableLogging = false;
+    var scratchFileMeta = new ScratchFile();//used to pull display name off of
+    var modalId = "ProductUploadModal";
+}
+
+@section aside {
+    <ul class="page-actions">
+        <li class="primary arrow">
+            <input type="file" name="File" id="File" multiple="multiple" />
+        </li>
+
+        @if (Model.Files.Any())
+        {
+            <li class="arrow">
+                <a href="@Url.PagePurgeScratchSpace()" onclick=" if (!confirm('Are you sure you want to delete all your files?  This action cannot be undone.')) {return false;} ">Delete All Files</a>
+            </li>
+        }
+        <li class="arrow">
+            <a id="@modalId" href="@Url.PageCreateProducts()" data-toggle="modal">Add/Edit Products</a>
+        </li>
+        <li class="arrow">
+            <a href="@Url.PageProductUploads()">Check Upload Status</a>
+        </li>
+    </ul>
+}
+
+<fieldset>
+    <legend>Scratch Space</legend>
+
+    <table>
+        <tr>
+            <th class="nowrap">
+                @Html.DisplayNameFor(model => scratchFileMeta.SystemId)
+            </th>
+            <th class="primary-col">
+                @Html.DisplayNameFor(model => scratchFileMeta.FileName)
+            </th>
+            @*<th class="nowrap">
+				@Html.DisplayNameFor(model => scratchFileMeta.CreatedOn)
+			</th>*@
+        </tr>
+
+        @foreach (var item in Model.Files)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SystemId)
+                </td>
+                <td class="primary-col">
+                    @Html.DisplayFor(modelItem => item.FileName)
+                </td>
+                @*<td class="nowrap">
+					@Html.DisplayFor(modelItem => item.CreatedOn)
+				</td>*@
+            </tr>
+        }
+        @if (!Model.Files.Any())
+        {
+            <tr>
+                <td colspan="2" class="no-results">
+                    <div>No results</div>
+                </td>
+            </tr>
+        }
+
+    </table>
+</fieldset>
+
+@*<fieldset  class="progress-pane">
+	<strong>Progress:</strong>
+	<div class="progress progress-striped">
+		<div class="bar" style="width: 0;"></div>
+	</div>
+	<div class="status-message"></div>
+</fieldset>*@
+
+<div id="statusArea" class="modal hide fade" style="display: none;">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Upload Documents</h3>
+    </div>
+    <div class="modal-body">
+        <fieldset class="progress-pane">
+            <strong>Progress:</strong>
+            <div class="progress progress-striped">
+                <div class="bar" style="width: 0;"></div>
+            </div>
+            <div class="status-message"></div>
+        </fieldset>
+        @if (EnableLogging)
+        {
+            <fieldset class="uploadDebugLog">
+                <strong onclick=" $('#messages').html(''); " title="Clear Log">Log:</strong>
+                <div class="console" id="messages">
+                </div>
+            </fieldset>
+        }
+    </div>
+    <div class="modal-footer progress-footer" style="display: none;">
+        <button class="btn btn-warning" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    </div>
+    <div class="modal-footer error-footer" style="display: none;">
+        <button class="btn btn-info" data-dismiss="modal" aria-hidden="true">Dismiss</button>
+    </div>
+</div>
+
+@section scripts {
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#File').multiUpload({
+                swf: '@Url.Content("~/images/uploadify.swf")',
+			    uploader: '@Url.Content("~/upload/scratch/post.upl")',
+                statusArea: "#statusArea",
+                buttonText: "Add Documents"
+			});
+		});
+    </script>
+}

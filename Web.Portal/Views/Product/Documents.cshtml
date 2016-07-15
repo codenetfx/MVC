@@ -1,0 +1,34 @@
+﻿@model UL.Aria.Web.Common.Models.Product.ProductDocuments
+
+@{
+	Layout = "~/Views/Product/_Layout.cshtml";
+}
+
+@{ Html.RenderPartial("_SearchForm", Model.DocumentResults.SearchCriteria); }
+
+<fieldset class="search-body">
+	@if (Model.DocumentResults.Results.Any())
+	{
+		foreach (var item in Model.DocumentResults.Results)
+		{
+			@Html.DisplayFor(m => item)
+		}
+	}
+	else
+	{
+		Html.RenderPartial("_SearchNotFound", Model.DocumentResults.SearchCriteria);
+	}
+</fieldset>
+
+@{ Html.RenderPartial("_SearchFormFooter", Model.DocumentResults.SearchCriteria); }
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('.primary-refiner-a').on('click', function() {
+                UL.RefineSearch(this);
+            });
+        });
+    </script>
+
+}

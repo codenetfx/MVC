@@ -1,0 +1,19 @@
+﻿@using UL.Aria.Web.Common.Models.Project
+@model IList<TaskNotification>
+<div class="display-row task-notification-list-container">
+    <div class="gray-heading">
+        <label> <span class="icon icon-star"></span> Notifications</label>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="task-notification-list">
+            <dl>
+                @foreach (var notification in Model)
+                {
+                    <dd> @notification.Email</dd>
+                }
+            </dl>
+        </div>
+    }
+</div>

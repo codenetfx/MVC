@@ -1,0 +1,10 @@
+﻿@using UL.Aria.Web.Common.Models.TaskType
+@model TaskTypeEditable
+
+<div class="form-horizontal control-group tasktype-business-units">
+	@Html.LabelFor(model => model.BusinessUnits, new { @class = "strong" })
+	<div class="controls chkBusinessUnit">
+		@Html.CheckboxListFor(m => m.BusinessUnits, Model.BusinessUnits)
+		@*@Html.ValidationMessageFor(x => x.BusinessUnits)*@
+	</div>
+</div>

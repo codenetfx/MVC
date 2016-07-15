@@ -1,0 +1,44 @@
+﻿@using UL.Enterprise.Foundation
+@model UL.Aria.Web.Common.Models.Project.TaskDetail
+@{
+	var id = "id-" + Guid.NewGuid();
+}
+<div class="ul-dialog">
+	<div id="certificationRequest" class="init-ajax-form" data-form-id="@id">
+		@using (Html.BeginForm("RemoveParentAssociation", "Task", FormMethod.Post, new Dictionary<string, object>() { { "id", id } }))
+		{
+			@Html.HiddenFor(model => model.TaskId)
+			@Html.HiddenFor(model => model.ContainerId)
+			<input type="hidden" name="id"  id ="id" value="@Model.TaskId"/>
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 id="myModalLabel">Reactivate Task</h3>
+			</div>
+
+			if (string.IsNullOrEmpty(Model.ErrorMessage))
+			{
+				<div class="modal-body">
+					The Parent Task Status is set to @Model.ParentTaskStatus.GetDisplayName() . Parent association will be removed from this Task.
+				</div>
+				<div class="modal-footer">
+					<input type="submit" id="btnTask" class="btn pull-right btn-primary" value="Update Task" />
+					<button class="btn pull-left" id="task-modal" data-dismiss="modal" aria-hidden="true">Cancel</button>
+				</div>
+			}
+			else
+			{
+				<div class="modal-body">
+					@Model.ErrorMessage
+				</div>
+				<div class="modal-footer">
+					<button class="btn pull-left" id="task-modal" data-dismiss="modal" aria-hidden="true">Dismiss</button>
+				</div>
+			}
+
+		}
+	</div>
+</div>
+
+<script type="text/javascript">
+	UL.BootstrapControls($(".ul-dialog"));
+</script>

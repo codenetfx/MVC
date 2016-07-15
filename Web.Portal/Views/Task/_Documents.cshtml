@@ -1,0 +1,21 @@
+﻿@using System.Activities.Statements
+@using UL.Aria.Web.Common.Models.Project
+@model IList<UL.Aria.Web.Common.Models.Search.DocumentSearchResult>
+<div class="display-row" style="margin-bottom: 20px;">
+    <div class="gray-heading">
+        <label> <span class="icon icon-file"></span> Documents</label>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="comments">
+            <dl>
+                @foreach (var document in Model)
+                {
+                    <dd style="padding-bottom: 3px;"> <a href="@Url.DownloadDocument(document.Id)"> @(string.IsNullOrEmpty(document.Title)? document.Name : document.Title)</a></dd>
+                }
+            </dl>
+        </div>
+    }
+
+</div>

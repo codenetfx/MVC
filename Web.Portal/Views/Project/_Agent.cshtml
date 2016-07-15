@@ -1,0 +1,168 @@
+﻿@model UL.Aria.Web.Common.Models.Shared.ProjectCreate
+@{
+    object displayMode = null;
+    object displayModeTextArea = null;
+    if (Model.IsFromOrder)
+    {
+        displayMode = new { disabled = "disabled" };
+        displayModeTextArea = new { disabled = "disabled", @rows = 4, @class = "multilinetextarea" };
+    }
+
+
+    ViewBag.AgentFieldGroupClass = "project-edit-agent";
+    ViewBag.FieldGroupSelector = "." + ViewBag.AgentFieldGroupClass;  
+
+}
+<div class="@ViewBag.AgentFieldGroupClass">
+    <div class=" form-horizontal control-group">
+        <div class=" left-col">
+            @Html.LabelFor(model => model.SoldToContact.CompanyName, "Agent Company Name", new { @class = "ul-field" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.SoldToContact.CompanyName, @displayMode)
+            </div>
+        </div>
+        <div class="right-col">
+            @Html.LabelFor(model => model.SoldToContact.PartySiteNumber, "Agent Party Site Number", new { @class = "ul-field" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.SoldToContact.PartySiteNumber, @displayMode)
+            </div>
+        </div>
+    </div>
+
+    <div class="form-horizontal control-group">
+        <div>
+            @Html.LabelFor(model => model.SoldToContact.Address, new { @class = "ul-field" })
+            <div class="controls">
+                @if (displayModeTextArea != null)
+                {
+                    <div class="controls">
+                        @Html.TextAreaFor(model => model.SoldToContact.Address, @displayModeTextArea)
+                    </div>
+                }
+                else
+                {
+                    <div class="controls">
+                        @Html.EditorFor(model => model.SoldToContact.Address)
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+
+    <div class="form-horizontal control-group">
+        <div class="left-col">
+
+            @Html.LabelFor(model => model.SoldToContact.City, new { @class = "ul-field" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.SoldToContact.City, @displayMode)
+            </div>
+
+
+        </div>
+        <div class="right-col">
+            @Html.LabelFor(model => model.SoldToContact.State, new { @class = "ul-field" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.SoldToContact.State, @displayMode)
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="form-horizontal control-group">
+        <div class="left-col">
+            @Html.LabelFor(model => model.SoldToContact.Province, new { @class = "ul-field" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.SoldToContact.Province, @displayMode)
+            </div>
+
+        </div>
+        <div class="right-col">
+            @Html.LabelFor(model => model.SoldToContact.PostalCode, new { @class = "ul-field" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.SoldToContact.PostalCode, @displayMode)
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="form-horizontal control-group">
+        <div class="left-col">
+            @Html.LabelFor(model => model.SoldToContact.Country, new { @class = "ul-field" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.SoldToContact.Country, @displayMode)
+            </div>
+
+        </div>
+        <div class="right-col">
+            @Html.LabelFor(model => model.SoldToContact.FullName, new { @class = "ul-field" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.SoldToContact.FullName, @displayMode)
+            </div>
+
+        </div>
+    </div>
+
+    <div class="form-horizontal control-group">
+        <div class="left-col">
+            @Html.LabelFor(model => model.SoldToContact.Title, new { @class = "ul-field" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.SoldToContact.Title, @displayMode)
+            </div>
+
+        </div>
+        <div class="right-col">
+            @Html.LabelFor(model => model.SoldToContact.Email, new { @class = "ul-field" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.SoldToContact.Email, @displayMode)
+            </div>
+        </div>
+    </div>
+    <div class="form-horizontal control-group">
+        <div class="left-col">
+            @Html.LabelFor(model => model.SoldToContact.Phone, new { @class = "ul-field" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.SoldToContact.Phone, @displayMode)
+            </div>
+        </div>
+        <div class="right-col">
+        </div>
+    </div>
+</div>
+
+<div class="form-horizontal control-group">
+    <div class="left-col">
+        @Html.LabelFor(model => model.IncomingOrderCustomerExternalId, new { @class = "ul-field " })
+        <div class="controls">
+            @Html.TextBoxFor(model => model.IncomingOrderCustomerExternalId, new { id = "agent-oracle-Id" })
+        </div>
+    </div>
+</div>
+@*<div class="contact-sync" data-order-number="@Model.OrderNumber" data-url="@Url.PostUpdateOrderContacts()"
+          data-screen-selector=".screen" data-modal-selector=".lookup-modal">
+    <button class="sync-btn">Sync from Customer Master</button>
+       </div>*@
+@{
+
+    ViewBag.CompanyLookupId = null; //replace with model.agentId when we start storing agent companies with customer companies
+    ViewBag.OracleId = null; //replace with the accountNumber/externalId/OracleId for the Agent when we know it.
+    ViewBag.VariableOracleIdSource = "#agent-oracle-Id"; //a jquery selector for oracleId field
+    if (String.IsNullOrWhiteSpace(Model.OrderNumber))
+    {
+
+        Html.RenderPartial("_customerLookup", Model);
+    }
+    
+}
+
+            @Html.HiddenFor(model => model.IsFromOrder)
+
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    if ($('#IsFromOrder').val() == 'True') {
+                        $('#Address').attr('disabled', 'disabled');
+                    }
+                });
+            </script>

@@ -1,0 +1,82 @@
+﻿@using UL.Enterprise.Foundation;
+@model UL.Aria.Web.Common.Models.Notification.NotificationInitModel
+
+<div id="@Model.SectionKey" data-enable-entity-view="false" class="notifications" data-container-selector=".container"
+     data-url="@Url.PageGetNotificationByUser()" data-dismiss-url="@Url.PageDismissNotification()"
+     style="display:none;">
+    @if (Model.Filters != null && Model.Filters.Any())
+    {
+        <datalist class="entity-filter" data-raw="@Model.Filters.ToJson()"></datalist>
+    }
+    <div id="selectedItems" class="selection-pane" data-spy="affix" data-offset-top="135" style="display: none">
+        <div class="modal-header">
+            <h3>I want to...</h3>
+        </div>
+        <div class="modal-body">
+            <div>There are <span class="selected-count">0</span> selected item(s)</div>
+            <ul class="">
+                <li><a class="dismiss-multi" href="@Url.PageDismissNotification()">Dismiss Notifications</a></li>
+            </ul>
+        </div>
+    </div>
+    <fieldset class="search-header">
+        <legend>
+            <div style="height:60px;">
+                @*The title has been change to "Notification" form "Task Notification" per discussion with Business team."*@
+                <h2 style="margin-right:0">Notification</h2>
+                <ul class="refine-list entity-taxonomy" style="visibility:visible;">
+                    <li class="entity-item-template"><a href="#" data-refiner-key="[=this.Key]" data-refiner-value="[=this.RefinementValue]">[=this.Text]([=this.Count])</a></li>
+                </ul>
+                <ul class="actions-list">
+                    <li class="result-actions">
+                        <div class="dropdown">
+                            <a class="dropdown-toggle action-toggle" title="Open Menu" href="#" data-toggle="dropdown"></a>
+                            <ul class="dropdown-menu search-menu pull-right" role="menu">
+                                <li class="dropdown-submenu">
+                                    <a tabindex="-1" href="javascript:void(0)">Refine by:</a>
+                                    <ul class="dropdown-menu notification-taxonomy pull-right" role="menu">
+                                        <li class="taxonomy-item-template"><a href="#" data-refiner-key="[=this.Key]" data-refiner-value="[=this.RefinementValue]">[=this.Text]([=this.Count])</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-submenu">
+                                    <a tabindex="-1" href="javascript:void(0)">Sort by:</a>
+                                    <ul class="dropdown-menu sort-container pull-right" role="menu">
+                                        <li class="sort-item-template"><a href="#[=this.FieldName]" data-sortfield="[=this.FieldName]" data-sortorder="[=this.Order]">[=this.DisplayName]</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+        </legend>
+    </fieldset>
+    <div class="pager"></div>
+    <a class="refresh" href="javascript:void()">Refresh</a>
+    <div class="container">
+        <div id="nItem_[=this.Id]" class="item [=this.NotificationTypeName] item-template">
+            <div>
+                <span class="status-icon-wrapper"><span class="status-icon [=this.NotificationTypeName]">&nbsp;</span></span>
+                <span class="status-text">[=this.NotificationTypeDisplay]</span>
+                <span class="n-body">
+                    <span>[=this.Body.Title]</span>
+                    <!-- <span>[=this.Body.Details.Comment]</span> -->
+                </span>
+                <span class="date">[=this.Date]</span>
+                <div class="result-actions">
+                    <span><input class="item-selector pull-right " type="checkbox" data-id="[=this.Id]"></span>
+                    <div class="dropdown pull-right">
+                        <a title="Open Menu" class="dropdown-toggle caret" data-toggle="dropdown" href="#"><i></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a class="notification-action-item view-entity" data-id="[=this.Id]" href="[=this.ViewUrl]">View [=this.EntityName]</a></li>
+                            <li class="notification-action-item edit-entity"><a data-toggle="modal" data-id="[=this.Id]" href="[=this.EditUrl]">Edit [=this.EntityName]</a></li>
+                            <li><a class="dismiss-notification" data-id="[=this.Id]" href="@Url.PageDismissNotification()">Dismiss Notification</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pager"></div>
+</div>

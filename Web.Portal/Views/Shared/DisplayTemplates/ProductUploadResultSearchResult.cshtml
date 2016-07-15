@@ -1,0 +1,69 @@
+﻿@using UL.Aria.Web.Common.Models.Product
+@model UL.Aria.Web.Common.Models.Product.ProductUploadResultSearchResult
+
+<div class="search-result product-result clearfix">
+	@if (Model.ProductUploadResult.Product != null)
+	{
+		<div class="result-icon">
+			<a href="@Url.ProductDetails(Model.ProductUploadResult.Product.Id)">
+				<img src="@Url.TransparentImage()" alt="@Model.ProductUploadResult.Product.Name" /></a>
+		</div>
+	}
+	else
+	{
+		<div class="result-icon">
+			<img src="@Url.TransparentImage()" alt="Unknown" />
+		</div>
+	}
+	<div class="result-actions">
+		@if (Model.IsProductValidToSubmit)
+		{
+			<input type ="checkbox" name ="id" data-item-name="@(Model.ProductUploadResult.Product.ModelNumber) - @(Model.ProductUploadResult.Product.Name)"  value ="@Model.ProductUploadResult.Product.Id" />
+		}
+	</div>
+	<div class="result-detail">
+		<div class="result-item-header"></div>
+		<div class="result-item-title">
+			@if (Model.ProductUploadResult.IsValid)
+			{
+				<i class="ul-icon-success"></i>
+			}
+			else
+			{
+				<i class="ul-icon-failure"></i>
+			}
+			@if (Model.ProductUploadResult.Product != null)
+			{
+				<a href="@Url.ProductDetails(Model.ProductUploadResult.Product.Id)">@Html.DisplayFor(model => model.ProductUploadResult.Product.ModelNumber) - @Html.DisplayFor(model => model.ProductUploadResult.Product.Name)</a>
+			}
+			else
+			{
+				<span>Unable to process product</span>
+			}
+		</div>
+		@if (Model.ProductUploadResult.Product != null)
+		{
+			<div class="display-label">@Html.DisplayNameFor(model => model.ProductUploadResult.Product.Description)</div>
+		    <div class="display-field">@Html.DisplayFor(model => model.ProductUploadResult.Product.Description)</div>
+
+			<div class="display-label">@Html.DisplayNameFor(model => model.ProductUploadResult.Product.Id)</div>
+		    <div class="display-field">@Html.DisplayFor(model => model.ProductUploadResult.Product.Id)</div>
+		}
+		@if (Model.ProductUploadResult.Messages.Any())
+		{
+			<div class="new-line"><a href="#" onclick=" $('#@Model.ProductUploadResult.Id.ToString("N")').toggle();return false; ">View Errors</a></div>
+			<table class="upload-errors" id="@Model.ProductUploadResult.Id.ToString("N")">
+				<thead>
+					<tr>
+						<th>Message</th>
+						<th>Detail</th>
+					</tr>
+				</thead>
+				@foreach (ProductUploadMessage item in Model.ProductUploadResult.Messages)
+				{
+					@Html.DisplayFor(m => item)
+				}
+			</table>
+		}
+	</div>
+</div>

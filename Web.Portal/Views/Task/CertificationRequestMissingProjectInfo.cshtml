@@ -1,0 +1,41 @@
+﻿@model UL.Aria.Web.Common.Models.Project.ProjectDetail
+@{
+    var id = "id-" + Guid.NewGuid();
+}
+<div class="ul-dialog">
+    <div id="certificationRequest" class="init-ajax-form" data-form-id="@id">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Manage CO Request - Missing Project Details</h3>
+        </div>
+        <div class="modal-body">
+            <div>
+                <p>The Project is missing one or more pieces of information, please ensure the following fields populated in Project Details before creating a CO Request.</p>
+            </div>
+            <ul>
+               @if (string.IsNullOrEmpty(Model.OrderNumber))
+               {
+                   <li>@Html.LabelFor(m => m.OrderNumber, new {@class = "strong"})</li>
+               }
+            @if (string.IsNullOrEmpty(Model.ProjectNumber))
+            {
+                <li>@Html.LabelFor(m => m.ProjectNumber, new { @class = "strong" })</li>
+            }
+            @if (string.IsNullOrEmpty(Model.CCN))
+            {
+                <li>@Html.LabelFor(m => m.CCN, new { @class = "strong" })</li>
+            }
+            @if (string.IsNullOrEmpty(Model.FileNo))
+            {
+                <li>@Html.LabelFor(m => m.FileNo, new { @class = "strong" })</li>
+            }
+            </ul>
+        </div>
+        <div class="modal-footer">
+            <button class="btn pull-left" id="task-modal" data-dismiss="modal" aria-hidden="true">OK</button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    UL.BootstrapControls($(".ul-dialog"));
+</script>

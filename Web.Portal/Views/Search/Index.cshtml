@@ -1,0 +1,65 @@
+﻿@using UL.Aria.Web.Common.Models.Shared
+@using UL.Enterprise.Foundation;
+@using UL.Aria.Web.Common.Models.Search;
+@model UL.Aria.Web.Common.Models.Search.ISearchResultSet<dynamic>
+@{
+    Layout = "~/Views/Home/_Layout.cshtml";
+    var selectedCount = Model.SelectedItems == null ? 0 : Model.SelectedItems.Count;
+    string widget = ViewBag.Widget;
+}
+@section filters
+{
+    @{
+        Html.RenderPartial("_FilterBlock", Model);
+    }
+}
+@section aside{
+    <datalist id="criteria" data-json="@((ViewBag.JsonCriteria as JsonSearchCriteria).ToJson())"></datalist>
+    <input type="hidden" id="defaultCriteria" data-json="@((ViewBag.JsonDefaultCriteria as JsonSearchCriteria).ToJson())" />
+    <div id="selectedItems" class="selection-pane" data-spy="affix" data-offset-top="135" style="@(selectedCount > 0 ? null : "display:none;")">
+        <div class="modal-header">
+            <h3>I want to...</h3>
+        </div>
+        <div class="modal-body">
+            <div>There are <span class="selected-count">@selectedCount</span> selected item(s)</div>
+            <ul>
+                @if (ViewBag.PopUpActions != null)
+                {
+                    foreach (TaxonomyMenuItem menuItem in ViewBag.PopUpActions as List<TaxonomyMenuItem>)
+                    {
+                        @Helpers.ActionLink(menuItem)
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+
+    @{
+        Html.RenderPartial("_PageActionsRight", Model.PageActions);
+        if (widget != null)
+        {
+            Html.RenderPartial(widget);
+        }
+    }
+}
+@{ Html.RenderPartial("_SearchForm", Model.SearchCriteria); }
+
+<fieldset class="search-body">
+    @if (Model.Results.Any())
+    {
+        foreach (var item in Model.Results)
+        {
+        @Html.DisplayFor(m => item)
+        }
+    }
+    else
+    {
+        Html.RenderPartial("_SearchNotFound", Model.SearchCriteria);
+    }
+</fieldset>
+
+@{ Html.RenderPartial("_SearchFormFooter", Model.SearchCriteria); }
+
+@section scripts {  
+   
+}
